@@ -1,0 +1,2 @@
+#pragma once
+inline constexpr char dialogueCatalogJson[]=R"DRAGONCAT(@DIALOGUE_JSON@)DRAGONCAT";

@@ -1,0 +1,31 @@
+# Local builds and runtime state
+/build*/
+/dist/
+/data/
+**/runtime/
+**/model/
+**/offline-runtime/
+**/voice-cache/
+**/__pycache__/
+**/ready.json
+*.user
+*.dpapi
+*.sqlite*
+*.db
+*.ini
+*.log
+*.lock
+*.bak
+*.pyc
+*.exe
+*.dll
+*.zip
+*.7z
+*.onnx
+*.pt
+*.safetensors
+# Intentionally omitted from the initial GitHub import
+README*
+readme*
+**/README*
+**/readme*

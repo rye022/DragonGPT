@@ -1,0 +1,94 @@
+{
+  "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+  "revision": "85e237c12c027371202489a0ec509ded67b5e4b5e4b5",
+  "voice": "offline:Serena",
+  "sample_rate": 24000,
+  "channels": 1,
+  "format": "PCM16LE",
+  "phrases": [
+    {
+      "text": "嗯，我在。今天也陪着你。",
+      "file": "00.pcm",
+      "bytes": 176640,
+      "seconds": 3.68,
+      "sha256": "0b0923f8b5e52a22ed2ffd784f7d6c2b35bc469048ca0813cf915c54140b95f7"
+    },
+    {
+      "text": "被你发现了，我正在这里休息呢。",
+      "file": "01.pcm",
+      "bytes": 126720,
+      "seconds": 2.64,
+      "sha256": "020c4d5d8feff6d95a4448d33282fc28265a3efb1a40f593238cfe2ac0cbb000"
+    },
+    {
+      "text": "想聊聊的话，双击我就好。",
+      "file": "02.pcm",
+      "bytes": 126720,
+      "seconds": 2.64,
+      "sha256": "05fd46e47c97083efcf80651d0b414e25e99afb14f1f70d7ba633c8c0464b805"
+    },
+    {
+      "text": "忙了这么久，要不要伸个懒腰？",
+      "file": "03.pcm",
+      "bytes": 130560,
+      "seconds": 2.72,
+      "sha256": "2b990ae7a01a7af5917b33c342c80c2dca5edc8111c7b1ea4eccbd2ca090b891"
+    },
+    {
+      "text": "不用着急，我们慢慢来。",
+      "file": "04.pcm",
+      "bytes": 111360,
+      "seconds": 2.32,
+      "sha256": "62cebb38667e09ee38fd409e5a2a953a5af847e85bb38a9255082edd90bd38b4"
+    },
+    {
+      "text": "今天也请多关照。",
+      "file": "05.pcm",
+      "bytes": 111360,
+      "seconds": 2.32,
+      "sha256": "9cfae192ddc06fcfe49cb0a026bf451bd324e37a2ca627880009b9cc34f95ff8"
+    },
+    {
+      "text": "尾巴晃一晃，心情也轻一点。",
+      "file": "06.pcm",
+      "bytes": 126720,
+      "seconds": 2.64,
+      "sha256": "40312201cfa04d34917a28c8a014f852a664c665827748d0d9dbbdf8208d864c"
+    },
+    {
+      "text": "我听见啦，你的小白龙在这里。",
+      "file": "07.pcm",
+      "bytes": 149760,
+      "seconds": 3.12,
+      "sha256": "93ad09a2726075c6cb2089e86c05f6aaa3da8768b604e418179499650255fe41"
+    },
+    {
+      "text": "歇一会儿吧，我帮你守着。",
+      "file": "08.pcm",
+      "bytes": 122880,
+      "seconds": 2.56,
+      "sha256": "897d189ffb69264876e2c6f2afd72ac3f582f2b6a3d4561a6a15402f051d3945"
+    },
+    {
+      "text": "又来找我啦，有点开心呢。",
+      "file": "09.pcm",
+      "bytes": 115200,
+      "seconds": 2.4,
+      "sha256": "01092a8ab3d4f9bf6f0c04d2b47d7637efab4089eacf9537f2ee85bef6c81363"
+    },
+    {
+      "text": "给你一点小小的好运。",
+      "file": "10.pcm",
+      "bytes": 92160,
+      "seconds": 1.92,
+      "sha256": "230f3c43df2d2c0120d4b6c8791ddcdd52b3f554cd7de2e654499513618d40e1"
+    },
+    {
+      "text": "有你在，今天也很安心。",
+      "file": "11.pcm",
+      "bytes": 115200,
+      "seconds": 2.4,
+      "sha256": "9901427cbd147e86f0a4a9da9d95a66d6ad5eb2d3181f148cc41e1589c0a8c20"
+    }
+  ]
+}

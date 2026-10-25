@@ -1,0 +1,81 @@
+{
+  "id": "shuangling-chibi-v1",
+  "reference": "User nine-panel reference IMG_4725.jpeg",
+  "master": "shuangling-chibi.png",
+  "sha256": "9d14775e3be89a59dbe93a005e4b261ba5ca093052a5ef437cf3ef5338d36045",
+  "width": 1209,
+  "height": 1300,
+  "identity_locked": true,
+  "design": "Rounded chibi white dragon, large lavender eyes, short limbs, fixed white/lilac dress",
+  "full_view": [
+    0,
+    0,
+    1,
+    1
+  ],
+  "half_view": [
+    0.16,
+    0,
+    0.7,
+    0.61
+  ],
+  "anchors": {
+    "left_eye": [
+      0.437,
+      0.332
+    ],
+    "right_eye": [
+      0.566,
+      0.301
+    ],
+    "mouth": [
+      0.507,
+      0.361
+    ]
+  },
+  "action_atlas": {
+    "file": "actions-v2.png",
+    "columns": 3,
+    "rows": 2,
+    "x_edges": [
+      0,
+      540,
+      1024,
+      1536
+    ],
+    "y_edges": [
+      0,
+      529,
+      1024
+    ],
+    "poses": [
+      "wave",
+      "shy",
+      "jealous",
+      "sleep",
+      "work",
+      "comfort"
+    ]
+  },
+  "allowed": [
+    "eye_lids",
+    "mouth",
+    "blush",
+    "uniform_scale",
+    "whole_sprite_translation",
+    "whole_sprite_rotation",
+    "same_character_action_poses",
+    "camera_crop",
+    "local_tail_motion",
+    "local_hair_motion",
+    "local_hand_motion"
+  ],
+  "forbidden": [
+    "adult_form",
+    "alternate_body",
+    "costume_change",
+    "nonuniform_scale",
+    "body_mesh_morph",
+    "AI_regeneration_at_runtime"
+  ]
+}
