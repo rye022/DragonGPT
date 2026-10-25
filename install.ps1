@@ -1,5 +1,5 @@
-param(
-    [string]$InstallDir = "$env:LOCALAPPDATA/DragonGPT",
+﻿param(
+    [string]$InstallDir = "$env:LOCALAPPDATA/Programs/DragonGPT",
     [switch]$DesktopShortcut,
     [switch]$AutoStart,
     [switch]$Start
@@ -35,7 +35,7 @@ Get-ChildItem -LiteralPath $sourceFull -Recurse -File | ForEach-Object {
         $files += $relative
     }
 }
-@{product='DragonGPT';version='2.0.1';root=$target;files=$files} | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $marker -Encoding utf8
+@{product='DragonGPT';version='3.0.0';root=$target;files=$files} | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $marker -Encoding utf8
 if ($DesktopShortcut) {
     $shell = New-Object -ComObject WScript.Shell
     $shortcut = $shell.CreateShortcut((Join-Path ([Environment]::GetFolderPath('Desktop')) '霜翎 DragonGPT.lnk'))

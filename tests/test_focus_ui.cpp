@@ -21,7 +21,7 @@ int main(int argc,char **argv){
     try{
         Companion companion(dir.filePath("memory.sqlite"));auto online=companion.chatSettings();online.onlineEnabled=false;companion.saveChatSettings(online);
         PetWidget pet(companion);CompanionWindow window(companion,pet);window.show();pet.show();
-        auto *tabs=window.findChild<QTabWidget*>("companionTabs");expect(tabs && tabs->count()==9 && tabs->tabText(7)=="专注陪伴" && tabs->tabText(8)=="工具","existing tabs plus focus and appended tools");
+        auto *tabs=window.findChild<QTabWidget*>("companionTabs");expect(tabs && tabs->count()==10 && tabs->tabText(7)=="专注陪伴" && tabs->tabText(8)=="工具" && tabs->tabText(9)=="智能","existing tabs plus focus/tools and appended intelligence");
         tabs->setCurrentIndex(7);auto *page=window.focusPage();expect(page!=nullptr,"focus page present");
         auto *task=page->findChild<QLineEdit*>("focusTask");task->setText("验证学习陪伴");
         auto click=[&](const char *name){auto *button=page->findChild<QPushButton*>(name);expect(button!=nullptr,"focus button exists");button->click();};

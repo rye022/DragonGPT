@@ -59,11 +59,11 @@ int main(int argc,char **argv){
         clock.restart();mark("send");c.sendMessage("请简短回应。");
         const auto protocolComplete=[&]{return times.contains("llm_final") && modelRequests==1 && spoken.join("")==full && tasks==(optimized?2:1);};
         // Keep the network/segmentation budget independent of the native device.
-        // Cold Windows device enumeration was measured at 7.8 seconds here;
+        // Cold Windows device enumeration was separately measured at 19-20 seconds;
         // waiting for it must not disguise missing text or extra model requests.
         while(!protocolComplete() && clock.elapsed()<9000)QTest::qWait(2);
         const bool protocolOk=protocolComplete();
-        while(protocolOk && (!times.contains("speaker_first_write") || w.voiceController().engaged()) && clock.elapsed()<20000)QTest::qWait(2);
+        while(protocolOk && (!times.contains("speaker_first_write") || w.voiceController().engaged()) && clock.elapsed()<30000)QTest::qWait(2);
         if(!protocolOk || !times.contains("speaker_first_write") || w.voiceController().engaged()){
             const QJsonObject failure{{"run",run},{"model_requests",modelRequests},{"tts_tasks",tasks},{"spoken_characters",spoken.join("").size()},{"expected_characters",full.size()},{"voice_status",w.voiceController().status()},{"engaged",w.voiceController().engaged()},{"times",times},{"traces",traceEvents}};
             QFile diagnostic("outputs/latency-failure.json");if(diagnostic.open(QIODevice::WriteOnly))diagnostic.write(QJsonDocument(failure).toJson());
@@ -91,7 +91,7 @@ int main(int argc,char **argv){
         if(absent.size()!=1 || missing.active())throw std::runtime_error("missing audio device not reported honestly");
     }
     #endif
-    QJsonObject result{{"mode",optimized?"after":"before"},{"scope","real Qt + localhost LLM/WebSocket TTS + Windows audio device; controlled 100/1000 ms text, 350 ms handshake, 150 ms PCM"},{"live_paid_calls",0},{"protocol_deadline_ms",9000},{"device_settle_deadline_ms",20000},{"samples",samples}};
+    QJsonObject result{{"mode",optimized?"after":"before"},{"scope","real Qt + localhost LLM/WebSocket TTS + Windows audio device; controlled 100/1000 ms text, 350 ms handshake, 150 ms PCM"},{"live_paid_calls",0},{"protocol_deadline_ms",9000},{"device_settle_deadline_ms",30000},{"samples",samples}};
     const bool grace=app.arguments().contains("--startup-grace");result["startup_grace_ms"]=grace?8000:0;
     QFile file(grace?(optimized?"outputs/latency-after-startup-grace.json":"outputs/latency-before-startup-grace.json"):(optimized?"outputs/latency-after.json":"outputs/latency-before.json"));if(!file.open(QIODevice::WriteOnly))throw std::runtime_error("result file");file.write(QJsonDocument(result).toJson(QJsonDocument::Indented));
     if(optimized){

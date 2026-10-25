@@ -2,6 +2,7 @@
 #include "clipboard_panel.h"
 #include "focus_page.h"
 #include "bond_gallery.h"
+#include "smart_page.h"
 #include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
@@ -99,7 +100,7 @@ CompanionWindow::CompanionWindow(Companion &companion,PetWidget &pet,QUrl speech
     auto *root=new QVBoxLayout(this); root->setContentsMargins(24,24,24,18); root->setSpacing(13);
     auto *header=new QHBoxLayout;
     auto *text=new QVBoxLayout;
-    auto *eyebrow=label("DRAGONGPT  /  2.0.1","eyebrow"); eyebrow->setWordWrap(false); text->addWidget(eyebrow);
+    auto *eyebrow=label("DRAGONGPT  /  3.0.0","eyebrow"); eyebrow->setWordWrap(false); text->addWidget(eyebrow);
     text->addWidget(label("霜翎","title"));
     text->addWidget(label("安静地，陪你把今天过好。","subtitle"));
     header->addLayout(text); header->addStretch();
@@ -133,6 +134,10 @@ CompanionWindow::CompanionWindow(Companion &companion,PetWidget &pet,QUrl speech
         }
     });
     tabs_->addTab(toolsPage(),"工具");tabs_->setUsesScrollButtons(true);
+    smartPage_=new SmartPage(companion_,*this);tabs_->addTab(smartPage_,"智能");
+    connect(smartPage_,&SmartPage::togglePet,this,[this]{if(pet_.isVisible())pet_.hide();else pet_.showOnDesktop();});
+    connect(smartPage_,&SmartPage::reveal,this,[this]{tabs_->setCurrentWidget(smartPage_);showNormal();raise();activateWindow();});
+    connect(&pet_,&PetWidget::screenRequested,this,&CompanionWindow::askScreen);
     root->addWidget(tabs_,1);
     notice_=label(companion_.routeStatus(),"notice"); root->addWidget(notice_);
     connect(&companion_,&Companion::memoryChanged,this,&CompanionWindow::refresh);
@@ -155,7 +160,7 @@ CompanionWindow::CompanionWindow(Companion &companion,PetWidget &pet,QUrl speech
     connect(focusPage_,&FocusPage::activityObserved,this,[this](qint64 idle){companion_.observeDesktopIdle(idle);refreshLifeView();});
     companion_.attachProactiveScheduler(this,[this]{
         bool blocked=(focusPage_ && (focusPage_->service().focusing() || focusPage_->service().waterPending())) || voice_.engaged() || pet_.protectedActionActive() || pet_.bubbleActive() || !pet_.isVisible() || QApplication::activeModalWidget()
-            || !input_->text().isEmpty() || (isActiveWindow() && tabs_->currentIndex()==0 && input_->hasFocus());
+            || !input_->text().isEmpty() || (isActiveWindow() && tabs_->currentIndex()==0 && input_->hasFocus()) || (smartPage_ && smartPage_->blocksProactive());
         const bool protect=companion_.lifeSettings().focusProtection;
         if(protect && pet_.currentAction()==PetAction::Work)blocked=true;
 #ifdef Q_OS_WIN
@@ -250,12 +255,14 @@ QWidget *CompanionWindow::lifePage(){
     frequency->addItem("安静 · 15～25 分钟","quiet");frequency->addItem("正常 · 5～12 分钟","normal");frequency->addItem("活跃 · 3～6 分钟","active");frequency->addItem("关闭","off");frequency->setCurrentIndex(frequency->findData(p.frequency));form->addRow("互动频率",frequency);
     auto *start=new QSpinBox;start->setObjectName("quietStart");start->setRange(0,23);start->setSuffix(" 时");start->setValue(p.quietStart);form->addRow("免打扰开始",start);
     auto *end=new QSpinBox;end->setObjectName("quietEnd");end->setRange(0,23);end->setSuffix(" 时");end->setValue(p.quietEnd);form->addRow("免打扰结束（相同为关闭）",end);layout->addLayout(form);
+    auto *cooldown=new QSpinBox;cooldown->setRange(5,1440);cooldown->setValue(p.cooldownMinutes);form->addRow("主动交互冷却（分钟）",cooldown);
+    auto *dailyCap=new QSpinBox;dailyCap->setRange(1,10);dailyCap->setValue(p.dailyLimit);form->addRow("每日主动交互上限",dailyCap);
     auto *suggest=new QCheckBox("从我明确说出的偏好和近况中整理待确认记忆");suggest->setObjectName("memorySuggestionsEnabled");suggest->setChecked(p.memorySuggestions);layout->addWidget(suggest);
     auto *row=new QHBoxLayout;auto *save=button("保存陪伴设置","primary");save->setObjectName("saveLifeSettings");row->addWidget(save);
     auto *quiet=button("今天安静陪我");quiet->setObjectName("quietToday");row->addWidget(quiet);
     auto *resume=button("恢复主动聊天");resume->setObjectName("resumeProactive");row->addWidget(resume);layout->addLayout(row);
-    connect(save,&QPushButton::clicked,this,[this,enabled,focus,frequency,protection,speech,start,end,suggest]{
-        try{auto next=companion_.lifeSettings();next.enabled=enabled->isChecked();next.focusMode=focus->isChecked();next.frequency=frequency->currentData().toString();next.focusProtection=protection->isChecked();next.proactiveSpeech=speech->isChecked();next.quietStart=start->value();next.quietEnd=end->value();next.memorySuggestions=suggest->isChecked();companion_.saveLifeSettings(next);notice_->setText("陪伴设置已保存");}catch(const std::exception &e){handleError(e);}
+    connect(save,&QPushButton::clicked,this,[this,enabled,focus,frequency,protection,speech,start,end,suggest,cooldown,dailyCap]{
+        try{auto next=companion_.lifeSettings();next.enabled=enabled->isChecked();next.focusMode=focus->isChecked();next.frequency=frequency->currentData().toString();next.focusProtection=protection->isChecked();next.proactiveSpeech=speech->isChecked();next.quietStart=start->value();next.quietEnd=end->value();next.memorySuggestions=suggest->isChecked();next.cooldownMinutes=cooldown->value();next.dailyLimit=dailyCap->value();companion_.saveLifeSettings(next);notice_->setText("陪伴设置已保存");}catch(const std::exception &e){handleError(e);}
     });
     connect(quiet,&QPushButton::clicked,this,[this]{try{auto next=companion_.lifeSettings();next.pausedUntil=QDateTime(QDate::currentDate().addDays(1),QTime(0,0)).toUTC();companion_.saveLifeSettings(next);}catch(const std::exception &e){handleError(e);}});
     connect(resume,&QPushButton::clicked,this,[this,enabled,focus,frequency]{try{auto next=companion_.lifeSettings();next.pausedUntil={};next.enabled=true;next.focusMode=false;if(next.frequency=="off")next.frequency="normal";companion_.saveLifeSettings(next);enabled->setChecked(true);focus->setChecked(false);frequency->setCurrentIndex(frequency->findData(next.frequency));}catch(const std::exception &e){handleError(e);}});
@@ -268,7 +275,7 @@ QWidget *CompanionWindow::lifePage(){
     layout->addWidget(label("待确认记忆","subtitle"));
     suggestions_=new QListWidget;suggestions_->setObjectName("memorySuggestions");suggestions_->setMinimumHeight(100);layout->addWidget(suggestions_);
     auto *review=new QHBoxLayout;auto *accept=button("确认保存");accept->setObjectName("acceptMemorySuggestion");auto *dismiss=button("忽略这条");dismiss->setObjectName("dismissMemorySuggestion");review->addWidget(accept);review->addWidget(dismiss);layout->addLayout(review);
-    auto resolve=[this](bool accept){const auto *item=suggestions_->currentItem();if(!item)return;try{companion_.resolveSuggestion(item->data(Qt::UserRole).toLongLong(),accept);}catch(const std::exception &e){handleError(e);}};
+    auto resolve=[this](bool accept){const auto *item=suggestions_->currentItem();if(!item)return;try{const auto id=item->data(Qt::UserRole).toLongLong();bool replace=false;if(accept){for(const auto &suggestion:companion_.memory().suggestions())if(suggestion.id==id){const auto conflicts=companion_.memory().conflicts(suggestion.content);if(!conflicts.isEmpty()){if(QMessageBox::question(this,"偏好冲突",QString("旧记忆：%1\n新记忆：%2\n确认用新偏好更新原记忆？保留原记忆 ID，亲密度不变。").arg(conflicts.first().content,suggestion.content),QMessageBox::Yes|QMessageBox::No,QMessageBox::No)!=QMessageBox::Yes)return;replace=true;}}}companion_.resolveSuggestion(id,accept,replace);}catch(const std::exception &e){handleError(e);}};
     connect(accept,&QPushButton::clicked,this,[resolve]{resolve(true);});connect(dismiss,&QPushButton::clicked,this,[resolve]{resolve(false);});
     layout->addWidget(label("建议只有确认后才会进入长期记忆和聊天背景。确认后可在「记忆」页修改、导出或删除。","notice"));
     auto *scroll=new QScrollArea;scroll->setFrameShape(QFrame::NoFrame);scroll->setWidgetResizable(true);scroll->setWidget(page);return scroll;
@@ -474,7 +481,7 @@ QWidget *CompanionWindow::connectionPage() {
     actions->addWidget(save); actions->addWidget(remove);
     connect(save,&QPushButton::clicked,this,[=,this]{
         try {
-            ChatSettings value; value.onlineEnabled=enabled->isChecked(); value.proxyMode=static_cast<ProxyMode>(mode->currentIndex());
+            ChatSettings value=companion_.chatSettings(); value.onlineEnabled=enabled->isChecked(); value.proxyMode=static_cast<ProxyMode>(mode->currentIndex());
             value.proxyHost=host->text().trimmed(); value.proxyPort=port->value(); value.model=model->text().trimmed();voice_.endCall();
             if(!key->text().trimmed().isEmpty()) {companion_.saveApiKey(key->text().trimmed().toUtf8());key->clear();}
             companion_.saveChatSettings(value); keyStatus->setText(companion_.credentialStatus()+" · 配置已保存");
@@ -486,6 +493,9 @@ QWidget *CompanionWindow::connectionPage() {
     layout->addStretch(); auto *scroll=new QScrollArea; scroll->setFrameShape(QFrame::NoFrame);scroll->setWidgetResizable(true);scroll->setWidget(page);
     auto *outer=new QWidget; auto *outerLayout=new QVBoxLayout(outer);outerLayout->setContentsMargins(0,0,0,0);outerLayout->addWidget(scroll,1);outerLayout->addLayout(actions);return outer;
 }
+void CompanionWindow::openSettings(){tabs_->setCurrentIndex(4);showNormal();raise();activateWindow();}
+void CompanionWindow::openClipboard(){if(clipboardPanel_)clipboardPanel_->toggle();}
+void CompanionWindow::askScreen(){if(smartPage_)smartPage_->askScreen();}
 QWidget *CompanionWindow::settingsPage() {
     auto *page=new QWidget; auto *layout=new QVBoxLayout(page); layout->setContentsMargins(0,16,0,0); layout->setSpacing(12);
     layout->addWidget(label("她如何称呼你","subtitle"));

@@ -100,11 +100,13 @@ struct SpeechFixture {
 void schedulerAndAudio(const QString &dir,const QString &review){
     // Exercise the output device before networking, matching the existing
     // playback regression fixture (no microphone and no cloud request).
-    {SpeechPlayer output;QSignalSpy finished(&output,&SpeechPlayer::finished);
+    {SpeechPlayer output;QSignalSpy finished(&output,&SpeechPlayer::finished),started(&output,&SpeechPlayer::started),failed(&output,&SpeechPlayer::failed),timing(&output,&SpeechPlayer::timing);
         check(output.play(QByteArray(4800,0)).isEmpty(),"Output fixture could not start");
         // Device discovery is asynchronous now; this setup includes cold driver
-        // enumeration as well as playback. Strict speech latency is tested separately.
-        check(until([&]{return finished.size()==1;},15000),"Output fixture did not drain");}
+        // enumeration as well as playback. A standalone native probe measured 19-20 s
+        // on this machine; use a 30 s completion deadline, not a fixed delay.
+        // Strict speech latency is tested separately.
+        const bool drained=until([&]{return finished.size()==1;},30000);if(!drained){QTextStream(stdout)<<"Output diagnostic: active="<<output.active()<<" preparing="<<output.preparingOutput()<<" started="<<started.size()<<" failed="<<failed.size()<<" buffered_ms="<<output.bufferedMilliseconds()<<" events=";for(const auto &e:timing)QTextStream(stdout)<<e[0].toString()<<",";QTextStream(stdout)<<"\n";}check(drained,"Output fixture did not drain");}
     QDir().mkpath(dir);VoicePreferences p;p.voice="Momo";p.readAloud=false;p.preferOffline=false;p.cacheAudio=false;p.fastResponse=false;p.systemProxy=false;p.save(dir+"/voice.ini");CredentialStore(dir+"/dashscope-key.dpapi").save("fixture-secret");
     auto now=noon();Companion c(dir+"/memory.sqlite",nullptr,QUrl("http://127.0.0.1:9/responses"),100,[&]{return now;});
     auto settings=c.lifeSettings();settings.quietStart=settings.quietEnd=0;settings.focusProtection=false;settings.proactiveSpeech=true;c.saveLifeSettings(settings);

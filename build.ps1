@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory=$true)][string]$QtRoot,
     [string]$BuildDir = "$PSScriptRoot/build",
     [Parameter(Mandatory=$true)][string]$CompilerDir,
@@ -18,6 +18,7 @@ if ($Package) {
     $destination = "$PSScriptRoot/dist/DragonGPT"
     New-Item -ItemType Directory -Force $destination | Out-Null
     Copy-Item -LiteralPath "$BuildDir/DragonGPT.exe" -Destination $destination
+    Copy-Item -LiteralPath "$BuildDir/DragonCapture.exe" -Destination $destination
     # Fixed deployment manifest for this Qt Widgets + SQLite application.
     foreach ($dll in @('Qt6Core.dll','Qt6Gui.dll','Qt6Widgets.dll','Qt6Sql.dll','Qt6Network.dll','Qt6Multimedia.dll','Qt6WebSockets.dll','Qt6Concurrent.dll')) {
         Copy-Item -LiteralPath "$qtResolved/bin/$dll" -Destination $destination
@@ -32,15 +33,23 @@ if ($Package) {
         Copy-Item -LiteralPath "$qtResolved/plugins/$plugin" -Destination $targetDir
     }
     Set-Content -LiteralPath "$destination/qt.conf" -Value "[Paths]`nPlugins=." -Encoding ascii
-    if (Test-Path -LiteralPath "$PSScriptRoot/README.md") {
-    Copy-Item -LiteralPath "$PSScriptRoot/README.md" -Destination $destination
+    foreach ($readme in @('README.md','README_EN.md')) {
+        if (Test-Path -LiteralPath "$PSScriptRoot/$readme") {
+            Copy-Item -LiteralPath "$PSScriptRoot/$readme" -Destination $destination
+        }
     }
+    Copy-Item -LiteralPath "$PSScriptRoot/CHANGELOG.md" -Destination $destination
+    New-Item -ItemType Directory -Force "$destination/scripts" | Out-Null
+    Copy-Item -LiteralPath "$PSScriptRoot/scripts/ocr.ps1" -Destination "$destination/scripts"
     Copy-Item -LiteralPath "$PSScriptRoot/THIRD_PARTY.md" -Destination $destination
     Copy-Item -LiteralPath "$PSScriptRoot/licenses" -Destination $destination -Recurse -Force
     Copy-Item -LiteralPath "$PSScriptRoot/docs" -Destination $destination -Recurse -Force
     Copy-Item -LiteralPath "$PSScriptRoot/prompts" -Destination $destination -Recurse -Force
     Copy-Item -LiteralPath "$PSScriptRoot/assets" -Destination $destination -Recurse -Force
-    Copy-Item -LiteralPath "$PSScriptRoot/offline" -Destination $destination -Recurse -Force
+    New-Item -ItemType Directory -Force "$destination/offline" | Out-Null
+    foreach ($file in @('worker.py','prepare.py','install.ps1','requirements-tested.txt','LICENSE-Qwen3-TTS.txt')) {
+        Copy-Item -LiteralPath "$PSScriptRoot/offline/$file" -Destination "$destination/offline" -Force
+    }
     $embeddingTarget = Join-Path $destination 'embedding'
     New-Item -ItemType Directory -Force $embeddingTarget | Out-Null
     foreach ($file in @('worker.py','prepare.py','install.ps1','requirements-tested.txt')) {

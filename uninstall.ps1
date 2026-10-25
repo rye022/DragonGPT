@@ -1,4 +1,4 @@
-param([string]$InstallDir = $PSScriptRoot)
+﻿param([string]$InstallDir = $PSScriptRoot)
 $ErrorActionPreference = 'Stop'
 $target = [IO.Path]::GetFullPath($InstallDir).TrimEnd('\','/')
 $marker = Join-Path $target '.installation.json'
@@ -27,4 +27,4 @@ if (Test-Path -LiteralPath $startupShortcut) {
     $shortcut = $shell.CreateShortcut($startupShortcut)
     if ($shortcut.TargetPath -eq (Join-Path $target 'DragonGPT.exe')) { Remove-Item -LiteralPath $startupShortcut -Force }
 }
-Write-Output "Application files removed. Your data directory was retained: $target/data"
+Write-Output "Application files removed. User data was retained. Default: $env:LOCALAPPDATA/DragonGPT/UserData; legacy: $target/data"

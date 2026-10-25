@@ -40,6 +40,8 @@ public:
     QString credentialStatus() const;
     QString routeStatus() const {return routeStatus_;}
     QString pendingText() const {return pendingText_;}
+    void setAgentDispatcher(std::function<bool(const QString &)> dispatcher){agentDispatcher_=std::move(dispatcher);}
+    void setDesktopContextProvider(std::function<QJsonObject()> provider){desktopContext_=std::move(provider);}
     QJsonObject lastUsage() const {return lastUsage_;}
     QJsonObject lastLimits() const {return lastLimits_;}
     QByteArray apiKey() const;
@@ -57,7 +59,7 @@ public:
     int desktopActiveMinutes() const{return desktopActiveSeconds_/60;}
     bool tryProactive(bool blocked,QDateTime now=QDateTime::currentDateTimeUtc());
     QString previewProactive() const;
-    void resolveSuggestion(qint64 id,bool accept);
+    void resolveSuggestion(qint64 id,bool accept,bool replaceConflict=false);
     void refreshLife();
     void setFocusContext(bool focusing,bool resting);
     void updateEmotionContext(QDateTime now={},bool force=false);
@@ -135,6 +137,8 @@ private:
     QElapsedTimer turnClock_;
     std::function<Reply(const LocalCommand &)> localExecutor_;
     std::function<Reply(const LocalCommand &)> wellnessExecutor_;
+    std::function<bool(const QString &)> agentDispatcher_;
+    std::function<QJsonObject()> desktopContext_;
     void finishResponse(const QString &user,const Reply &reply,const QString &source,bool publish=true);
     bool dispatchLocal(const QString &text);
     bool startChat(const QString &text);

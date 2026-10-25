@@ -5,23 +5,24 @@ import json
 import zipfile
 
 PUBLIC_DOCS = {
-    "LOCAL_BRAIN_AND_MEMORY.md", "UPGRADE_AUDIT.md", "character-lock.md",
-    "COMPREHENSIVE_FIX.md", "COMPANIONSHIP.md", "EMOTIONS.md",
-    "FOCUS_AND_WATER.md", "PERFORMANCE_AND_MEMORY.md", "connection.md", "voice.md",
-    "validation.md",
-    "CLIPBOARD_AND_PERFORMANCE.md",
+    "USER_GUIDE_ZH.md", "V3_BASELINE.md", "V3_ARCHITECTURE.md", "V3_VALIDATION.md", "RELEASE_v3.0.0.md",
+    "CLIPBOARD_AND_PERFORMANCE.md", "character-lock.md", "COMPANIONSHIP.md",
+    "FOCUS_AND_WATER.md", "EMOTIONS.md", "LOCAL_BRAIN_AND_MEMORY.md", "connection.md", "voice.md",
 }
-BLOCKED_DIRECTORIES = {"data", "runtime", "offline-runtime", "voice-cache", "__pycache__", ".git", "build", "dist"}
+BLOCKED_DIRECTORIES = {"data", "runtime", "offline-runtime", "voice-cache", "__pycache__", ".git", "build", "dist", "logs", "backups"}
 
 def include(relative):
     if any(p.lower() in BLOCKED_DIRECTORIES for p in relative.parts):
         return False
     name = relative.name.lower()
-    if name in {"ready.json", ".installation.json"} or any(part in name for part in (".sqlite", ".dpapi")):
+    # Project README publication is deferred. Retain third-party license notices.
+    if len(relative.parts) == 1 and name.startswith("readme"):
         return False
-    if relative.suffix.lower() in {".pyc", ".log", ".lock", ".ini", ".bak", ".db"}:
+    if name.startswith(".env") or name in {"ready.json", ".installation.json"} or any(part in name for part in (".sqlite", ".dpapi")):
         return False
-    if relative.parts[0] == "docs" and relative.name not in PUBLIC_DOCS:
+    if relative.suffix.lower() in {".pyc", ".log", ".lock", ".ini", ".bak", ".db", ".pem", ".pfx", ".key", ".p12"}:
+        return False
+    if relative.parts[0] == "docs" and relative.name not in PUBLIC_DOCS and "screenshots" not in relative.parts:
         return False
     return True
 
@@ -45,7 +46,7 @@ def archive(root, destination):
 if __name__ == "__main__":
     project = Path(__file__).resolve().parent
     outputs = project.parent
-    version = "2.0.1"
+    version = "3.0.0"
     records = [archive(project / "dist" / "DragonGPT", outputs / f"DragonGPT-v{version}-Windows-x64.zip"),
                archive(project, outputs / f"DragonGPT-v{version}-source.zip")]
     (outputs / "打包校验.json").write_text(json.dumps({"version": version, "archives": records,

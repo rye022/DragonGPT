@@ -14,6 +14,7 @@ class QPushButton;
 namespace dragon {
 class FocusPage;
 class ClipboardPanel;
+class SmartPage;
 class CompanionWindow final : public QWidget {
     Q_OBJECT
 public:
@@ -21,10 +22,14 @@ public:
     void refresh();
     void openConversation();
     void sendText(const QString &text);
+    void openSettings();
+    void openClipboard();
+    void askScreen();
     FocusPage *focusPage() const{return focusPage_;}
     VoiceController &voiceController(){return voice_;}
 private:
     FocusPage *focusPage_=nullptr;
+    SmartPage *smartPage_=nullptr;
     Companion &companion_;
     PetWidget &pet_;
     VoiceController voice_;

@@ -1,7 +1,7 @@
-# Local builds and runtime state
 /build*/
 /dist/
 /data/
+/README*.md
 **/runtime/
 **/model/
 **/offline-runtime/
@@ -24,8 +24,7 @@
 *.onnx
 *.pt
 *.safetensors
-# Intentionally omitted from the initial GitHub import
-README*
-readme*
-**/README*
-**/readme*
+.env*
+*.pem
+*.pfx
+*.key

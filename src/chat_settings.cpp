@@ -35,6 +35,9 @@ ChatSettings ChatSettings::load(const QString &file) {
     s.proxyPort=ini.value("online/proxyPort",7890).toInt();
     s.model=ini.value("online/model",s.model).toString();
     s.realtimeModel=ini.value("online/realtimeModel").toString();
+    s.complexModel=ini.value("online/complexModel").toString();
+    s.visionModel=ini.value("online/visionModel").toString();
+    s.visionVerifiedModel=ini.value("online/visionVerifiedModel").toString();
     return s;
 }
 void ChatSettings::save(const QString &file) const {
@@ -43,7 +46,9 @@ void ChatSettings::save(const QString &file) const {
     ini.setValue("online/enabled",onlineEnabled); ini.setValue("online/proxyMode",int(proxyMode));
     ini.setValue("online/proxyHost",proxyHost.trimmed()); ini.setValue("online/proxyPort",proxyPort);
     ini.setValue("online/model",model.trimmed()); ini.sync();
-    ini.setValue("online/realtimeModel",realtimeModel.trimmed());ini.sync();
+    ini.setValue("online/realtimeModel",realtimeModel.trimmed());
+    ini.setValue("online/complexModel",complexModel.trimmed());ini.setValue("online/visionModel",visionModel.trimmed());
+    ini.setValue("online/visionVerifiedModel",visionVerifiedModel);ini.sync();
     if(ini.status()!=QSettings::NoError) throw std::runtime_error("Cannot save online settings");
 }
 QString ChatSettings::resolveProxy(QNetworkProxy &proxy,const QUrl &endpoint) const {

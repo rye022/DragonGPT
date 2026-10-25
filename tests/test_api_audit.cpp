@@ -12,6 +12,9 @@
 #include <QJsonArray>
 #include <QJsonArray>
 #include <QSettings>
+#include <QMediaDevices>
+#include <QElapsedTimer>
+#include <QTextStream>
 #include <QTemporaryDir>
 #include <QtEndian>
 #include <functional>
@@ -58,7 +61,7 @@ class ApiAudit:public QObject{
     Q_OBJECT
     QByteArray savedDashscope_;
 private slots:
-    void initTestCase(){savedDashscope_=qgetenv("DASHSCOPE_API_KEY");qunsetenv("DASHSCOPE_API_KEY");}
+    void initTestCase(){savedDashscope_=qgetenv("DASHSCOPE_API_KEY");qunsetenv("DASHSCOPE_API_KEY");QElapsedTimer clock;clock.start();const auto device=QMediaDevices::defaultAudioOutput();QTextStream(stdout)<<"API audit cold output enumeration ms="<<clock.elapsed()<<" available="<<!device.isNull()<<"\n";}
     void cleanupTestCase(){if(savedDashscope_.isNull())qunsetenv("DASHSCOPE_API_KEY");else qputenv("DASHSCOPE_API_KEY",savedDashscope_);}
     void audioTtsOfficialConfiguration(){
         VoicePreferences p;p.apiFamily="qwen-audio-tts";
