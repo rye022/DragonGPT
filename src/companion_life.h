@@ -13,6 +13,7 @@ struct LifeState {
     Emotion mood=Emotion::Calm;
     int proactiveCount=0, topic=0;
     bool awaitingReply=false;
+    int ignoredOpenings=0;
     QDateTime lastClickGrowth,lastChatGrowth,lastFocusGrowth;
     QStringList awardedEvents;
     QJsonObject json() const;

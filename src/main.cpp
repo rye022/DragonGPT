@@ -1,5 +1,8 @@
 #include "companion_window.h"
 #include "diagnostics.h"
+#include "smart_page.h"
+#include <QScrollArea>
+#include <QScrollBar>
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QCryptographicHash>
@@ -22,6 +25,7 @@
 #include <QPushButton>
 #include <QScreen>
 #include <QSettings>
+#include <QStandardPaths>
 #include <QSslSocket>
 #include <QSystemTrayIcon>
 #include <QTabWidget>
@@ -32,20 +36,24 @@
 int main(int argc,char **argv) {
     qputenv("QT_MEDIA_BACKEND","windows");
     QApplication app(argc,argv);
-    app.setApplicationName("DragonGPT"); app.setOrganizationName("DragonGPT"); app.setApplicationVersion("2.0.1");
+    app.setApplicationName("DragonGPT"); app.setOrganizationName("DragonGPT"); app.setApplicationVersion("3.0.0");
     app.setFont(QFont("Microsoft YaHei UI",10));
     QCommandLineParser parser; parser.addHelpOption(); parser.addVersionOption();
-    parser.addOption({"data-dir","Local portable data directory","directory",QCoreApplication::applicationDirPath()+"/data"});
+    const auto legacyData=QCoreApplication::applicationDirPath()+"/data";
+    const auto defaultData=QFile::exists(legacyData+"/memory.sqlite")?legacyData:QDir(qEnvironmentVariable("LOCALAPPDATA",QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation))).filePath("DragonGPT/UserData");
+    parser.addOption({"data-dir","User data directory (legacy portable data is retained)","directory",defaultData});
     parser.addOption({"smoke-test","Exercise UI and render previews, then exit"});
     parser.addOption({"preview-dir","Destination for smoke-test renders","directory"});
     parser.addOption({"desktop","Show the companion on desktop without the control window"});
     parser.addOption({"quit","Gracefully stop the instance using this data directory"});
+    parser.addOption({"hide-pet","Hide the pet in the instance using this data directory"});
     parser.addOption({"restore-backup","Restore a verified local SQLite backup, preserving a rollback copy","sqlite-file"});
     parser.addOption({"verify-data","Verify local database migration without starting companion UI"});
     parser.addOption({"voice-self-test","Render a local Chinese WAV without microphone capture or playback","wav-file"});
     parser.addOption({"offline-self-test","Generate a WAV through the offline Serena process without playback","wav-file"});
     parser.addOption({"prepare-click-voices","Cache fixed public click phrases with configured Bailian key (comma-separated voice IDs)","voices"});
     parser.process(app);
+    if(parser.isSet("smoke-test"))qputenv("DRAGONGPT_DISABLE_HOTKEY","1");
     const auto dataDir=QDir(parser.value("data-dir")).absolutePath();
     if(!QDir().mkpath(dataDir)) return 2;
     dragon::installDiagnostics(dataDir+"/logs");
@@ -56,14 +64,14 @@ int main(int argc,char **argv) {
         if(!parser.isSet("smoke-test")){
             QLocalSocket socket;socket.connectToServer(serverName);
             if(socket.waitForConnected(500)){
-                socket.write(parser.isSet("quit")?"quit\n":parser.isSet("desktop")?"show-pet\n":"show\n");socket.flush();socket.waitForBytesWritten(500);
+                socket.write(parser.isSet("quit")?"quit\n":parser.isSet("hide-pet")?"hide-pet\n":parser.isSet("desktop")?"show-pet\n":"show\n");socket.flush();socket.waitForBytesWritten(500);
                 if(socket.waitForReadyRead(1000) && socket.readAll().startsWith("ok"))return 0;
             }
             if(!parser.isSet("quit"))QMessageBox::information(nullptr,"DragonGPT","已有旧版实例在运行，请从角色右键或托盘退出后再启动新版。");
         }
         return 3;
     }
-    if(parser.isSet("quit"))return 0;
+    if(parser.isSet("quit") || parser.isSet("hide-pet"))return 0;
     try {
         if(parser.isSet("restore-backup"))dragon::MemoryStore::restoreBackup(parser.value("restore-backup"),dataDir+"/memory.sqlite");
         dragon::Companion companion(dataDir+"/memory.sqlite");
@@ -161,6 +169,7 @@ int main(int argc,char **argv) {
                             socket->setProperty("handled",true);
                             if(command->trimmed()=="show"){pet.showOnDesktop();showWindow();}
                             else if(command->trimmed()=="show-pet")pet.showOnDesktop();
+                            else if(command->trimmed()=="hide-pet")pet.hide();
                             else if(command->trimmed()=="quit")QTimer::singleShot(0,&app,&QApplication::quit);
                             else{socket->abort();return;}
                             socket->write("ok\n");socket->flush();socket->disconnectFromServer();
@@ -176,8 +185,11 @@ int main(int argc,char **argv) {
         QObject::connect(&pet,&dragon::PetWidget::openCompanion,&window,showWindow);
         QObject::connect(&pet,&dragon::PetWidget::quitRequested,&app,&QApplication::quit);
         QMenu menu;
-        menu.addAction("打开陪伴空间",&window,showWindow);
-        menu.addAction("显示 / 隐藏霜翎",&pet,[&]{if(pet.isVisible())pet.hide();else pet.showOnDesktop();});
+        menu.addAction("显示桌宠",&pet,&dragon::PetWidget::showOnDesktop);
+        menu.addAction("隐藏桌宠",&pet,&QWidget::hide);
+        menu.addAction("打开聊天窗口",&window,showWindow);
+        menu.addAction("打开设置",&window,&dragon::CompanionWindow::openSettings);
+        menu.addAction("识别原活动窗口…",&window,&dragon::CompanionWindow::askScreen);
         menu.addSeparator(); menu.addAction("退出 DragonGPT",&app,&QApplication::quit);
         QSystemTrayIcon tray(icon); tray.setToolTip("霜翎 · DragonGPT"); tray.setContextMenu(&menu);
         QObject::connect(&tray,&QSystemTrayIcon::activated,&window,[&](auto reason){if(reason==QSystemTrayIcon::DoubleClick) showWindow();});
@@ -278,6 +290,8 @@ int main(int argc,char **argv) {
                         }
                         tabs->setCurrentIndex(7);app.processEvents();
                         saved=window.grab().save(previewDir+"/focus-ready-preview.png") && saved;
+                        tabs->setCurrentIndex(9);app.processEvents();saved=window.grab().save(previewDir+"/smart-preview.png") && saved;
+                        if(auto *smart=window.findChild<dragon::SmartPage*>()){smart->proposeGoal("请检查电脑为什么变卡，再总结今天的使用情况");if(auto *scroll=smart->findChild<QScrollArea*>()){scroll->verticalScrollBar()->setValue(scroll->verticalScrollBar()->maximum());app.processEvents();saved=window.grab().save(previewDir+"/agent-preview.png") && saved;}}
                     }
                     QFile report(dataDir+"/smoke-result.txt");
                     if(!report.open(QIODevice::WriteOnly|QIODevice::Truncate)) {app.exit(4);return;}

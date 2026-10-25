@@ -14,7 +14,7 @@ QJsonObject LifeState::json() const {
         {"daily_messages",QJsonArray::fromStringList(dailyMessages)},{"mood",int(mood)},
         {"mood_until",moodUntil.toString(Qt::ISODateWithMs)},{"mood_since",moodSince.toString(Qt::ISODateWithMs)},{"last_proactive",lastProactive.toString(Qt::ISODateWithMs)},
         {"proactive_date",proactiveDate.toString(Qt::ISODate)},{"proactive_count",proactiveCount},
-        {"topic",topic},{"awaiting_reply",awaitingReply},
+        {"topic",topic},{"awaiting_reply",awaitingReply},{"ignored_openings",ignoredOpenings},
         {"last_click_growth",lastClickGrowth.toString(Qt::ISODateWithMs)},
         {"last_chat_growth",lastChatGrowth.toString(Qt::ISODateWithMs)},
         {"last_focus_growth",lastFocusGrowth.toString(Qt::ISODateWithMs)},
@@ -37,6 +37,7 @@ LifeState LifeState::fromJson(const QJsonObject &j) {
     s.proactiveCount=std::clamp(j.value("proactive_count").toInt(),0,100);
     s.topic=std::clamp(j.value("topic").toInt(),0,1000000);
     s.awaitingReply=j.value("awaiting_reply").toBool();
+    s.ignoredOpenings=std::clamp(j.value("ignored_openings").toInt(),0,10);
     s.lastClickGrowth=QDateTime::fromString(j["last_click_growth"].toString(),Qt::ISODateWithMs);
     s.lastChatGrowth=QDateTime::fromString(j["last_chat_growth"].toString(),Qt::ISODateWithMs);
     s.lastFocusGrowth=QDateTime::fromString(j["last_focus_growth"].toString(),Qt::ISODateWithMs);
@@ -51,7 +52,7 @@ bool LifeState::award(const QString &kind,const QString &text,QDateTime now,cons
     if(!growthDate.isValid() || date>growthDate){growthDate=date;dailyExperience=0;dailyMessages.clear();++activeDays;}
     auto &last=kind=="click"?lastClickGrowth:kind=="focus"?lastFocusGrowth:lastChatGrowth;
     const int cooldown=kind=="click"?90:kind=="focus"?1500:30;
-    lastInteraction=now.toUTC();awaitingReply=false;
+    lastInteraction=now.toUTC();if(awaitingReply)ignoredOpenings=qMax(0,ignoredOpenings-1);awaitingReply=false;
     if(date!=growthDate || (last.isValid() && last.secsTo(now)<cooldown) || dailyExperience>=20 || experience>=600)return false;
     const auto hash=QString::fromLatin1(QCryptographicHash::hash(text.simplified().toUtf8(),QCryptographicHash::Sha256).toHex());
     if(kind=="chat" && dailyMessages.contains(hash))return false;
@@ -63,7 +64,7 @@ bool LifeState::award(const QString &kind,const QString &text,QDateTime now,cons
 void LifeState::interact(const QString &text,QDateTime now) {
     if(text.trimmed().isEmpty())return;
     const auto previousInteraction=lastInteraction;
-    award("chat",text,now);lastInteraction=now.toUTC();awaitingReply=false;
+    award("chat",text,now);lastInteraction=now.toUTC();if(awaitingReply)ignoredOpenings=qMax(0,ignoredOpenings-1);awaitingReply=false;
     const auto emotion=EmotionEngine::classify(text,growthPercent());
     const bool distressed=EmotionEngine::distressed(mood);
     const bool weak=emotion==Emotion::Smile || emotion==Emotion::Shy || emotion==Emotion::Happy || emotion==Emotion::Tsundere || emotion==Emotion::Relaxed;
@@ -128,8 +129,10 @@ QPair<int,int> LifeSettings::intervalSeconds() const{
     if(frequency=="quiet")return {900,1500};if(frequency=="active")return {180,360};return {300,720};
 }
 bool CompanionLife::eligible(const LifeState &s,const LifeSettings &p,QDateTime now,QDateTime activity,bool blocked,QDateTime snoozed) {
-    Q_UNUSED(s);
     if(!p.enabled || p.frequency=="off" || p.focusMode || blocked || p.quiet(now) || (snoozed.isValid() && now<snoozed))return false;
+    const auto date=now.toLocalTime().date();
+    if(s.proactiveDate.isValid() && date<=s.proactiveDate && s.proactiveCount>=p.dailyLimit)return false;
+    if(s.lastProactive.isValid() && s.lastProactive.secsTo(now)<qint64(p.cooldownMinutes)*60*(1+std::min(3,s.ignoredOpenings)))return false;
     // Short anti-overlap guard; actual randomized cadence belongs to the one-shot scheduler.
     if(activity.isValid() && activity.secsTo(now)<30)return false;
     return true;
@@ -138,7 +141,7 @@ QString CompanionLife::candidate(const QString &text) {
     const auto value=text.trimmed();
     // Conservative, local extraction: only short, direct first-person statements.
     if(value.size()<4 || value.size()>150 || value.contains(QRegularExpression("[?？\\n]")))return {};
-    if(value.contains(QRegularExpression("不记|别记|不要记|忘记|例如|假设|如果|他说|她说|密码|密钥|API|身份证|银行卡|住址|电话|sk-",QRegularExpression::CaseInsensitiveOption)))return {};
+    if(value.contains(QRegularExpression("不记|别记|不要记|忘记|例如|假设|如果|他说|她说|密码|密钥|API|身份证|银行卡|住址|电话|生日|病史|诊断|收入|sk-|[0-9]{7,}",QRegularExpression::CaseInsensitiveOption)))return {};
     // Keep the expression anchored to direct user statements.
     static const QRegularExpression fact("^我(?:喜欢|不喜欢|偏好|对.{1,40}感兴趣|(?:最近|目前|这段时间)?(?:刚开始|开始|正在|在)(?:开发|学习|制作|研究)|(?:最近)?(?:计划|打算|准备|完成了|遇到了)|是.{1,40}(?:开发者|工程师|学生)|的生日是).{0,100}[。！!]?$" );
     return fact.match(value).hasMatch()?value:QString{};

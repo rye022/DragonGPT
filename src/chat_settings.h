@@ -13,6 +13,9 @@ struct ChatSettings {
     int proxyPort = 7890;
     QString model="deepseek-flash";
     QString realtimeModel;
+    QString complexModel,visionModel;
+    QString visionVerifiedModel;
+    QString reasoningEffort="high";
     static ChatSettings load(const QString &file);
     void save(const QString &file) const;
     QString resolveProxy(QNetworkProxy &proxy, const QUrl &endpoint) const;

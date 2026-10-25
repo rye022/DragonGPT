@@ -14,7 +14,8 @@ public:
     explicit ChatService(QObject *parent=nullptr,QUrl endpoint=QUrl("https://api.deepseek.com/responses"));
     ~ChatService() override;
     QString start(const ChatSettings &settings,const QByteArray &key,const QString &persona,
-                  const QString &context,const QVector<Message> &history,const QString &message);
+                  const QString &context,const QVector<Message> &history,const QString &message,
+                  const QByteArray &png={},bool complex=false);
     void cancel();
     bool busy() const { return !reply_.isNull(); }
     void setTimeoutMs(int timeout) {timeoutMs_=qBound(50,timeout,120000);}

@@ -68,6 +68,8 @@ PetWidget::PetWidget(Companion &companion)
     clickTimer_.setTimerType(Qt::PreciseTimer);
     connect(&clickTimer_,&QTimer::timeout,this,[this]{lastClickMs_=-10000;capturePending_=false;emit actionClicked(clickedAction_);emit clicked();});
     timer_.setInterval(33);
+    timer_.setObjectName("petAnimationTimer");
+    timer_.setParent(this);
     timer_.setTimerType(Qt::PreciseTimer);
     connect(&timer_,&QTimer::timeout,this,[this]{animate();update();});
     timer_.start();
@@ -79,6 +81,8 @@ PetWidget::PetWidget(Companion &companion)
     connect(&companion_.emotions(),&EmotionEngine::changed,this,[this]{animate();update();});
     say("你来了。我是霜翎。\n双击和我聊聊，右键打开菜单。");
 }
+void PetWidget::hideEvent(QHideEvent *event){timer_.stop();clickTimer_.stop();capturePending_=false;QWidget::hideEvent(event);}
+void PetWidget::showEvent(QShowEvent *event){lastFrame_=clock_.elapsed();timer_.start();QWidget::showEvent(event);}
 void PetWidget::showOnDesktop(){
     bool onScreen=false;
     for(const auto *display:QGuiApplication::screens())
@@ -302,6 +306,7 @@ void PetWidget::contextMenuEvent(QContextMenuEvent *event) {
     clickTimer_.stop();lastClickMs_=-10000;
     QMenu menu;
     menu.addAction("和霜翎聊聊",this,[this]{emit openCompanion();});
+    menu.addAction("识别原活动窗口…",this,[this]{QTimer::singleShot(0,this,[this]{emit screenRequested();});});
     menu.addAction("开始语音",this,[this]{emit voiceRequested();});
     auto *camera=menu.addMenu("镜头（同一 Q 版角色）");
     camera->addAction("全身",this,[this]{setHalfView(false);});

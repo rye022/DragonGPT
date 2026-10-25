@@ -23,6 +23,7 @@ void checked(QSqlQuery &q) {
 }
 QDateTime utcNow() { return QDateTime::currentDateTimeUtc(); }
 QString clean(const QString &text, int max) { return text.trimmed().left(max); }
+QString canonicalMemory(QString text){return text.normalized(QString::NormalizationForm_KC).toCaseFolded().remove(QRegularExpression("[\\s。！!]+"));}
 }
 MemoryStore::MemoryStore(const QString &filePath)
     : connectionName_(QUuid::createUuid().toString()) {
@@ -160,6 +161,7 @@ qint64 MemoryStore::remember(const QString &content) {
     const auto value = clean(content, 500);
     if(looksLikeCredential(value))throw std::runtime_error("Credentials must be saved in connection settings, not memories");
     if (value.isEmpty()) return 0;
+    for(const auto &m:memories())if(canonicalMemory(m.content)==canonicalMemory(value))return m.id;
     QSqlQuery q(db_);
     q.prepare("INSERT OR IGNORE INTO memories(content,created_at,updated_at,source) VALUES(?,?,?,'manual')");
     q.addBindValue(value);const auto now=utcNow().toString(Qt::ISODateWithMs);q.addBindValue(now);q.addBindValue(now);checked(q);
@@ -190,7 +192,7 @@ QVector<Memory> MemoryStore::relevant(const QString &query, int limit) const {
             const auto gram = lower.mid(i, 2);
             if (!gram.at(0).isSpace() && !gram.at(1).isSpace() && content.contains(gram)) ++score;
         }
-        if (score > 0) ranked.push_back({score*10+qRound(m.importance*5.0),m});
+        if (score > 0) ranked.push_back({score*10+qRound(m.importance*5.0)-qMin(5,int(qMax<qint64>(0,m.updatedAt.isValid()?m.updatedAt.daysTo(utcNow()):m.createdAt.daysTo(utcNow()))/90)),m});
     }
     std::stable_sort(ranked.begin(),ranked.end(),[](const auto &a,const auto &b){return a.first>b.first;});
     QVector<Memory> result;
@@ -311,7 +313,7 @@ void MemoryStore::appendProactive(const QString &text,QDateTime now) {
         q.addBindValue(text.left(2000));q.addBindValue(now.toUTC().toString(Qt::ISODateWithMs));checked(q);
         auto state=life();const auto date=now.toLocalTime().date();
         if(!state.proactiveDate.isValid() || date>state.proactiveDate){state.proactiveDate=date;state.proactiveCount=0;}
-        ++state.proactiveCount;++state.topic;state.lastProactive=now.toUTC();state.awaitingReply=true;saveLife(state);
+        if(state.awaitingReply)state.ignoredOpenings=qMin(10,state.ignoredOpenings+1);++state.proactiveCount;++state.topic;state.lastProactive=now.toUTC();state.awaitingReply=true;saveLife(state);
         exec("DELETE FROM messages WHERE id NOT IN (SELECT id FROM messages ORDER BY id DESC LIMIT 200)");
         if(!db_.commit())throw std::runtime_error("Proactive commit failed");
     }catch(...){db_.rollback();throw;}
@@ -326,16 +328,24 @@ QVector<Memory> MemoryStore::suggestions() const {
 }
 void MemoryStore::suggest(const QString &text) {
     const auto value=CompanionLife::candidate(text);if(value.isEmpty())return;
+    for(const auto &m:memories())if(canonicalMemory(m.content)==canonicalMemory(value))return;
+    for(const auto &m:suggestions())if(canonicalMemory(m.content)==canonicalMemory(value))return;
     QSqlQuery q(db_);q.prepare("INSERT OR IGNORE INTO memory_suggestions(content,created_at) SELECT ?,? WHERE NOT EXISTS(SELECT 1 FROM memories WHERE content=?) AND (SELECT COUNT(*) FROM memory_suggestions WHERE status='pending')<20");
     q.addBindValue(value);q.addBindValue(utcNow().toString(Qt::ISODateWithMs));q.addBindValue(value);checked(q);
 }
-void MemoryStore::resolveSuggestion(qint64 id,bool accept) {
+QVector<Memory> MemoryStore::conflicts(const QString &content) const{
+    QVector<Memory> result;const auto value=canonicalMemory(content);
+    QString opposite;if(value.startsWith("我不喜欢"))opposite="我喜欢"+value.mid(4);else if(value.startsWith("我喜欢"))opposite="我不喜欢"+value.mid(3);
+    if(!opposite.isEmpty())for(const auto &m:memories())if(canonicalMemory(m.content)==opposite)result.append(m);return result;
+}
+void MemoryStore::resolveSuggestion(qint64 id,bool accept,bool replaceConflict) {
     if(!db_.transaction())throw std::runtime_error("Cannot begin memory confirmation");
     try{
         QSqlQuery q(db_);q.prepare("SELECT content FROM memory_suggestions WHERE id=? AND status='pending'");q.addBindValue(id);checked(q);
         if(q.next()){
             const auto text=q.value(0).toString();q.finish();
-            if(accept){const auto memoryId=remember(text);updateMemory(memoryId,text,CompanionLife::tags(text),0.7);const bool episode=QRegularExpression("^我(?:最近)?(?:完成了|遇到了)").match(text).hasMatch();setMemoryMetadata(memoryId,episode?"episodic":"semantic","confirmed-conversation");}
+            if(accept){const auto old=conflicts(text);if(!old.isEmpty() && !replaceConflict)throw std::runtime_error("Conflicting preference requires explicit replacement confirmation");
+                qint64 memoryId=0;if(!old.isEmpty()){memoryId=old.first().id;updateMemory(memoryId,text,CompanionLife::tags(text),.7);}else memoryId=remember(text);updateMemory(memoryId,text,CompanionLife::tags(text),0.7);const bool episode=QRegularExpression("^我(?:最近)?(?:完成了|遇到了)").match(text).hasMatch();setMemoryMetadata(memoryId,episode?"episodic":"semantic","confirmed-conversation");}
             q.prepare("UPDATE memory_suggestions SET status=? WHERE id=?");q.addBindValue(accept?"accepted":"dismissed");q.addBindValue(id);checked(q);
         }
         if(!db_.commit())throw std::runtime_error("Memory confirmation failed");
@@ -440,7 +450,7 @@ DialogueSelection MemoryStore::selectDialogue(DialogueContext context,quint32 se
                 msg.addBindValue(selected.text);msg.addBindValue(context.now.toUTC().toString(Qt::ISODateWithMs));checked(msg);
                 auto lifeState=life();const auto date=context.now.toLocalTime().date();
                 if(!lifeState.proactiveDate.isValid() || date>lifeState.proactiveDate){lifeState.proactiveDate=date;lifeState.proactiveCount=0;}
-                ++lifeState.proactiveCount;++lifeState.topic;lifeState.lastProactive=context.now.toUTC();lifeState.awaitingReply=true;saveLife(lifeState);
+                if(lifeState.awaitingReply)lifeState.ignoredOpenings=qMin(10,lifeState.ignoredOpenings+1);++lifeState.proactiveCount;++lifeState.topic;lifeState.lastProactive=context.now.toUTC();lifeState.awaitingReply=true;saveLife(lifeState);
                 exec("DELETE FROM messages WHERE id NOT IN (SELECT id FROM messages ORDER BY id DESC LIMIT 200)");
             }
         }

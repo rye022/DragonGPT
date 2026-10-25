@@ -39,7 +39,8 @@ public:
     void appendNotice(const QString &text);
     QVector<Memory> suggestions() const;
     void suggest(const QString &content);
-    void resolveSuggestion(qint64 id,bool accept);
+    void resolveSuggestion(qint64 id,bool accept,bool replaceConflict=false);
+    QVector<Memory> conflicts(const QString &content) const;
     DialogueSelection selectDialogue(DialogueContext context,quint32 seed=0);
     QJsonObject dialogueHistory() const;
     int syncCollection(QDateTime now=QDateTime::currentDateTimeUtc(),bool inferred=false);

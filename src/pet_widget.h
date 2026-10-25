@@ -45,6 +45,7 @@ signals:
     void waterSnoozed();
     void waterMutedToday();
     void openCompanion();
+    void screenRequested();
     void quitRequested();
     void sizeChanged(int height);
     void motionChanged(bool enabled);
@@ -55,6 +56,8 @@ signals:
     void actionClicked(dragon::PetAction action);
     void randomActionsChanged(bool enabled);
 protected:
+    void showEvent(QShowEvent *) override;
+    void hideEvent(QHideEvent *) override;
     void paintEvent(QPaintEvent *) override;
     void mousePressEvent(QMouseEvent *) override;
     void mouseMoveEvent(QMouseEvent *) override;
