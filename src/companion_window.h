@@ -15,6 +15,7 @@ namespace dragon {
 class FocusPage;
 class ClipboardPanel;
 class SmartPage;
+class AgentPage;
 class CompanionWindow final : public QWidget {
     Q_OBJECT
 public:
@@ -31,6 +32,7 @@ public:
 private:
     FocusPage *focusPage_=nullptr;
     SmartPage *smartPage_=nullptr;
+    AgentPage *agentPage_=nullptr;
     Companion &companion_;
     PetWidget &pet_;
     VoiceController voice_;

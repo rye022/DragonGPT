@@ -15,3 +15,7 @@ This personal prototype has not undergone a full public redistribution/license a
 - Twelve public interaction phrases were generated locally with the Apache-2.0 Qwen3-TTS checkpoint, preset Serena, and bundled as PCM audio. See assets/interaction/manifest.json for text, model revision, PCM format and SHA-256. These fixed local-model clips do not represent Momo, Chelsie, Bella or Katerina. Private user audio caches are excluded from release archives.
 
 - Optional offline speech: Qwen3-TTS code/checkpoint under the published Apache-2.0 license, preserved in offline/LICENSE-Qwen3-TTS.txt. The large checkpoint, Python, PyTorch and optional CUDA components are downloaded separately, not redistributed in the lightweight ZIP. Their own licenses and hardware requirements apply.
+# 4.0 可选工具与ASR依赖
+
+以下组件通过用户手动运行 agent/prepare.py 安装到独立环境，不在公开运行包中夹带环境或模型权重：Playwright（Apache-2.0）、pypdf（BSD-3-Clause）、python-docx（MIT）、openpyxl（MIT）、truststore（MIT）、faster-whisper（MIT）、CTranslate2（MIT）、webrtcvad-wheels/WebRTC VAD（见该发行版随附LICENSE）。锁定版本见 agent/asr 的 requirements-tested.txt。依赖许可随其各自安装包提供，更新或再分发环境前应保留这些许可证。可选 faster-whisper-base 模型来自 Systran 的公开模型仓库，单独下载，遵循其模型卡与原模型许可；本次不再分发模型权重。
+

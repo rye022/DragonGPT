@@ -1,5 +1,6 @@
 #include "companion_window.h"
 #include "smart_page.h"
+#include "agent_page.h"
 #include "focus_page.h"
 #include <QDialog>
 #include <QDateTimeEdit>
@@ -30,6 +31,15 @@ protected:
 class V3UiTests:public QObject {
     Q_OBJECT
 private slots:
+    void agentStartsWithoutGrantsAndPartialSpeechCannotExecute(){
+        QTemporaryDir dir;Companion c(dir.filePath("memory.sqlite"));PetWidget pet(c);CompanionWindow window(c,pet);
+        auto *agent=window.findChild<AgentPage*>("agentPage");QVERIFY(agent);QCOMPARE(agent->core().mode(),0);QVERIFY(agent->core().root().isEmpty());
+        QVERIFY(window.findChild<QLineEdit*>("asrFinalDraft"));QVERIFY(window.findChild<QPushButton*>("submitAsrFinal"));
+        QVERIFY(window.findChild<QComboBox*>("asrEngine"));QSignalSpy replies(&c,&Companion::replyReady);QSignalSpy approvals(&agent->core(),&AgentCore::approvalRequired);
+        emit window.voiceController().recognition().partial("删除整个工作区");
+        QCoreApplication::processEvents();QVERIFY(!agent->core().busy());QCOMPARE(replies.count(),0);QCOMPARE(approvals.count(),0);
+        window.voiceController().submitRecognition("删除整个工作区");QCOMPARE(replies.count(),0);QVERIFY(!agent->core().busy());
+    }
     void documentToolCannotStealActiveCapture(){
 #ifdef Q_OS_WIN
         QProcess fixture;fixture.start(QCoreApplication::applicationFilePath(),{"--capture-fixture"});QVERIFY(fixture.waitForStarted());QVERIFY(fixture.waitForReadyRead(5000));const auto handle=fixture.readLine().trimmed().toULongLong();QVERIFY(handle);

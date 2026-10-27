@@ -5,6 +5,7 @@
 #include "qwen_speech.h"
 #include "offline_speech.h"
 #include "speech_text_buffer.h"
+#include "speech_recognition.h"
 #include "pet_actions.h"
 #include <QHash>
 #include <QElapsedTimer>
@@ -20,6 +21,9 @@ public:
     void endCall();
     void interrupt();
     void setMuted(bool muted);
+    SpeechRecognitionService &recognition(){return recognition_;}
+    void submitRecognition(const QString &text);
+    void discardRecognition();
     void setReadAloud(bool value);
     bool readAloud() const{return preferences_.readAloud;}
     void speakRandomLine();
@@ -55,11 +59,16 @@ signals:
     void textOnlyBubble(const QString &text);
     void outputStarted(const QString &label);
     void segmentQueued(const QString &text);
+    void transcriptReady(const QJsonObject &result);
+    void transcriptPartial(const QString &text);
+    void transcriptCleared();
     void interactionStarted(dragon::PetAction action);
     void interactionFinished();
 private:
     Companion &companion_;
     LocalSpeech local_;
+    SpeechRecognitionService recognition_;
+    bool recognitionPending_=false;
     QwenSpeech qwen_;
     SpeechPlayer player_;
     OfflineSpeech offline_;

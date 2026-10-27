@@ -98,7 +98,7 @@ bool Companion::sendMessage(const QString &input) {
     if(looksLikeCredential(text)){offline(text,"疑似凭据已在本地拦截");return true;}
     if(dispatchLocal(text))return true;
     if(agentDispatcher_ && agentDispatcher_(text)){
-        setRoute("工具计划已生成 · 请在智能页审核后执行");return true;
+        setRoute("工具任务已接收 · 请在智能 / Agent 页查看进度及确认");return true;
     }
     semanticResults_.clear();semanticQuery_.clear();
     const bool explicitCommand=text.startsWith("记住：") || text.startsWith("记住:") || text.startsWith("叫我");

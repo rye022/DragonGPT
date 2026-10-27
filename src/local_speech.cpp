@@ -51,7 +51,17 @@ struct LocalSpeech::Impl {
 LocalSpeech::LocalSpeech(QObject *parent):QObject(parent),impl_(std::make_unique<Impl>()) {
     timer_.setParent(this);timer_.setObjectName("localSpeechPoll");
     timer_.setInterval(25);connect(&timer_,&QTimer::timeout,this,&LocalSpeech::poll);
+    recognitionEnd_.setSingleShot(true);recognitionDeadline_.setSingleShot(true);
+    connect(&recognitionEnd_,&QTimer::timeout,this,[this]{
+        const auto text=recognitionText_;const auto uncertain=recognitionUncertain_;stopListening();
+        if(!text.trimmed().isEmpty()){emit recognitionDetail(text,uncertain);emit recognized(text);}
+    });
+    connect(&recognitionDeadline_,&QTimer::timeout,this,[this]{
+        if(!recognitionText_.isEmpty()){recognitionUncertain_=true;recognitionEnd_.start(0);}
+        else{stopListening();emit failed("30 秒内没有稳定的识别结果，请检查麦克风或重新说话");}
+    });
 }
+void LocalSpeech::configureRecognition(int silenceMs,const QStringList &hotwords){silenceMs_=qBound(600,silenceMs,3000);hotwords_=hotwords.mid(0,80);}
 LocalSpeech::~LocalSpeech(){stopListening();stopSpeaking();}
 bool LocalSpeech::speaking() const{return impl_->talking || rendering_;}
 bool LocalSpeech::listening() const{return impl_->active;}
@@ -99,6 +109,8 @@ void LocalSpeech::synthesizePcm(const QString &text){
 }
 QString LocalSpeech::listen() {
     stopSpeaking();
+    if(impl_->active)return {};
+    recognitionText_.clear();recognitionUncertain_=false;
     if(!impl_->recognizer) {
         auto *recognizerToken=firstToken(SPCAT_RECOGNIZERS,L"Language=804");
         if(!recognizerToken)return "未安装中文语音识别引擎；文字对话仍可使用";
@@ -113,18 +125,27 @@ QString LocalSpeech::listen() {
         if(SUCCEEDED(result))result=impl_->context->CreateGrammar(1,&impl_->grammar);
         if(SUCCEEDED(result))result=impl_->grammar->LoadDictation(nullptr,SPLO_STATIC);
         if(FAILED(result)) {stopListening();release(impl_->grammar);release(impl_->context);release(impl_->recognizer);return "无法打开本地中文识别或麦克风，请检查设备和系统权限";}
-        const ULONGLONG events=(1ULL<<SPEI_RECOGNITION)|(1ULL<<SPEI_FALSE_RECOGNITION);
+        impl_->recognizer->SetPropertyNum(SPPROP_RESPONSE_SPEED,silenceMs_);
+        impl_->recognizer->SetPropertyNum(SPPROP_COMPLEX_RESPONSE_SPEED,silenceMs_);
+        const ULONGLONG events=(1ULL<<SPEI_RECOGNITION)|(1ULL<<SPEI_FALSE_RECOGNITION)|(1ULL<<SPEI_HYPOTHESIS)|(1ULL<<SPEI_SOUND_START);
         impl_->context->SetInterest(events,events);
+        if(!hotwords_.isEmpty()){
+            const auto hints=hotwords_.join(' ').toStdWString();
+            // Engine hint only. Failure is allowed; never rewrite what was heard.
+            impl_->grammar->SetWordSequenceData(hints.c_str(),ULONG(hints.size()+1),nullptr);
+        }
     }
     if(FAILED(impl_->grammar->SetDictationState(SPRS_ACTIVE)) || FAILED(impl_->recognizer->SetRecoState(SPRST_ACTIVE_ALWAYS)))return "麦克风未能进入聆听状态";
-    impl_->active=true;timer_.start();return {};
+    impl_->active=true;timer_.start();recognitionDeadline_.start(30000);return {};
 }
 void LocalSpeech::stopListening() {
+    recognitionEnd_.stop();recognitionDeadline_.stop();recognitionText_.clear();
     impl_->active=false;
     if(!impl_->talking)timer_.stop();
     if(impl_->grammar)impl_->grammar->SetDictationState(SPRS_INACTIVE);
     if(impl_->recognizer)impl_->recognizer->SetRecoState(SPRST_INACTIVE_WITH_PURGE);
     if(impl_->context){SPEVENT event{};ULONG count=0;while(impl_->context->GetEvents(1,&event,&count)==S_OK && count)clearEvent(event);}
+    release(impl_->grammar);release(impl_->context);release(impl_->recognizer);
 }
 void LocalSpeech::poll() {
     SPEVENT event{};ULONG count=0;
@@ -138,12 +159,22 @@ void LocalSpeech::poll() {
     }
     if(impl_->context && impl_->active)while(impl_->context->GetEvents(1,&event,&count)==S_OK && count) {
         QString transcript;
-        if(event.eEventId==SPEI_RECOGNITION) {
+        const auto eventId=event.eEventId;
+        if(eventId==SPEI_SOUND_START){recognitionEnd_.stop();}
+        if(eventId==SPEI_FALSE_RECOGNITION){recognitionUncertain_=true;}
+        if(eventId==SPEI_RECOGNITION || eventId==SPEI_HYPOTHESIS) {
             auto *result=reinterpret_cast<ISpRecoResult*>(event.lParam);wchar_t *text=nullptr;
             if(result && SUCCEEDED(result->GetText(SP_GETWHOLEPHRASE,SP_GETWHOLEPHRASE,TRUE,&text,nullptr)) && text){transcript=QString::fromWCharArray(text);CoTaskMemFree(text);}
+            if(eventId==SPEI_RECOGNITION && result){SPPHRASE *phrase=nullptr;if(SUCCEEDED(result->GetPhrase(&phrase)) && phrase){
+                for(ULONG i=0;i<phrase->Rule.ulCountOfElements;++i)if(phrase->pElements[i].ActualConfidence<0)recognitionUncertain_=true;
+                CoTaskMemFree(phrase);
+            }}
         }
         clearEvent(event);
-        if(!transcript.trimmed().isEmpty()){stopListening();emit recognized(transcript.trimmed().left(2000));break;}
+        if(!transcript.trimmed().isEmpty()){
+            if(eventId==SPEI_HYPOTHESIS){recognitionEnd_.stop();emit hypothesis((recognitionText_+transcript).left(2000));}
+            else{recognitionText_=(recognitionText_+transcript.trimmed()).left(2000);emit hypothesis(recognitionText_);recognitionEnd_.start(silenceMs_);}
+        }
     }
     if(!impl_->active && !impl_->talking)timer_.stop();
 }

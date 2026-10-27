@@ -27,7 +27,7 @@ $sourceFull = [IO.Path]::GetFullPath($source).TrimEnd('\','/')
 $files = @()
 Get-ChildItem -LiteralPath $sourceFull -Recurse -File | ForEach-Object {
     $relative = $_.FullName.Substring($sourceFull.Length + 1)
-    if ($relative -notmatch '^data[\\/]' -and $relative -notmatch '^embedding[\\/](runtime[\\/]|ready\.json$|__pycache__[\\/])' -and $relative -ne '.installation.json') {
+    if ($relative -notmatch '^data[\\/]' -and $relative -notmatch '(^|[\\/])(runtime|model|models|__pycache__)([\\/]|$)' -and $relative -notmatch '(^|[\\/])ready\.json$' -and $relative -notmatch '\.(dpapi|sqlite[^\\/]*|ini|log)$' -and $relative -ne '.installation.json') {
         $destination = [IO.Path]::GetFullPath((Join-Path $target $relative))
         if (!$destination.StartsWith($target + '\',[StringComparison]::OrdinalIgnoreCase)) { throw 'Unexpected installation path.' }
         New-Item -ItemType Directory -Force ([IO.Path]::GetDirectoryName($destination)) | Out-Null
@@ -35,7 +35,7 @@ Get-ChildItem -LiteralPath $sourceFull -Recurse -File | ForEach-Object {
         $files += $relative
     }
 }
-@{product='DragonGPT';version='3.0.0';root=$target;files=$files} | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $marker -Encoding utf8
+@{product='DragonGPT';version='4.0.0';root=$target;files=$files} | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $marker -Encoding utf8
 if ($DesktopShortcut) {
     $shell = New-Object -ComObject WScript.Shell
     $shortcut = $shell.CreateShortcut((Join-Path ([Environment]::GetFolderPath('Desktop')) '霜翎 DragonGPT.lnk'))

@@ -3,6 +3,8 @@
 #include "focus_page.h"
 #include "bond_gallery.h"
 #include "smart_page.h"
+#include "agent_page.h"
+#include "asr_settings_ui.h"
 #include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
@@ -100,7 +102,7 @@ CompanionWindow::CompanionWindow(Companion &companion,PetWidget &pet,QUrl speech
     auto *root=new QVBoxLayout(this); root->setContentsMargins(24,24,24,18); root->setSpacing(13);
     auto *header=new QHBoxLayout;
     auto *text=new QVBoxLayout;
-    auto *eyebrow=label("DRAGONGPT  /  3.0.0","eyebrow"); eyebrow->setWordWrap(false); text->addWidget(eyebrow);
+    auto *eyebrow=label("DRAGONGPT  /  4.0.0","eyebrow"); eyebrow->setWordWrap(false); text->addWidget(eyebrow);
     text->addWidget(label("霜翎","title"));
     text->addWidget(label("安静地，陪你把今天过好。","subtitle"));
     header->addLayout(text); header->addStretch();
@@ -135,6 +137,13 @@ CompanionWindow::CompanionWindow(Companion &companion,PetWidget &pet,QUrl speech
     });
     tabs_->addTab(toolsPage(),"工具");tabs_->setUsesScrollButtons(true);
     smartPage_=new SmartPage(companion_,*this);tabs_->addTab(smartPage_,"智能");
+    agentPage_=new AgentPage(companion_,smartPage_->hub(),this);tabs_->addTab(agentPage_,"Agent");
+    connect(agentPage_,&AgentPage::reveal,this,[this]{tabs_->setCurrentWidget(agentPage_);showNormal();raise();activateWindow();});
+    companion_.setAgentDispatcher([this](const QString &goal){
+        if(agentPage_->core().mode()!=0){if(agentPage_->core().busy())return true;return agentPage_->dispatch(goal);}
+        const auto steps=ToolHub::localPlan(goal);if(steps.isEmpty())return false;
+        smartPage_->proposeGoal(goal);tabs_->setCurrentWidget(smartPage_);showNormal();return true;
+    });
     connect(smartPage_,&SmartPage::togglePet,this,[this]{if(pet_.isVisible())pet_.hide();else pet_.showOnDesktop();});
     connect(smartPage_,&SmartPage::reveal,this,[this]{tabs_->setCurrentWidget(smartPage_);showNormal();raise();activateWindow();});
     connect(&pet_,&PetWidget::screenRequested,this,&CompanionWindow::askScreen);
@@ -160,7 +169,7 @@ CompanionWindow::CompanionWindow(Companion &companion,PetWidget &pet,QUrl speech
     connect(focusPage_,&FocusPage::activityObserved,this,[this](qint64 idle){companion_.observeDesktopIdle(idle);refreshLifeView();});
     companion_.attachProactiveScheduler(this,[this]{
         bool blocked=(focusPage_ && (focusPage_->service().focusing() || focusPage_->service().waterPending())) || voice_.engaged() || pet_.protectedActionActive() || pet_.bubbleActive() || !pet_.isVisible() || QApplication::activeModalWidget()
-            || !input_->text().isEmpty() || (isActiveWindow() && tabs_->currentIndex()==0 && input_->hasFocus()) || (smartPage_ && smartPage_->blocksProactive());
+            || !input_->text().isEmpty() || (isActiveWindow() && tabs_->currentIndex()==0 && input_->hasFocus()) || (smartPage_ && smartPage_->blocksProactive()) || (agentPage_ && agentPage_->core().busy());
         const bool protect=companion_.lifeSettings().focusProtection;
         if(protect && pet_.currentAction()==PetAction::Work)blocked=true;
 #ifdef Q_OS_WIN
@@ -316,6 +325,14 @@ QWidget *CompanionWindow::conversationPage() {
         auto *b=button(text); quick->addWidget(b); connect(b,&QPushButton::clicked,this,[this,text]{sendText(text);});
     }
     layout->addLayout(quick);
+    auto *speechState=label("语音输入待命：只使用最终稿，临时文字不会触发工具", "notice");speechState->setObjectName("asrTranscriptStatus");layout->addWidget(speechState);
+    auto *draft=new QLineEdit;draft->setObjectName("asrFinalDraft");draft->setPlaceholderText("最终语音稿可在此修改");draft->setMaxLength(4000);draft->hide();layout->addWidget(draft);
+    auto *speechRow=new QHBoxLayout;auto *submitSpeech=button("确认发送语音稿");submitSpeech->setObjectName("submitAsrFinal");auto *discardSpeech=button("丢弃 / 重说");submitSpeech->hide();discardSpeech->hide();speechRow->addWidget(submitSpeech);speechRow->addWidget(discardSpeech);layout->addLayout(speechRow);
+    connect(&voice_,&VoiceController::transcriptPartial,this,[speechState](const QString &s){speechState->setText("临时识别（不会执行）："+s);});
+    connect(&voice_,&VoiceController::transcriptReady,this,[speechState,draft,submitSpeech,discardSpeech](const QJsonObject &r){speechState->setText("原始识别："+r["raw"].toString()+"\n最终稿："+r["corrected"].toString()+(r["uncertain"].toBool()?"\n识别有不确定信号，请核对或重说":"\n请核对后发送；未提供可校准的置信度"));draft->setText(r["corrected"].toString());draft->show();submitSpeech->show();discardSpeech->show();});
+    connect(&voice_,&VoiceController::transcriptCleared,this,[draft,submitSpeech,discardSpeech]{draft->hide();submitSpeech->hide();discardSpeech->hide();});
+    connect(submitSpeech,&QPushButton::clicked,this,[this,draft,submitSpeech,discardSpeech,speechState]{voice_.submitRecognition(draft->text());draft->hide();submitSpeech->hide();discardSpeech->hide();speechState->setText("语音最终稿已确认提交");});
+    connect(discardSpeech,&QPushButton::clicked,this,[this,draft,submitSpeech,discardSpeech,speechState]{draft->clear();draft->hide();submitSpeech->hide();discardSpeech->hide();voice_.discardRecognition();speechState->setText("已丢弃识别稿");});
     auto *row=new QHBoxLayout;
     input_=new QLineEdit; input_->setObjectName("chatInput"); input_->setMaxLength(2000);
     input_->setPlaceholderText("和她说句话…"); input_->setAccessibleName("消息");
@@ -445,6 +462,8 @@ QWidget *CompanionWindow::voicePage(){
     detailsLayout->addWidget(label("百炼合成会发送朗读文本到阿里云并按服务计费。点击和聊天共用所选音色；固定点击短句可能已有缓存，新聊天需要在线合成。苏瑶还可使用本机模型。关闭备用音色时，原声失败会显示原因并停止朗读。缓存音频可随时清空。","notice"));
     auto *caption=label("通话字幕会显示在这里。","stat");caption->setMinimumHeight(90);layout->addWidget(caption,1);
     connect(&voice_,&VoiceController::caption,caption,[caption](const QString &text){caption->setText(text.right(350));});
+    layout->addWidget(asrSettingsUi(voice_,page));
+    auto *finishInput=button("结束本段录音 / 识别（也可等待静音自动结束）");finishInput->setObjectName("finishAsrInput");layout->addWidget(finishInput);connect(finishInput,&QPushButton::clicked,this,[this]{voice_.recognition().finishInput();});
     auto *row=new QHBoxLayout;auto *start=button("开始语音","primary");start->setObjectName("startVoice");auto *stop=button("结束通话");stop->setObjectName("endVoice");row->addWidget(start);row->addWidget(stop);layout->addLayout(row);
     auto *controls=new QHBoxLayout;auto *interrupt=button("打断 / 继续聆听");controls->addWidget(interrupt);layout->addLayout(controls);
     auto *mute=new QCheckBox("麦克风静音");layout->addWidget(mute);auto *read=new QCheckBox("打字聊天时语音回复（自动保存，不打开麦克风）");read->setObjectName("voicePageReadAloud");read->setChecked(voice_.readAloud());layout->addWidget(read);
@@ -545,7 +564,7 @@ void CompanionWindow::renderHistory() {
         const bool user=m.role=="user";
         const auto text=m.content.toHtmlEscaped().replace("\n","<br>");
         html+=QString("<p style='color:%1;font-size:11px;margin-top:16px;'>%2</p><p style='color:%3;line-height:1.65;'>%4</p>")
-            .arg(user?"#b6dbc9":"#cdb2e7",user?"你":m.source=="local-brain"?"霜翎 · 本地小脑":m.source=="local-reminder"?"霜翎 · 本地提醒":m.source=="proactive-local"?"霜翎 · 主动开场 · 本地":m.source=="deepseek"?"霜翎 · DeepSeek":m.source=="openai"?"霜翎 · OpenAI（历史）":m.source=="openai-voice"?"霜翎 · OpenAI 语音（历史）":"霜翎 · 本地离线",user?"#d9eee4":"#eee4fa",text);
+            .arg(user?"#b6dbc9":"#cdb2e7",user?"你":m.source=="local-brain"?"霜翎 · 本地小脑":m.source=="local-reminder"?"霜翎 · 本地提醒":m.source=="proactive-local"?"霜翎 · 主动开场 · 本地":m.source=="agent"?"霜翎 · Agent":m.source=="deepseek"?"霜翎 · DeepSeek":m.source=="openai"?"霜翎 · OpenAI（历史）":m.source=="openai-voice"?"霜翎 · OpenAI 语音（历史）":"霜翎 · 本地离线",user?"#d9eee4":"#eee4fa",text);
     }
     if(companion_.busy()) {
         const auto partial=streamingText_.isEmpty()?QString("正在等待回复…"):streamingText_;

@@ -30,6 +30,7 @@ public:
     void cancel();
     QJsonArray audit() const{return audit_;}
     static QJsonArray localPlan(const QString &goal);
+    QString validate(const QJsonObject &step) const;
 signals:
     void changed();
     void confirmationRequired();
@@ -45,6 +46,5 @@ private:
     QString state_="idle";
     void next();
     void finishStep(quint64 epoch,int cursor,bool ok,const QJsonObject &output);
-    QString validate(const QJsonObject &step) const;
 };
 }

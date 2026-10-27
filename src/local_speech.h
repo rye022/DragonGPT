@@ -13,7 +13,9 @@ public:
     void synthesizePcm(const QString &text);
     void stopSpeaking();
     QString listen();
+    void configureRecognition(int silenceMs,const QStringList &hotwords);
     void stopListening();
+    void finishListening(){if(implListening())recognitionEnd_.start(qMax(300,silenceMs_));}
     bool speaking() const;
     bool listening() const;
     QString capabilities() const;
@@ -21,6 +23,8 @@ public:
     QString recognizeWav(const QString &path,QString &transcript,int timeoutMs=5000);
 signals:
     void recognized(const QString &text);
+    void hypothesis(const QString &text);
+    void recognitionDetail(const QString &text,bool uncertain);
     void speechStarted();
     void speechFinished();
     void mouthChanged(double value);
@@ -31,8 +35,14 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     QTimer timer_;
+    QTimer recognitionEnd_,recognitionDeadline_;
+    QString recognitionText_;
+    QStringList hotwords_;
+    int silenceMs_=1100;
+    bool recognitionUncertain_=false;
     quint64 generation_=0;
     bool rendering_=false;
     void poll();
+    bool implListening() const{return listening();}
 };
 }

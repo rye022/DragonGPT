@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(DragonGPT VERSION 3.0.0 LANGUAGES CXX)
+project(DragonGPT VERSION 4.0.0 LANGUAGES CXX)
 if(WIN32)
     enable_language(RC)
 endif()
@@ -13,6 +13,7 @@ set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${CMAKE_CURRENT_
 configure_file(src/dialogue_catalog.h.in generated/dialogue_catalog.h @ONLY)
 add_library(dragon_core STATIC
     src/tool_hub.h src/tool_hub.cpp
+    src/agent_core.h src/agent_core.cpp src/speech_recognition.h src/speech_recognition.cpp
     src/context_engine.h src/context_engine.cpp
     src/desktop_hotkey.h src/desktop_hotkey.cpp
     src/screen_capture.h src/screen_capture.cpp
@@ -43,9 +44,10 @@ if(WIN32)
     target_link_libraries(dragon_core PRIVATE crypt32 ole32 sapi uuid user32 gdi32 wtsapi32 pdh)
 endif()
 target_include_directories(dragon_core PUBLIC src PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated")
+target_compile_definitions(dragon_core PRIVATE DRAGON_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 add_executable(dragon_cloud_voice_probe EXCLUDE_FROM_ALL tests/probe_cloud_voice.cpp)
 target_link_libraries(dragon_cloud_voice_probe PRIVATE dragon_core)
-add_library(dragon_smart STATIC src/smart_page.h src/smart_page.cpp)
+add_library(dragon_smart STATIC src/smart_page.h src/smart_page.cpp src/agent_page.h src/agent_page.cpp)
 target_link_libraries(dragon_smart PUBLIC dragon_core Qt6::Widgets)
 add_executable(DragonCapture src/capture_helper.cpp)
 target_link_libraries(DragonCapture PRIVATE Qt6::Core Qt6::Gui user32 gdi32)
@@ -70,6 +72,12 @@ configure_file(scripts/ocr.ps1 scripts/ocr.ps1 COPYONLY)
 include(CTest)
 if(BUILD_TESTING)
     find_package(Qt6 REQUIRED COMPONENTS Test)
+    add_executable(dragon_agent_tests tests/test_agent_core.cpp)
+    target_link_libraries(dragon_agent_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_agent COMMAND dragon_agent_tests)
+    set_tests_properties(dragon_agent PROPERTIES TIMEOUT 90)
+    add_executable(dragon_asr_probe EXCLUDE_FROM_ALL tests/probe_asr.cpp)
+    target_link_libraries(dragon_asr_probe PRIVATE dragon_core)
     add_executable(dragon_audio_probe EXCLUDE_FROM_ALL tests/probe_audio_device.cpp)
     target_link_libraries(dragon_audio_probe PRIVATE Qt6::Core Qt6::Multimedia Qt6::Concurrent)
     add_executable(dragon_v3_ui_tests tests/test_v3_ui.cpp src/pet_widget.cpp src/pet_widget.h src/companion_window.cpp src/companion_window.h src/focus_page.cpp src/focus_page.h src/growth_gauge.cpp src/growth_gauge.h src/bond_gallery.cpp src/bond_gallery.h src/sprite_motion.cpp src/sprite_motion.h src/tools_page.cpp src/clipboard_panel.cpp src/clipboard_panel.h assets.qrc)

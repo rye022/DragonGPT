@@ -1,6 +1,7 @@
 #include "companion_window.h"
 #include "diagnostics.h"
 #include "smart_page.h"
+#include "agent_page.h"
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QApplication>
@@ -36,7 +37,7 @@
 int main(int argc,char **argv) {
     qputenv("QT_MEDIA_BACKEND","windows");
     QApplication app(argc,argv);
-    app.setApplicationName("DragonGPT"); app.setOrganizationName("DragonGPT"); app.setApplicationVersion("3.0.0");
+    app.setApplicationName("DragonGPT"); app.setOrganizationName("DragonGPT"); app.setApplicationVersion("4.0.0");
     app.setFont(QFont("Microsoft YaHei UI",10));
     QCommandLineParser parser; parser.addHelpOption(); parser.addVersionOption();
     const auto legacyData=QCoreApplication::applicationDirPath()+"/data";
@@ -265,6 +266,7 @@ int main(int argc,char **argv) {
                         saved=window.grab().save(previewDir+"/memory-preview.png") && saved;
                         tabs->setCurrentIndex(2); app.processEvents();
                         saved=window.grab().save(previewDir+"/voice-preview.png") && saved;
+                        if(auto *asr=window.findChild<QWidget*>("asrSettings")){if(auto *scroll=qobject_cast<QScrollArea*>(tabs->widget(2))){scroll->ensureWidgetVisible(asr,0,0);app.processEvents();saved=window.grab().save(previewDir+"/asr-v4.png") && saved;}}
                         tabs->setCurrentIndex(3); app.processEvents();
                         saved=window.grab().save(previewDir+"/connection-preview.png") && saved;
                         tabs->setCurrentIndex(4); app.processEvents();
@@ -292,6 +294,7 @@ int main(int argc,char **argv) {
                         saved=window.grab().save(previewDir+"/focus-ready-preview.png") && saved;
                         tabs->setCurrentIndex(9);app.processEvents();saved=window.grab().save(previewDir+"/smart-preview.png") && saved;
                         if(auto *smart=window.findChild<dragon::SmartPage*>()){smart->proposeGoal("请检查电脑为什么变卡，再总结今天的使用情况");if(auto *scroll=smart->findChild<QScrollArea*>()){scroll->verticalScrollBar()->setValue(scroll->verticalScrollBar()->maximum());app.processEvents();saved=window.grab().save(previewDir+"/agent-preview.png") && saved;}}
+                        if(auto *agent=window.findChild<dragon::AgentPage*>()){tabs->setCurrentWidget(agent);app.processEvents();saved=window.grab().save(previewDir+"/agent-v4.png") && saved;}
                     }
                     QFile report(dataDir+"/smoke-result.txt");
                     if(!report.open(QIODevice::WriteOnly|QIODevice::Truncate)) {app.exit(4);return;}

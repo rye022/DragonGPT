@@ -32,7 +32,9 @@ public:
     Reply respond(const QString &text);
     bool sendMessage(const QString &text);
     void cancelReply();
-    bool busy() const {return chat_.busy() || memoryPending_;}
+    bool busy() const {return chat_.busy() || memoryPending_ || agentBusy_;}
+    void setAgentBusy(bool value){agentBusy_=value;emit busyChanged(busy());}
+    void finishAgentExchange(const QString &input,const QString &output){finishResponse(input,Reply{output},"agent",true);}
     const ChatSettings &chatSettings() const {return chatSettings_;}
     void saveChatSettings(const ChatSettings &settings);
     void saveApiKey(const QByteArray &key);
@@ -81,6 +83,7 @@ public:
     void dialoguePresented(const QString &id);
     void dialogueHeard(const QString &id);
 signals:
+    void projectContextChanged(const QString &name);
     void turnStarted();
     void replyAborted();
     void memoryChanged();
@@ -107,6 +110,7 @@ private:
     ClipboardHistory clipboard_;
     HealthMonitor health_;
     bool memoryPending_=false;
+    bool agentBusy_=false;
     quint64 memoryRequest_=0;
     QString semanticQuery_;
     QVector<Memory> semanticResults_;

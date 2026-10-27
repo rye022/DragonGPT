@@ -39,6 +39,11 @@ if ($Package) {
         }
     }
     Copy-Item -LiteralPath "$PSScriptRoot/CHANGELOG.md" -Destination $destination
+    foreach ($folder in @('agent','asr')) {
+        $toolDestination = Join-Path $destination $folder
+        New-Item -ItemType Directory -Force $toolDestination | Out-Null
+        Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot $folder) -File | Where-Object { $_.Name -ne 'ready.json' } | Copy-Item -Destination $toolDestination -Force
+    }
     New-Item -ItemType Directory -Force "$destination/scripts" | Out-Null
     Copy-Item -LiteralPath "$PSScriptRoot/scripts/ocr.ps1" -Destination "$destination/scripts"
     Copy-Item -LiteralPath "$PSScriptRoot/THIRD_PARTY.md" -Destination $destination

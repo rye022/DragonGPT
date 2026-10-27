@@ -8,7 +8,7 @@
 
 namespace dragon {
 VoiceController::VoiceController(Companion &companion,QObject *parent,QUrl speechEndpoint,int audioWaitMs):QObject(parent),companion_(companion),local_(this),
-    qwen_(this,std::move(speechEndpoint)),player_(this),offline_(this),cache_(companion.dataDirectory()+"/voice-cache"),preferences_(VoicePreferences::load(companion.dataDirectory()+"/voice.ini")),
+    recognition_(local_,companion.dataDirectory(),this),qwen_(this,std::move(speechEndpoint)),player_(this),offline_(this),cache_(companion.dataDirectory()+"/voice-cache"),preferences_(VoicePreferences::load(companion.dataDirectory()+"/voice.ini")),
     preferenceFile_(companion.dataDirectory()+"/voice.ini"),voiceCredentials_(companion.dataDirectory()+"/dashscope-key.dpapi"){
     audioWaitMs_=qBound(50,audioWaitMs,30000);audioDeadline_.setSingleShot(true);
     auto timing=[this](const QString &event){latency_.mark(event,{{"segment",latencySegment_}});};
@@ -34,11 +34,15 @@ VoiceController::VoiceController(Companion &companion,QObject *parent,QUrl speec
     connect(&local_,&LocalSpeech::pcmReady,this,[this](const QByteArray &pcm){latency_.mark("local_pcm_ready",{{"segment",latencySegment_}});playPcm(pcm,playbackLabel_);});
     connect(&local_,&LocalSpeech::synthesisFailed,this,[this](const QString &reason){stopOutput();status(reason+" · 请检查系统中文语音包");});
     connect(&local_,&LocalSpeech::mouthChanged,this,&VoiceController::mouthChanged);
-    connect(&local_,&LocalSpeech::recognized,this,[this](const QString &text){
+    connect(&recognition_,&SpeechRecognitionService::partial,this,&VoiceController::transcriptPartial);
+    connect(&companion_,&Companion::projectContextChanged,&recognition_,&SpeechRecognitionService::setProjectName);
+    connect(&recognition_,&SpeechRecognitionService::status,this,[this](const QString &s){status(s);});
+    connect(&recognition_,&SpeechRecognitionService::failed,this,[this](const QString &s){recognitionPending_=false;status(s+" · 未执行任何语音任务");});
+    connect(&recognition_,&SpeechRecognitionService::finalResult,this,[this](const QJsonObject &result){
         if(!active_ || muted_)return;
-        emit caption("你："+text);companion_.voice().finishInput(companion_.voice().epoch());
-        status("本地识别完成 · 正在生成回复");
-        try{if(!companion_.sendMessage(text))localListen();}catch(const std::exception &){status("消息处理失败，请重试");localListen();}
+        recognitionPending_=true;emit transcriptReady(result);
+        status("最终识别已完成 · 请核对并发送，原文与术语规范化结果可查看");
+        if(recognition_.settings().autoSend && !result["requires_review"].toBool())submitRecognition(result["corrected"].toString());
     });
     connect(&companion_,&Companion::replyReady,this,&VoiceController::receiveFinal);
     connect(&local_,&LocalSpeech::speechFinished,this,[this]{
@@ -85,18 +89,25 @@ void VoiceController::beginCall(){
     localListen();
 }
 void VoiceController::localListen(){
-    if(!active_ || muted_ || companion_.busy() || outputBusy())return;
-    const auto error=local_.listen();
-    if(error.isEmpty())status("本地中文聆听中 · 说完后自动回复");
+    if(!active_ || muted_ || recognitionPending_ || companion_.busy() || outputBusy() || recognition_.listening())return;
+    const auto error=recognition_.start();
+    if(error.startsWith("扬声器回声保护") || error.startsWith("上一段 ASR")){QTimer::singleShot(700,this,&VoiceController::localListen);status(error);return;}
+    if(error.isEmpty())status("语音聆听中 · 最终稿按设置确认发送");
     else{active_=false;companion_.voice().stop();status(error);}
 }
-void VoiceController::endCall(){if(companion_.busy() || pipeline_)userSuppressedTurn_=streamSuppressed_=true;active_=false;muted_=false;local_.stopListening();stopOutput();companion_.voice().stop();status("通话已结束 · 麦克风已关闭");}
+void VoiceController::submitRecognition(const QString &text){
+    if(!recognitionPending_ || text.trimmed().isEmpty())return;
+    recognitionPending_=false;recognition_.stop();emit transcriptCleared();emit caption("你："+text);companion_.voice().finishInput(companion_.voice().epoch());status("已确认最终语音指令 · 正在处理");
+    try{if(!companion_.sendMessage(text))localListen();}catch(const std::exception &){status("语音指令处理失败，未自动重发");}
+}
+void VoiceController::discardRecognition(){recognitionPending_=false;recognition_.stop();status("已丢弃语音识别稿");localListen();}
+void VoiceController::endCall(){if(companion_.busy() || pipeline_)userSuppressedTurn_=streamSuppressed_=true;active_=false;muted_=false;recognitionPending_=false;recognition_.stop();stopOutput();companion_.voice().stop();status("通话已结束 · 麦克风已关闭");}
 void VoiceController::interrupt(){
     stopOutput();companion_.cancelReply();companion_.voice().interrupt();companion_.voice().resume();localListen();
 }
 void VoiceController::setMuted(bool muted){
     if(!active_){muted_=false;status("语音未开启 · 麦克风已关闭");return;}
-    muted_=muted;if(muted)local_.stopListening();else localListen();
+    muted_=muted;if(muted)recognition_.stop();else localListen();
     status(muted?"麦克风已静音":"本地中文聆听中");
 }
 void VoiceController::previewVoice(){endCall();speak("你好，我是霜翎。我会安静地陪着你。今天也一起慢慢来吧。");}
@@ -203,9 +214,10 @@ void VoiceController::prepareExpression(bool interaction,PetAction action){
     // The visible pose cannot override an actual sad/concerned persistent mood.
     utterancePreferences_=preferences_;utterancePreferences_.expression=speechExpression();
 }
-void VoiceController::stopOutput(){noticeOutput_=noticePresented_=false;const bool proactive=proactiveOutput_;proactiveOutput_=false;currentDialogueId_.clear();textInteractionTimer_.stop();const bool interaction=interactionOutput_;interactionOutput_=false;pipeline_=false;textComplete_=false;textFlush_.stop();pipelinePump_.stop();textBuffer_.reset();readingTextReply_=false;cloudStreaming_=false;systemOutput_=false;audioDeadline_.stop();qwen_.cancel();offline_.cancel();player_.stop();segments_.clear();currentSegment_.clear();local_.stopSpeaking();if(interaction)emit interactionFinished();if(proactive)companion_.finishProactive();}
+void VoiceController::stopOutput(){
+    recognition_.setOutputActive(false);noticeOutput_=noticePresented_=false;const bool proactive=proactiveOutput_;proactiveOutput_=false;currentDialogueId_.clear();textInteractionTimer_.stop();const bool interaction=interactionOutput_;interactionOutput_=false;pipeline_=false;textComplete_=false;textFlush_.stop();pipelinePump_.stop();textBuffer_.reset();readingTextReply_=false;cloudStreaming_=false;systemOutput_=false;audioDeadline_.stop();qwen_.cancel();offline_.cancel();player_.stop();segments_.clear();currentSegment_.clear();local_.stopSpeaking();if(interaction)emit interactionFinished();if(proactive)companion_.finishProactive();}
 void VoiceController::speak(const QString &text,bool interaction,PetAction action,const QString &dialogueId,bool proactive,bool bubble,bool notice){
-    stopOutput();local_.stopListening();
+    stopOutput();recognition_.setOutputActive(true);
     latency_.begin(companion_.latencyId());latencySegment_=0;latency_.mark("speech_requested",{{"characters",text.toUcs4().size()}});
     prepareExpression(interaction,action);
     outputNotice_.clear();
@@ -310,6 +322,7 @@ bool VoiceController::playBundledInteraction(){
     playPcm(pcm,preferences_.legacyVoice("Serena")?"内置离线苏瑶":"内置离线苏瑶（非"+selectedVoiceName()+"原声）");return true;
 }
 void VoiceController::outputFinished(){
+    recognition_.setOutputActive(false);
     audioDeadline_.stop();
     pipeline_=false;textFlush_.stop();pipelinePump_.stop();textBuffer_.reset();
     readingTextReply_=false;
@@ -321,7 +334,7 @@ void VoiceController::outputFinished(){
 void VoiceController::receivePartial(const QString &text){
     if(streamSuppressed_ || streamRewrite_ || (!preferences_.readAloud && !active_) || text.isEmpty())return;
     if(!pipeline_){
-        stopOutput();local_.stopListening();outputNotice_.clear();interactionOutput_=false;
+        stopOutput();recognition_.setOutputActive(true);outputNotice_.clear();interactionOutput_=false;
         latency_.begin(companion_.latencyId());latencySegment_=0;latency_.mark("speech_first_text");
         prepareExpression();
         pipeline_=true;textComplete_=false;readingTextReply_=!active_;systemOutput_=preferences_.legacyVoice("System");
@@ -338,7 +351,7 @@ void VoiceController::receiveFinal(const QString &text,const QString &source){
     if(pipeline_ && source!="offline" && textBuffer_.update(text)){
         textComplete_=true;textFlush_.stop();enqueueText(textBuffer_.takeReady(true));pipelinePump_.start(0);return;
     }
-    local_.stopListening();if(active_)companion_.voice().beginOutput(companion_.voice().epoch());
+    recognition_.stop();if(active_)companion_.voice().beginOutput(companion_.voice().epoch());
     speak(text);readingTextReply_=!active_ && outputBusy();
 }
 void VoiceController::enqueueText(const QStringList &segments){

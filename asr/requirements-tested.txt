@@ -1,0 +1,4 @@
+faster-whisper==1.2.1
+ctranslate2==4.8.4
+webrtcvad-wheels==2.0.14.post1
+truststore==0.10.5
