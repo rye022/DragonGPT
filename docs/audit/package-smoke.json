@@ -1,0 +1,5 @@
+{
+  "exit_code": 0,
+  "method": "Explicit Start-Process -Wait -PassThru; developer PATH removed; isolated data",
+  "previews": 26
+}

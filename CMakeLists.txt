@@ -1,0 +1,216 @@
+cmake_minimum_required(VERSION 3.24)
+project(DragonGPT VERSION 3.0.0 LANGUAGES CXX)
+if(WIN32)
+    enable_language(RC)
+endif()
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Gui Widgets Sql Network Multimedia WebSockets Concurrent)
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/assets/interaction/dialogue.json" DIALOGUE_JSON)
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/assets/interaction/dialogue.json")
+configure_file(src/dialogue_catalog.h.in generated/dialogue_catalog.h @ONLY)
+add_library(dragon_core STATIC
+    src/tool_hub.h src/tool_hub.cpp
+    src/context_engine.h src/context_engine.cpp
+    src/desktop_hotkey.h src/desktop_hotkey.cpp
+    src/screen_capture.h src/screen_capture.cpp
+    src/screen_ocr.h src/screen_ocr.cpp
+    src/local_brain.h src/local_brain.cpp
+    src/semantic_memory.h src/semantic_memory.cpp
+    src/task_parser.h src/task_parser.cpp src/local_tools.h src/local_tools.cpp
+    src/clipboard_history.h src/clipboard_history.cpp
+    src/health_monitor.h src/health_monitor.cpp
+    src/file_organizer.h src/file_organizer.cpp
+    src/dialogue_engine.h src/dialogue_engine.cpp
+    src/speech_expression.h src/speech_expression.cpp
+    src/companion_life.h src/companion_life.cpp
+    src/focus_service.h src/focus_service.cpp
+    src/api_errors.h src/api_errors.cpp
+    src/pet_actions.h src/pet_actions.cpp
+    src/types.h src/memory_store.h src/memory_store.cpp
+    src/emotion_engine.h src/emotion_engine.cpp
+    src/voice_session.h src/voice_session.cpp
+    src/companion.h src/companion.cpp src/chat_settings.h src/chat_settings.cpp
+    src/response_stream.h src/response_stream.cpp src/chat_service.h src/chat_service.cpp
+    src/local_speech.h src/local_speech.cpp src/audio_duplex.h src/audio_duplex.cpp
+    src/realtime_client.h src/realtime_client.cpp src/voice_controller.h src/voice_controller.cpp
+    src/qwen_speech.h src/qwen_speech.cpp src/offline_speech.h src/offline_speech.cpp)
+target_sources(dragon_core PRIVATE src/speech_text_buffer.h src/speech_text_buffer.cpp)
+target_link_libraries(dragon_core PUBLIC Qt6::Widgets Qt6::Gui Qt6::Core Qt6::Sql Qt6::Network Qt6::Multimedia Qt6::WebSockets Qt6::Concurrent)
+if(WIN32)
+    target_link_libraries(dragon_core PRIVATE crypt32 ole32 sapi uuid user32 gdi32 wtsapi32 pdh)
+endif()
+target_include_directories(dragon_core PUBLIC src PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated")
+add_executable(dragon_cloud_voice_probe EXCLUDE_FROM_ALL tests/probe_cloud_voice.cpp)
+target_link_libraries(dragon_cloud_voice_probe PRIVATE dragon_core)
+add_library(dragon_smart STATIC src/smart_page.h src/smart_page.cpp)
+target_link_libraries(dragon_smart PUBLIC dragon_core Qt6::Widgets)
+add_executable(DragonCapture src/capture_helper.cpp)
+target_link_libraries(DragonCapture PRIVATE Qt6::Core Qt6::Gui user32 gdi32)
+add_executable(DragonGPT WIN32 src/main.cpp src/pet_widget.h src/pet_widget.cpp
+    src/growth_gauge.h src/growth_gauge.cpp src/sprite_motion.h src/sprite_motion.cpp
+    src/bond_gallery.h src/bond_gallery.cpp src/companion_window.h src/companion_window.cpp src/focus_page.h src/focus_page.cpp src/diagnostics.h src/diagnostics.cpp assets.qrc)
+target_link_libraries(DragonGPT PRIVATE dragon_smart dragon_core Qt6::Widgets Qt6::Gui)
+if(WIN32)
+    configure_file(src/version.rc.in generated/version.rc @ONLY)
+    target_sources(DragonGPT PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated/version.rc")
+endif()
+target_sources(DragonGPT PRIVATE src/tools_page.cpp src/clipboard_panel.h src/clipboard_panel.cpp)
+if(MSVC)
+    target_compile_options(dragon_core PRIVATE /utf-8 /W4)
+    target_compile_options(DragonGPT PRIVATE /utf-8 /W4)
+else()
+    target_compile_options(dragon_core PRIVATE -Wall -Wextra -Wpedantic)
+    target_compile_options(DragonGPT PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/scripts")
+configure_file(scripts/ocr.ps1 scripts/ocr.ps1 COPYONLY)
+include(CTest)
+if(BUILD_TESTING)
+    find_package(Qt6 REQUIRED COMPONENTS Test)
+    add_executable(dragon_audio_probe EXCLUDE_FROM_ALL tests/probe_audio_device.cpp)
+    target_link_libraries(dragon_audio_probe PRIVATE Qt6::Core Qt6::Multimedia Qt6::Concurrent)
+    add_executable(dragon_v3_ui_tests tests/test_v3_ui.cpp src/pet_widget.cpp src/pet_widget.h src/companion_window.cpp src/companion_window.h src/focus_page.cpp src/focus_page.h src/growth_gauge.cpp src/growth_gauge.h src/bond_gallery.cpp src/bond_gallery.h src/sprite_motion.cpp src/sprite_motion.h src/tools_page.cpp src/clipboard_panel.cpp src/clipboard_panel.h assets.qrc)
+    target_link_libraries(dragon_v3_ui_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_v3_ui COMMAND dragon_v3_ui_tests)
+    set_tests_properties(dragon_v3_ui PROPERTIES TIMEOUT 45)
+    add_executable(dragon_intelligence_tests tests/test_intelligence.cpp)
+    target_link_libraries(dragon_intelligence_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_intelligence COMMAND dragon_intelligence_tests)
+    set_tests_properties(dragon_intelligence PROPERTIES TIMEOUT 60)
+    add_executable(dragon_brain_tests tests/test_local_brain.cpp)
+    target_link_libraries(dragon_brain_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_brain COMMAND dragon_brain_tests)
+    add_executable(dragon_semantic_tests tests/test_semantic.cpp)
+    target_link_libraries(dragon_semantic_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_semantic COMMAND dragon_semantic_tests)
+    set_tests_properties(dragon_semantic PROPERTIES TIMEOUT 75)
+    set(DRAGON_EMBEDDING_TEST_HOME "" CACHE PATH "Optional prepared local embedding directory")
+    if(NOT DRAGON_EMBEDDING_TEST_HOME AND EXISTS "${CMAKE_SOURCE_DIR}/embedding/ready.json")
+        set(DRAGON_EMBEDDING_TEST_HOME "${CMAKE_SOURCE_DIR}/embedding")
+    endif()
+    if(EXISTS "${DRAGON_EMBEDDING_TEST_HOME}/ready.json")
+        set_tests_properties(dragon_semantic PROPERTIES ENVIRONMENT "DRAGONGPT_EMBEDDING_HOME=${DRAGON_EMBEDDING_TEST_HOME}")
+    endif()
+    add_executable(dragon_tool_tests tests/test_tools.cpp)
+    target_link_libraries(dragon_tool_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_tools COMMAND dragon_tool_tests)
+    add_executable(dragon_clipboard_tests tests/test_clipboard.cpp)
+    target_link_libraries(dragon_clipboard_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_clipboard COMMAND dragon_clipboard_tests)
+    add_executable(dragon_clipboard_ui_tests tests/test_clipboard_ui.cpp src/pet_widget.h src/pet_widget.cpp src/sprite_motion.h src/sprite_motion.cpp src/clipboard_panel.h src/clipboard_panel.cpp assets.qrc)
+    target_link_libraries(dragon_clipboard_ui_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_clipboard_ui COMMAND dragon_clipboard_ui_tests)
+    set_tests_properties(dragon_clipboard_ui PROPERTIES TIMEOUT 45)
+    add_executable(dragon_ui_perf_probe EXCLUDE_FROM_ALL tests/probe_ui_performance.cpp src/pet_widget.h src/pet_widget.cpp src/sprite_motion.h src/sprite_motion.cpp assets.qrc)
+    target_link_libraries(dragon_ui_perf_probe PRIVATE dragon_core Qt6::Widgets)
+    add_executable(dragon_health_tests tests/test_health.cpp)
+    target_link_libraries(dragon_health_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_health COMMAND dragon_health_tests)
+    set_tests_properties(dragon_health PROPERTIES TIMEOUT 25)
+    add_executable(dragon_file_tests tests/test_files.cpp)
+    target_link_libraries(dragon_file_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_files COMMAND dragon_file_tests)
+    add_executable(dragon_bond_tests tests/test_bond.cpp src/bond_gallery.h src/bond_gallery.cpp
+        src/companion_window.h src/companion_window.cpp src/focus_page.h src/focus_page.cpp src/pet_widget.h src/pet_widget.cpp
+        src/growth_gauge.h src/growth_gauge.cpp src/sprite_motion.h src/sprite_motion.cpp assets.qrc)
+    target_link_libraries(dragon_bond_tests PRIVATE dragon_core Qt6::Widgets Qt6::Test)
+    add_test(NAME dragon_bond COMMAND dragon_bond_tests)
+    set_tests_properties(dragon_bond PROPERTIES TIMEOUT 45)
+    add_executable(dragon_special_blink_tests tests/test_special_blinks.cpp src/pet_widget.h src/pet_widget.cpp
+        src/sprite_motion.h src/sprite_motion.cpp assets.qrc)
+    target_link_libraries(dragon_special_blink_tests PRIVATE dragon_core Qt6::Widgets Qt6::Test)
+    add_test(NAME dragon_special_blinks COMMAND dragon_special_blink_tests)
+    set_tests_properties(dragon_special_blinks PROPERTIES TIMEOUT 60)
+    add_executable(dragon_upgrade_tests tests/test_upgrade.cpp src/pet_widget.h src/pet_widget.cpp
+        src/growth_gauge.h src/growth_gauge.cpp src/sprite_motion.h src/sprite_motion.cpp
+        src/bond_gallery.h src/bond_gallery.cpp src/companion_window.h src/companion_window.cpp src/focus_page.h src/focus_page.cpp assets.qrc)
+    target_link_libraries(dragon_upgrade_tests PRIVATE dragon_core Qt6::Widgets Qt6::Test)
+    target_sources(dragon_upgrade_tests PRIVATE src/tools_page.cpp src/clipboard_panel.h src/clipboard_panel.cpp)
+    add_test(NAME dragon_upgrade COMMAND dragon_upgrade_tests)
+    set_tests_properties(dragon_upgrade PROPERTIES TIMEOUT 45)
+    add_executable(dragon_dialogue_tests tests/test_dialogue.cpp)
+    target_link_libraries(dragon_dialogue_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_dialogue COMMAND dragon_dialogue_tests)
+    set_tests_properties(dragon_dialogue PROPERTIES TIMEOUT 35)
+    add_executable(dragon_life_tests tests/test_life.cpp)
+    target_link_libraries(dragon_life_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_life COMMAND dragon_life_tests)
+    add_executable(dragon_desktop_startup_tests tests/test_desktop_startup.cpp src/pet_widget.h src/pet_widget.cpp
+        src/sprite_motion.h src/sprite_motion.cpp assets.qrc)
+    target_link_libraries(dragon_desktop_startup_tests PRIVATE dragon_core Qt6::Widgets Qt6::Test)
+    add_test(NAME dragon_desktop_startup COMMAND dragon_desktop_startup_tests)
+    set_tests_properties(dragon_desktop_startup PROPERTIES TIMEOUT 20)
+    add_executable(dragon_emotion_ui_tests tests/test_emotion_ui.cpp src/pet_widget.h src/pet_widget.cpp
+        src/companion_window.h src/companion_window.cpp src/focus_page.h src/focus_page.cpp
+        src/growth_gauge.h src/growth_gauge.cpp src/bond_gallery.h src/bond_gallery.cpp src/sprite_motion.h src/sprite_motion.cpp assets.qrc)
+    target_link_libraries(dragon_emotion_ui_tests PRIVATE dragon_core Qt6::Widgets Qt6::Test)
+    add_test(NAME dragon_emotion_ui COMMAND dragon_emotion_ui_tests)
+    set_tests_properties(dragon_emotion_ui PROPERTIES TIMEOUT 60 WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/../..")
+    add_executable(dragon_latency_tests tests/test_latency.cpp src/pet_widget.h src/pet_widget.cpp
+        src/companion_window.h src/companion_window.cpp src/focus_page.h src/focus_page.cpp
+        src/growth_gauge.h src/growth_gauge.cpp src/bond_gallery.h src/bond_gallery.cpp src/sprite_motion.h src/sprite_motion.cpp assets.qrc)
+    target_link_libraries(dragon_latency_tests PRIVATE dragon_core Qt6::Widgets Qt6::Test)
+    target_compile_definitions(dragon_latency_tests PRIVATE DRAGON_LATENCY_ASYNC_DEVICE)
+    add_test(NAME dragon_latency COMMAND dragon_latency_tests --optimized)
+    set_tests_properties(dragon_latency PROPERTIES TIMEOUT 60 WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/../..")
+    add_executable(dragon_emotion_context_tests tests/test_emotion_context.cpp)
+    target_link_libraries(dragon_emotion_context_tests PRIVATE dragon_core)
+    add_test(NAME dragon_emotion_context COMMAND dragon_emotion_context_tests)
+    set_tests_properties(dragon_emotion_context PROPERTIES TIMEOUT 30)
+    add_executable(dragon_focus_tests tests/test_focus.cpp)
+    target_link_libraries(dragon_focus_tests PRIVATE dragon_core Qt6::Core)
+    add_test(NAME dragon_focus COMMAND dragon_focus_tests)
+    set_tests_properties(dragon_focus PROPERTIES TIMEOUT 180)
+    add_executable(dragon_focus_ui_tests tests/test_focus_ui.cpp src/pet_widget.h src/pet_widget.cpp
+        src/companion_window.h src/companion_window.cpp src/focus_page.h src/focus_page.cpp
+        src/growth_gauge.h src/growth_gauge.cpp src/bond_gallery.h src/bond_gallery.cpp src/sprite_motion.h src/sprite_motion.cpp assets.qrc)
+    target_link_libraries(dragon_focus_ui_tests PRIVATE dragon_core Qt6::Widgets Qt6::Test)
+    add_test(NAME dragon_focus_ui COMMAND dragon_focus_ui_tests)
+    set_tests_properties(dragon_focus_ui PROPERTIES TIMEOUT 60 WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/../..")
+    add_executable(dragon_action_tests tests/test_actions.cpp)
+    target_link_libraries(dragon_action_tests PRIVATE dragon_core)
+    add_test(NAME dragon_actions COMMAND dragon_action_tests)
+    find_package(Qt6 REQUIRED COMPONENTS Test)
+    add_executable(dragon_api_audit_tests tests/test_api_audit.cpp assets.qrc)
+    target_link_libraries(dragon_api_audit_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_api_audit COMMAND dragon_api_audit_tests)
+    set_tests_properties(dragon_api_audit PROPERTIES TIMEOUT 90 ENVIRONMENT "QT_MEDIA_BACKEND=windows")
+    add_executable(dragon_tests tests/test_core.cpp)
+    target_link_libraries(dragon_tests PRIVATE dragon_core)
+    add_test(NAME dragon_core COMMAND dragon_tests)
+    add_executable(dragon_network_tests tests/test_network.cpp)
+    target_link_libraries(dragon_network_tests PRIVATE dragon_core)
+    add_test(NAME dragon_network COMMAND dragon_network_tests)
+    set_tests_properties(dragon_network PROPERTIES TIMEOUT 30)
+    add_executable(dragon_product_tests tests/test_product.cpp)
+    target_link_libraries(dragon_product_tests PRIVATE dragon_core)
+    add_test(NAME dragon_product COMMAND dragon_product_tests)
+    set_tests_properties(dragon_product PROPERTIES TIMEOUT 30)
+    add_executable(dragon_update_tests tests/test_update.cpp src/pet_widget.h src/pet_widget.cpp
+        src/growth_gauge.h src/growth_gauge.cpp src/sprite_motion.h src/sprite_motion.cpp
+    src/bond_gallery.h src/bond_gallery.cpp src/companion_window.h src/companion_window.cpp src/focus_page.h src/focus_page.cpp assets.qrc)
+    target_link_libraries(dragon_update_tests PRIVATE dragon_core Qt6::Widgets Qt6::Test)
+    target_sources(dragon_update_tests PRIVATE src/tools_page.cpp src/clipboard_panel.h src/clipboard_panel.cpp)
+    add_test(NAME dragon_update COMMAND dragon_update_tests)
+    set_tests_properties(dragon_update PROPERTIES TIMEOUT 90)
+endif()
+
+if(BUILD_TESTING)
+    add_executable(dragon_final_audit_tests tests/test_final_audit.cpp)
+    target_link_libraries(dragon_final_audit_tests PRIVATE dragon_core Qt6::Test)
+    add_test(NAME dragon_final_audit COMMAND dragon_final_audit_tests)
+    set_tests_properties(dragon_final_audit PROPERTIES TIMEOUT 90)
+    foreach(gui_test dragon_bond_tests dragon_emotion_ui_tests dragon_latency_tests dragon_focus_ui_tests)
+        target_sources(${gui_test} PRIVATE src/tools_page.cpp src/clipboard_panel.h src/clipboard_panel.cpp)
+    endforeach()
+    foreach(gui_target dragon_v3_ui_tests dragon_bond_tests dragon_upgrade_tests dragon_emotion_ui_tests dragon_latency_tests dragon_focus_ui_tests dragon_update_tests)
+        target_link_libraries(${gui_target} PRIVATE dragon_smart)
+    endforeach()
+    file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/test-temp")
+    get_property(dragon_test_names DIRECTORY PROPERTY TESTS)
+    set_tests_properties(${dragon_test_names} PROPERTIES ENVIRONMENT_MODIFICATION
+        "TEMP=set:${CMAKE_BINARY_DIR}/test-temp;TMP=set:${CMAKE_BINARY_DIR}/test-temp;DRAGONGPT_DISABLE_HOTKEY=set:1;DEEPSEEK_API_KEY=unset:;DASHSCOPE_API_KEY=unset:")
+endif()

@@ -1,0 +1,57 @@
+Test project ${WORKSPACE}/work/build
+      Start  1: dragon_v3_ui
+ 1/26 Test  #1: dragon_v3_ui .....................   Passed    8.26 sec
+      Start  2: dragon_intelligence
+ 2/26 Test  #2: dragon_intelligence ..............   Passed    1.66 sec
+      Start  3: dragon_brain
+ 3/26 Test  #3: dragon_brain .....................   Passed    0.49 sec
+      Start  4: dragon_semantic
+ 4/26 Test  #4: dragon_semantic ..................   Passed    1.07 sec
+      Start  5: dragon_tools
+ 5/26 Test  #5: dragon_tools .....................   Passed    0.54 sec
+      Start  6: dragon_clipboard
+ 6/26 Test  #6: dragon_clipboard .................   Passed    1.21 sec
+      Start  7: dragon_clipboard_ui
+ 7/26 Test  #7: dragon_clipboard_ui ..............   Passed    5.65 sec
+      Start  8: dragon_health
+ 8/26 Test  #8: dragon_health ....................   Passed    0.89 sec
+      Start  9: dragon_files
+ 9/26 Test  #9: dragon_files .....................   Passed    0.49 sec
+      Start 10: dragon_bond
+10/26 Test #10: dragon_bond ......................   Passed   25.15 sec
+      Start 11: dragon_special_blinks
+11/26 Test #11: dragon_special_blinks ............   Passed    3.96 sec
+      Start 12: dragon_upgrade
+12/26 Test #12: dragon_upgrade ...................   Passed    6.36 sec
+      Start 13: dragon_dialogue
+13/26 Test #13: dragon_dialogue ..................   Passed   12.50 sec
+      Start 14: dragon_life
+14/26 Test #14: dragon_life ......................   Passed    0.92 sec
+      Start 15: dragon_desktop_startup
+15/26 Test #15: dragon_desktop_startup ...........   Passed    0.72 sec
+      Start 16: dragon_emotion_ui
+16/26 Test #16: dragon_emotion_ui ................   Passed   38.38 sec
+      Start 17: dragon_latency
+17/26 Test #17: dragon_latency ...................   Passed   13.54 sec
+      Start 18: dragon_emotion_context
+18/26 Test #18: dragon_emotion_context ...........   Passed    0.67 sec
+      Start 19: dragon_focus
+19/26 Test #19: dragon_focus .....................   Passed    1.61 sec
+      Start 20: dragon_focus_ui
+20/26 Test #20: dragon_focus_ui ..................   Passed    6.03 sec
+      Start 21: dragon_actions
+21/26 Test #21: dragon_actions ...................   Passed    0.08 sec
+      Start 22: dragon_api_audit
+22/26 Test #22: dragon_api_audit .................   Passed   27.20 sec
+      Start 23: dragon_core
+23/26 Test #23: dragon_core ......................   Passed    2.19 sec
+      Start 24: dragon_network
+24/26 Test #24: dragon_network ...................   Passed    3.11 sec
+      Start 25: dragon_product
+25/26 Test #25: dragon_product ...................   Passed    6.57 sec
+      Start 26: dragon_update
+26/26 Test #26: dragon_update ....................   Passed   54.26 sec
+
+100% tests passed out of 26
+
+Total Test time (real) = 223.56 sec

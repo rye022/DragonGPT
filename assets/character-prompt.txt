@@ -1,0 +1,18 @@
+Master generation (built-in ImageGen):
+
+Use case: stylized-concept
+Asset type: LOCKED IDENTITY master sprite for a desktop dragon companion. Input image 1 is the user's definitive nine-panel character reference. Reproduce the SAME cute chibi identity from that reference in a new clean isolated full-body master asset; do not use any earlier tall adult character.
+Identity invariants: large rounded head and cheeks, HUGE lavender purple eyes, very small nose and mouth, short chibi torso and limbs, head-to-body ratio 1:2.5 to 1:2.8 TOTAL height, long snowy white hair with pale lavender shadows and curved little forelock, two short chunky ivory-white textured dragon horns, pointed ears, silver white knot-shaped hair ornament with small tassel at the viewer-right temple, small pale lavender dragon wings, one short thick white scaled dragon tail. Keep the recognizable face and very soft cute pastel linework from the nine-panel reference. This is a stylized chibi fantasy mascot, not a realistic body.
+Outfit invariant: one consistent modest white and pale lilac fantasy dress with high neckline, small silver motifs, detached long soft sleeves, full closed skirt and white shoes. No cleavage, no thigh slit, no mature body proportions. Same outfit throughout all future interaction.
+Pose: front-facing relaxed standing, complete body including complete hair, horns, wings, tail and shoes. Hands relaxed gently together in front at waist. Both eyes fully open. Small quiet closed-mouth smile. Head mostly level, readable symmetric face for later blinking and mouth overlay. Nothing held in hands.
+Medium: polished high quality 2D Japanese chibi character illustration, delicate clean line art, luminous white and soft lilac shading, subtle rosy cheeks, big expressive purple eyes. Match the exact reference's cute rounded design language.
+Composition: portrait canvas, character centered, full silhouette entirely inside frame with generous transparent padding, no cropped ears/horns/wings/tail/hair/feet.
+Background: TRUE transparent alpha, completely isolated cutout. No room, no bedding, no person, no hands reaching from outside frame, no floating hearts, no backdrop, no floor, no text, no watermark, no sprite grid. Exactly ONE full-body character.
+
+Production correction (built-in ImageGen):
+
+Edit target: the attached transparent chibi dragon master sprite. This is a STRICT identity-preserving production correction, NOT a redesign.
+Keep the character's exact face, large purple eyes, rounded chibi body proportions, white hairstyle, ornament, modest white/lilac dress, pose, wings, tail and shoes unchanged.
+Make the complete character silhouette fit safely inside the image: extend the transparent canvas with about 8 percent padding on every side, and reconstruct ONLY the tiny missing topmost tip of the viewer-right horn that currently touches the top edge. Both horn tips and all hair/wing/tail/shoe edges must be fully visible inside the frame.
+Preserve the existing character artwork as closely as possible. No new clothes, no new proportions, no pose change, no background, no floor, no text, no watermark, no decorative elements. True transparent alpha. Exactly the same one chibi dragon girl.
+

@@ -1,0 +1,14 @@
+{
+  "required_documents": [
+    "DragonGPT_3.0_完整使用手册.md",
+    "DragonGPT_3.0_最终审查报告.md",
+    "DragonGPT_3.0_功能清单.md",
+    "DragonGPT_3.0_模块依赖关系.md",
+    "DragonGPT_3.0_测试结果.md"
+  ],
+  "README_included": true,
+  "broken_links": [],
+  "privacy_filter_cases": 11,
+  "asset_integrity": true,
+  "python_syntax": "passed"
+}

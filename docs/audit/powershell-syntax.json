@@ -1,0 +1,42 @@
+[
+  {
+    "errors": [],
+    "file": "build.ps1"
+  },
+  {
+    "errors": [],
+    "file": "install.ps1"
+  },
+  {
+    "errors": [],
+    "file": "uninstall.ps1"
+  },
+  {
+    "errors": [],
+    "file": "Verify-Blinks.ps1"
+  },
+  {
+    "errors": [],
+    "file": "Verify-Bond.ps1"
+  },
+  {
+    "errors": [],
+    "file": "embedding\\install.ps1"
+  },
+  {
+    "errors": [],
+    "file": "offline\\install.ps1"
+  },
+  {
+    "errors": [],
+    "file": "scripts\\build-installer.ps1"
+  },
+  {
+    "errors": [],
+    "file": "scripts\\desktop_cleanup.ps1"
+  },
+  {
+    "errors": [],
+    "file": "scripts\\ocr.ps1"
+  }
+]

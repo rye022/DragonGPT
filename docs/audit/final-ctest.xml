@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="27"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LAPTOP-F880JD36"
+	time="241"
+	timestamp="2026-10-27T00:09:03"
+	>
+	<testcase name="dragon_v3_ui" classname="dragon_v3_ui" time="12.8663" status="run">
+		<properties/>
+		<system-out>V3 UI: visibility preservation
+Animation timer found=1
+V3 UI: natural language tool integration
+V3 UI: external synthetic window capture
+Fixture handle received; target=DragonGPT synthetic capture fixture process=dragon_v3_ui_tests.exe
+Capture ready=1 failed=0 overlayVisible=1
+Captured test pixel=#24ac54
+</system-out>
+	</testcase>
+	<testcase name="dragon_intelligence" classname="dragon_intelligence" time="1.48332" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="dragon_brain" classname="dragon_brain" time="0.33534" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="dragon_semantic" classname="dragon_semantic" time="2.90067" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="dragon_tools" classname="dragon_tools" time="0.404829" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="dragon_clipboard" classname="dragon_clipboard" time="1.05689" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="dragon_clipboard_ui" classname="dragon_clipboard_ui" time="5.46109" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="dragon_health" classname="dragon_health" time="0.763209" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="dragon_files" classname="dragon_files" time="0.354362" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="dragon_bond" classname="dragon_bond" time="26.4682" status="run">
+		<properties/>
+		<system-out>PASS: 98 bond/growth/scheduler/gallery checks. Real Qt timers with an injected clock; localhost speech fixtures only.
+</system-out>
+	</testcase>
+	<testcase name="dragon_special_blinks" classname="dragon_special_blinks" time="3.77077" status="run">
+		<properties/>
+		<system-out>认真工作 eye 0: iris 277 -&gt; 0
+认真工作 eye 1: iris 328 -&gt; 0
+抱尾陪伴 eye 0: iris 354 -&gt; 0
+抱尾陪伴 eye 1: iris 410 -&gt; 0
+PASS: 102 protected render hashes; authored iris probes and eye-only changes. No live API.
+</system-out>
+	</testcase>
+	<testcase name="dragon_upgrade" classname="dragon_upgrade" time="8.35848" status="run">
+		<properties/>
+		<system-out>Renderer duration (including optional exports): 262 ms
+Widget compositor average: 12.1 ms/frame
+PASS: 817621 assertions (percentage gauge, per-voice emotional prosody, localized motion and rendering). No live API.
+</system-out>
+	</testcase>
+	<testcase name="dragon_dialogue" classname="dragon_dialogue" time="14.0013" status="run">
+		<properties/>
+		<system-out>PASS: 5021 checks; four stages x 100 isolated clicks; real scheduler, bounded restart history, unlocks, emotion and TTS dispatch. No cloud calls.
+</system-out>
+	</testcase>
+	<testcase name="dragon_life" classname="dragon_life" time="0.736968" status="run">
+		<properties/>
+		<system-out>PASS: 53 assertions (growth, scheduling, suggestions, emotion persistence, migration). No live API calls.
+</system-out>
+	</testcase>
+	<testcase name="dragon_desktop_startup" classname="dragon_desktop_startup" time="0.470476" status="run">
+		<properties/>
+		<system-out>PASS: 7 native desktop startup checks; no microphone or network
+</system-out>
+	</testcase>
+	<testcase name="dragon_emotion_ui" classname="dragon_emotion_ui" time="38.3541" status="run">
+		<properties/>
+		<system-out>PASS 62 real emotion/action/focus/UI/expression checks; no provider calls
+</system-out>
+	</testcase>
+	<testcase name="dragon_latency" classname="dragon_latency" time="15.6725" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="dragon_emotion_context" classname="dragon_emotion_context" time="0.444809" status="run">
+		<properties/>
+		<system-out>PASS 16986 emotion/context/action/prosody checks; injected clock; no network
+</system-out>
+	</testcase>
+	<testcase name="dragon_focus" classname="dragon_focus" time="1.4082" status="run">
+		<properties/>
+		<system-out>PASS 65 focus/water assertions; simulated clock; no network
+</system-out>
+	</testcase>
+	<testcase name="dragon_focus_ui" classname="dragon_focus_ui" time="8.72073" status="run">
+		<properties/>
+		<system-out>Native activity: idle=1 lock=1 uptimeMs=962194750 sessionMs=21100157
+PASS 28 focus UI/native/TTS fixture assertions; no provider calls
+</system-out>
+	</testcase>
+	<testcase name="dragon_actions" classname="dragon_actions" time="0.0323643" status="run">
+		<properties/>
+		<system-out>PASS: transitions preserve opacity and position on interruption; repeated and rapid requests settle.
+</system-out>
+	</testcase>
+	<testcase name="dragon_api_audit" classname="dragon_api_audit" time="27.5963" status="run">
+		<properties/>
+		<system-out>API audit cold output enumeration ms=7256 available=1
+</system-out>
+	</testcase>
+	<testcase name="dragon_core" classname="dragon_core" time="1.96419" status="run">
+		<properties/>
+		<system-out>PASS: 51 assertions (persistence, retrieval, deletion, emotion expiry, interruption, offline flow).
+</system-out>
+	</testcase>
+	<testcase name="dragon_network" classname="dragon_network" time="2.81199" status="run">
+		<properties/>
+		<system-out>PASS: 60 assertions (SSE, proxy, DPAPI, cancellation, timeout, fallback, migration). No live API calls.
+</system-out>
+	</testcase>
+	<testcase name="dragon_product" classname="dragon_product" time="6.25787" status="run">
+		<properties/>
+		<system-out>PASS: 36 assertions (memory lifecycle, PCM conversion, realtime protocol, actual Chinese TTS). No microphone capture or live API calls.
+</system-out>
+	</testcase>
+	<testcase name="dragon_update" classname="dragon_update" time="55.3794" status="run">
+		<properties/>
+		<system-out>Fallback state: 正在朗读 · 系统中文（非茉兔原声） · 可点打断; elapsed 299 ms
+Streaming fixture first audio &lt;700 ms; native SAPI fallback &lt;2100 ms.
+PASS: 361 assertions (five voices, persistence, Qwen SSE/error/cancel, double click/drag/restore). No live API or microphone.
+</system-out>
+	</testcase>
+	<testcase name="dragon_final_audit" classname="dragon_final_audit" time="2.92011" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

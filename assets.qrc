@@ -1,0 +1,30 @@
+<RCC><qresource prefix="/assets">
+<file alias="actions.png">assets/actions-v2.png</file>
+<file alias="character.png">assets/shuangling-chibi.png</file><file alias="character.json">assets/character.json</file><file alias="persona.txt">prompts/persona.txt</file>
+<file alias="interaction/lines.json">assets/interaction/lines.json</file>
+<file alias="interaction/actions.json">assets/interaction/actions.json</file>
+<file alias="interaction/action-00.pcm">assets/interaction/action-00.pcm</file>
+<file alias="interaction/action-01.pcm">assets/interaction/action-01.pcm</file>
+<file alias="interaction/action-02.pcm">assets/interaction/action-02.pcm</file>
+<file alias="interaction/action-03.pcm">assets/interaction/action-03.pcm</file>
+<file alias="interaction/action-04.pcm">assets/interaction/action-04.pcm</file>
+<file alias="interaction/action-05.pcm">assets/interaction/action-05.pcm</file>
+<file alias="interaction/action-06.pcm">assets/interaction/action-06.pcm</file>
+<file alias="interaction/action-07.pcm">assets/interaction/action-07.pcm</file>
+<file alias="interaction/action-08.pcm">assets/interaction/action-08.pcm</file>
+<file alias="interaction/action-09.pcm">assets/interaction/action-09.pcm</file>
+<file alias="interaction/action-10.pcm">assets/interaction/action-10.pcm</file>
+<file alias="interaction/action-11.pcm">assets/interaction/action-11.pcm</file>
+<file alias="interaction/action-12.pcm">assets/interaction/action-12.pcm</file>
+<file alias="interaction/action-13.pcm">assets/interaction/action-13.pcm</file>
+<file alias="interaction/action-14.pcm">assets/interaction/action-14.pcm</file>
+<file alias="interaction/action-15.pcm">assets/interaction/action-15.pcm</file>
+<file alias="interaction/action-16.pcm">assets/interaction/action-16.pcm</file>
+<file alias="interaction/action-17.pcm">assets/interaction/action-17.pcm</file>
+<file alias="interaction/00.pcm">assets/interaction/00.pcm</file><file alias="interaction/01.pcm">assets/interaction/01.pcm</file>
+<file alias="interaction/02.pcm">assets/interaction/02.pcm</file><file alias="interaction/03.pcm">assets/interaction/03.pcm</file>
+<file alias="interaction/04.pcm">assets/interaction/04.pcm</file><file alias="interaction/05.pcm">assets/interaction/05.pcm</file>
+<file alias="interaction/06.pcm">assets/interaction/06.pcm</file><file alias="interaction/07.pcm">assets/interaction/07.pcm</file>
+<file alias="interaction/08.pcm">assets/interaction/08.pcm</file><file alias="interaction/09.pcm">assets/interaction/09.pcm</file>
+<file alias="interaction/10.pcm">assets/interaction/10.pcm</file><file alias="interaction/11.pcm">assets/interaction/11.pcm</file>
+</qresource></RCC>

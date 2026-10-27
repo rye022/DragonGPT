@@ -1,0 +1,275 @@
+{
+  "assets": [
+    {
+      "path": "assets/action-cleanup-prompt.txt",
+      "bytes": 1506,
+      "sha256": "d87e89b4c3d7f6636a4c658973ae3fde2ddbbf6e95925fe1a06bf592476b684b",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/action-prompt.txt",
+      "bytes": 2231,
+      "sha256": "9d969821dd10fba10a85cc8671eb3458817044605de38abb3aed4b8dc02f399b",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/actions-v2.png",
+      "bytes": 2753467,
+      "sha256": "e5535c362d47a8ece3550f6d354ea5cd61ec253662c6e6f4556ef5c406d39014",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/actions.png",
+      "bytes": 2899316,
+      "sha256": "9ebecff3d1e77d13e9d6a2acf65015c14358b10859e83a989028bc1774479fff",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/character-prompt.txt",
+      "bytes": 3219,
+      "sha256": "63863614244fbff518f4c8ef6ce6aaf9a9146da8cac255261476441c7ce2db7c",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/character.json",
+      "bytes": 1479,
+      "sha256": "b63f5bf96b052e5e4c8963ba9d60b3894ebcca08fd6a172f7118d7b7eddb9d5b",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/00.pcm",
+      "bytes": 176640,
+      "sha256": "0b0923f8b5e52a22ed2ffd784f7d6c2b35bc469048ca0813cf915c54140b95f7",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/01.pcm",
+      "bytes": 126720,
+      "sha256": "020c4d5d8feff6d95a4448d33282fc28265a3efb1a40f593238cfe2ac0cbb000",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/02.pcm",
+      "bytes": 126720,
+      "sha256": "05fd46e47c97083efcf80651d0b414e25e99afb14f1f70d7ba633c8c0464b805",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/03.pcm",
+      "bytes": 130560,
+      "sha256": "2b990ae7a01a7af5917b33c342c80c2dca5edc8111c7b1ea4eccbd2ca090b891",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/04.pcm",
+      "bytes": 111360,
+      "sha256": "62cebb38667e09ee38fd409e5a2a953a5af847e85bb38a9255082edd90bd38b4",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/05.pcm",
+      "bytes": 111360,
+      "sha256": "9cfae192ddc06fcfe49cb0a026bf451bd324e37a2ca627880009b9cc34f95ff8",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/06.pcm",
+      "bytes": 126720,
+      "sha256": "40312201cfa04d34917a28c8a014f852a664c665827748d0d9dbbdf8208d864c",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/07.pcm",
+      "bytes": 149760,
+      "sha256": "93ad09a2726075c6cb2089e86c05f6aaa3da8768b604e418179499650255fe41",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/08.pcm",
+      "bytes": 122880,
+      "sha256": "897d189ffb69264876e2c6f2afd72ac3f582f2b6a3d4561a6a15402f051d3945",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/09.pcm",
+      "bytes": 115200,
+      "sha256": "01092a8ab3d4f9bf6f0c04d2b47d7637efab4089eacf9537f2ee85bef6c81363",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/10.pcm",
+      "bytes": 92160,
+      "sha256": "230f3c43df2d2c0120d4b6c8791ddcdd52b3f554cd7de2e654499513618d40e1",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/11.pcm",
+      "bytes": 115200,
+      "sha256": "9901427cbd147e86f0a4a9da9d95a66d6ad5eb2d3181f148cc41e1589c0a8c20",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-00.pcm",
+      "bytes": 149760,
+      "sha256": "b99a1c2fe4bc8d429ef287655176e10d4441f6565c03c40d6107adb031388ea0",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-01.pcm",
+      "bytes": 157440,
+      "sha256": "fa944bed26c6eab13b3eaf4c8a6abdb4972a83da07bfcc62ce430b3724f0a574",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-02.pcm",
+      "bytes": 138240,
+      "sha256": "e26c19a083eb4dc460a92e43038fe164429d18e2c64935a9bd5413407a09c58e",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-03.pcm",
+      "bytes": 134400,
+      "sha256": "8479d8bcb11c59ce9050acde178bc8c5e4dfbc8a6ecd1c06a1cc7ac86eb3664a",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-04.pcm",
+      "bytes": 149760,
+      "sha256": "7a50ffd7b86315e64edf3a145184ac97737c751e77496dd6eb0909af5da80a88",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-05.pcm",
+      "bytes": 168960,
+      "sha256": "9b0c4650b5ad26789a14e63cb27d236cb0ded2e9c841dfebe8f482e2d760023f",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-06.pcm",
+      "bytes": 161280,
+      "sha256": "20fe504a72d185cdd8ed92c511d6f389c27bfb04848ece083403bd20b0379d12",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-07.pcm",
+      "bytes": 161280,
+      "sha256": "25ae2133bb8595d71c884e84e6762b5c99bc6d717d84cf0a916075f234ee493e",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-08.pcm",
+      "bytes": 203520,
+      "sha256": "c780a66256f37d8ad362941b7d05242177286870e4ba6f290fe06c8a04963e25",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-09.pcm",
+      "bytes": 168960,
+      "sha256": "a7cfb1608aad89a61b418ba452789734d62b194965678136ce25b42a2c97c6d6",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-10.pcm",
+      "bytes": 138240,
+      "sha256": "10ac2a17c27c56bf8381b623a3d946fa638b32d675049e2749a61797966b60b8",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-11.pcm",
+      "bytes": 180480,
+      "sha256": "703842332ff4ea8b1ea9a25707d0c4f0fab18c422a4b44843fef1492a52468a4",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-12.pcm",
+      "bytes": 145920,
+      "sha256": "8bca88d47a157c9153b0dc2beb2f672bee85910acb0ac17d4c44aaff65b3da99",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-13.pcm",
+      "bytes": 161280,
+      "sha256": "6de08f588ef167601d0a2cec5b4cff6598faf5fa39f9ef232f2299128b7f56c9",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-14.pcm",
+      "bytes": 153600,
+      "sha256": "c8de893b345633c31941a30bde6ce0c9a6605fcdd562d9804cd567d33de07a63",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-15.pcm",
+      "bytes": 199680,
+      "sha256": "033ff184477bf2633a226521015789ef498a69ae533e0d944b6f1c824ec48fc9",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-16.pcm",
+      "bytes": 203520,
+      "sha256": "ed9b9807f617f9ede69f4f20415b3ace38c954cea9a9d5b1f76a935869e16874",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-17.pcm",
+      "bytes": 188160,
+      "sha256": "395022c268bd71efe00cb07227aaf4d37265e5ff94ac5eb5bb926df217902e3d",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/action-manifest.json",
+      "bytes": 5039,
+      "sha256": "c2229bf850b7b80f26182511136018f5c7870d8bd0de95595c7b090fcf13682d",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/actions.json",
+      "bytes": 1686,
+      "sha256": "e807d2926ec2e3fe6173b62b87017cf4c48dd3b7eb6b6cd8305494e13729f50b",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/dialogue.json",
+      "bytes": 80639,
+      "sha256": "f31f9dcfb0ba20506bc4a5f21cb6e469925a0fcf81d269026ac7c30935a4942e",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/lines.json",
+      "bytes": 507,
+      "sha256": "6793224bbe3c90891e664583599dc1181e4b24895a97e6fdd3c572ac08926260",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/interaction/manifest.json",
+      "bytes": 2957,
+      "sha256": "a59efbb7a02ac70bbe13e2552e4eb199d8e963aedb5a63dd7418740a1af423a1",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets/shuangling-chibi.png",
+      "bytes": 2069708,
+      "sha256": "9d14775e3be89a59dbe93a005e4b261ba5ca093052a5ef437cf3ef5338d36045",
+      "baseline_equal": true
+    },
+    {
+      "path": "assets.qrc",
+      "bytes": 2658,
+      "sha256": "3a21cbaac0c6664b16b76dddfcb39f09eb50849a9e1810f2f56e23e4df173928",
+      "baseline_equal": true
+    },
+    {
+      "path": "prompts/context-template.json",
+      "bytes": 374,
+      "sha256": "27e0f85e2fb2bd74f3cfdfe9d039fa93b2a205de99ca6ed4d83ec93abfee9919",
+      "baseline_equal": true
+    },
+    {
+      "path": "prompts/persona.txt",
+      "bytes": 3275,
+      "sha256": "d955d9360339879d3f10fbfaaf2530fef394580a66ad8e295bf1c8f89fb27852",
+      "baseline_equal": true
+    }
+  ],
+  "all_equal": true
+}

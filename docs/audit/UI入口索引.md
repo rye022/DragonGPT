@@ -1,0 +1,132 @@
+# 界面、菜单与命令行入口机械索引
+
+这是逐行扫描附录；每行列出字符串常量，包含同一源码行中的状态提示。功能语义和验证等级以功能清单为准。
+
+- `src/bond_gallery.cpp:27`：`bondCategory` / `全部类别`
+- `src/bond_gallery.cpp:30`：`bondStage` / `全部阶段`
+- `src/bond_gallery.cpp:34`：`台词收藏` / `最近解锁`
+- `src/bond_gallery.cpp:36`：`隐藏未收集台词内容` / `bondHideUnheard`
+- `src/bond_gallery.cpp:37`：`试听所选台词` / `bondPreview`
+- `src/clipboard_panel.cpp:59`：`剪贴板 ▾` / `toggleClipboardShelf`
+- `src/clipboard_panel.cpp:64`：`记录安全的文字（默认关闭）` / `clipboardEnabled`
+- `src/clipboard_panel.cpp:69`：`复制` / `copyClipboardEntry`
+- `src/clipboard_panel.cpp:70`：`固定 / 取消` / `删除` / `清空`
+- `src/clipboard_panel.cpp:74`：`用 AI 分析选中内容…` / `analyzeClipboard`
+- `src/companion_window.cpp:53`：
+- `src/companion_window.cpp:54`：
+- `src/companion_window.cpp:59`：
+- `src/companion_window.cpp:60`：`Audio TTS · ` / `audio:`
+- `src/companion_window.cpp:61`：`audio:` / `Audio TTS · ` / `（自定义）` / `audio:`
+- `src/companion_window.cpp:114`：`companionTabs` / `对话` / `记忆` / `语音` / `连接` / `设置`
+- `src/companion_window.cpp:115`：`陪伴`
+- `src/companion_window.cpp:116`：`羁绊图鉴`
+- `src/companion_window.cpp:117`：`羁绊图鉴` / `openBondGallery`
+- `src/companion_window.cpp:119`：`专注陪伴`
+- `src/companion_window.cpp:136`：`工具`
+- `src/companion_window.cpp:137`：`智能`
+- `src/companion_window.cpp:249`：`允许霜翎主动找我聊天` / `proactiveEnabled`
+- `src/companion_window.cpp:250`：`勿扰模式（暂停主动互动）` / `proactiveFocusMode`
+- `src/companion_window.cpp:251`：`工作专注保护：全屏或认真工作时减少打扰` / `proactiveFocusProtection`
+- `src/companion_window.cpp:252`：`主动互动使用当前音色朗读` / `proactiveSpeech`
+- `src/companion_window.cpp:255`：`安静 · 15～25 分钟` / `quiet` / `正常 · 5～12 分钟` / `normal` / `活跃 · 3～6 分钟` / `active` / `关闭` / `off` / `互动频率`
+- `src/companion_window.cpp:260`：`从我明确说出的偏好和近况中整理待确认记忆` / `memorySuggestionsEnabled`
+- `src/companion_window.cpp:261`：`保存陪伴设置` / `primary` / `saveLifeSettings`
+- `src/companion_window.cpp:262`：`今天安静陪我` / `quietToday`
+- `src/companion_window.cpp:263`：`恢复主动聊天` / `resumeProactive`
+- `src/companion_window.cpp:269`：`试听她会怎样开场` / `previewProactive`
+- `src/companion_window.cpp:277`：`确认保存` / `acceptMemorySuggestion` / `忽略这条` / `dismissMemorySuggestion`
+- `src/companion_window.cpp:301`：`打字聊天时语音回复` / `typedReplyVoice`
+- `src/companion_window.cpp:316`：
+- `src/companion_window.cpp:322`：`发送` / `primary` / `sendMessage`
+- `src/companion_window.cpp:323`：`停止` / `cancelReply`
+- `src/companion_window.cpp:339`：`自动整理待确认记忆（确认后才长期保存）` / `automaticMemory`
+- `src/companion_window.cpp:342`：`允许主动跟进学习话题（概括话题，不朗读记忆原文）` / `memoryFollowups`
+- `src/companion_window.cpp:349`：`保存记忆` / `primary` / `编辑选中` / `删除选中`
+- `src/companion_window.cpp:361`：`导出记忆` / `导入记忆`
+- `src/companion_window.cpp:362`：`备份数据库` / `backupDatabase` / `清空长期记忆` / `danger` / `clearMemories`
+- `src/companion_window.cpp:382`：`长期语义` / `semantic` / `情景经历` / `episodic` / `关系经历` / `relationship` / `记忆层次`
+- `src/companion_window.cpp:383`：`允许在主动对话中提及`
+- `src/companion_window.cpp:385`：`到期后自动移除`
+- `src/companion_window.cpp:404`：`试听所选音色`
+- `src/companion_window.cpp:407`：`允许备用音色：失败或等待 4 秒后改用系统中文` / `fastVoice` / `关闭时，点击和聊天都保留所选音色；原声不可用会显示原因，不会自动变成其他声音。`
+- `src/companion_window.cpp:410`：`百炼密钥与网络设置 ▾`
+- `src/companion_window.cpp:414`：`voiceRegion` / `百炼地域：北京` / `beijing` / `百炼地域：新加坡` / `singapore`
+- `src/companion_window.cpp:415`：`ttsApiFamily` / `苏瑶／系统中文` / `qwen-tts` / `Audio TTS（当前模型女声）` / `qwen-audio-tts`
+- `src/companion_window.cpp:416`：`audioTtsTransport` / `Audio TTS：HTTP 业务空间入口` / `http` / `Audio TTS：WebSocket 业务空间入口` / `websocket-workspace` / `Audio TTS：WebSocket 官方公共入口` / `websocket-public`
+- `src/companion_window.cpp:431`：`百炼语音使用系统代理`
+- `src/companion_window.cpp:432`：`优先离线模型（新句子合成可能较慢）` / `preferOfflineVoice`
+- `src/companion_window.cpp:433`：`保存合成语音供离线重播（最多 200 MB）`
+- `src/companion_window.cpp:434`：`保存语音配置` / `saveVoice` / `删除百炼密钥`
+- `src/companion_window.cpp:444`：`清空缓存语音`
+- `src/companion_window.cpp:448`：`开始语音` / `primary` / `startVoice` / `结束通话` / `endVoice`
+- `src/companion_window.cpp:449`：`打断 / 继续聆听`
+- `src/companion_window.cpp:450`：`麦克风静音` / `打字聊天时语音回复（自动保存，不打开麦克风）` / `voicePageReadAloud`
+- `src/companion_window.cpp:463`：`自动选择 DeepSeek / 离线` / `onlineEnabled`
+- `src/companion_window.cpp:480`：`保存连接配置` / `primary` / `saveConnection` / `删除已保存密钥`
+- `src/companion_window.cpp:503`：`保存`
+- `src/companion_window.cpp:509`：`启用情境动作、自然过渡和呼吸动画`
+- `src/companion_window.cpp:514`：
+- `src/companion_window.cpp:515`：`预览动作` / `恢复自动`
+- `src/companion_window.cpp:519`：`六个动作随时间随机轮换（每次 20–40 秒）` / `randomActions`
+- `src/companion_window.cpp:522`：`角色始终置顶`
+- `src/companion_window.cpp:523`：`半身镜头（仅裁切同一角色）`
+- `src/companion_window.cpp:530`：`清空本地档案、记忆和聊天` / `danger`
+- `src/focus_page.cpp:44`：
+- `src/focus_page.cpp:67`：`我喝过啦` / `15 分钟后提醒` / `今天不再提醒` / `focusWaterAction%1`
+- `src/focus_page.cpp:149`：
+- `src/main.cpp:44`：`data-dir` / `User data directory (legacy portable data is retained)` / `directory`
+- `src/main.cpp:45`：`smoke-test` / `Exercise UI and render previews, then exit`
+- `src/main.cpp:46`：`preview-dir` / `Destination for smoke-test renders` / `directory`
+- `src/main.cpp:47`：`desktop` / `Show the companion on desktop without the control window`
+- `src/main.cpp:48`：`quit` / `Gracefully stop the instance using this data directory`
+- `src/main.cpp:49`：`hide-pet` / `Hide the pet in the instance using this data directory`
+- `src/main.cpp:50`：`restore-backup` / `Restore a verified local SQLite backup, preserving a rollback copy` / `sqlite-file`
+- `src/main.cpp:51`：`verify-data` / `Verify local database migration without starting companion UI`
+- `src/main.cpp:52`：`voice-self-test` / `Render a local Chinese WAV without microphone capture or playback` / `wav-file`
+- `src/main.cpp:53`：`offline-self-test` / `Generate a WAV through the offline Serena process without playback` / `wav-file`
+- `src/main.cpp:54`：`prepare-click-voices` / `Cache fixed public click phrases with configured Bailian key (comma-separated voice IDs)` / `voices`
+- `src/main.cpp:188`：`显示桌宠`
+- `src/main.cpp:189`：`隐藏桌宠`
+- `src/main.cpp:190`：`打开聊天窗口`
+- `src/main.cpp:191`：`打开设置`
+- `src/main.cpp:192`：`识别原活动窗口…`
+- `src/main.cpp:193`：`退出 DragonGPT`
+- `src/pet_widget.cpp:59`：`我喝过啦` / `15 分钟后提醒` / `今天不再提醒`
+- `src/pet_widget.cpp:257`：
+- `src/pet_widget.cpp:281`：
+- `src/pet_widget.cpp:297`：
+- `src/pet_widget.cpp:308`：`和霜翎聊聊`
+- `src/pet_widget.cpp:309`：`识别原活动窗口…`
+- `src/pet_widget.cpp:310`：`开始语音`
+- `src/pet_widget.cpp:312`：`全身`
+- `src/pet_widget.cpp:313`：`半身特写`
+- `src/pet_widget.cpp:315`：` px`
+- `src/pet_widget.cpp:316`：`始终置顶`
+- `src/pet_widget.cpp:321`：
+- `src/pet_widget.cpp:324`：`恢复自动动作`
+- `src/pet_widget.cpp:325`：`按当前心情自然切换动作（20–40 秒）`
+- `src/pet_widget.cpp:327`：`关闭随机后，无互动 90 秒休息`
+- `src/pet_widget.cpp:329`：`启用动作和呼吸动画`
+- `src/pet_widget.cpp:332`：`退出 DragonGPT`
+- `src/smart_page.cpp:48`：`授权按需获取屏幕（只在我发起问题时截图）` / `screenEnabled`
+- `src/smart_page.cpp:49`：`本地情境判断（每秒观察窗口标题，不截图、不上传、不落盘）`
+- `src/smart_page.cpp:54`：`screenTarget` / `刷新窗口 / 显示器列表`
+- `src/smart_page.cpp:55`：`Windows 本地 OCR → 推理（文字、代码；不上传图像）` / `ocr` / `视觉模型 → 推理（上传所选截图，可能计费）` / `vision`
+- `src/smart_page.cpp:57`：`识别当前目标` / `askScreen` / `取消 / 清除屏幕内容`
+- `src/smart_page.cpp:87`：`保存模型配置` / `读取可用模型 / 测试认证`
+- `src/smart_page.cpp:91`：`制定计划` / `planTask` / `执行预览中的计划…` / `runTask` / `取消任务`
+- `src/smart_page.cpp:115`：`上一个活动窗口（聊天打开前）` / `handle` / `0` / `monitor` / ` · ` / `handle` / `monitor` / `显示器 ` / ` · ` / `handle` / `0` / `monitor`
+- `src/tools_page.cpp:50`：`在指定时间提醒`
+- `src/tools_page.cpp:62`：`待办 / 专注`
+- `src/tools_page.cpp:65`：`新增待办` / `addTodo` / `完成 / 重新打开` / `删除选中`
+- `src/tools_page.cpp:71`：`打开已有的专注陪伴与喝水提醒`
+- `src/tools_page.cpp:73`：`电脑健康`
+- `src/tools_page.cpp:79`：`每日总结`
+- `src/tools_page.cpp:81`：`刷新` / `导出文本` / `保存为情景记忆`
+- `src/tools_page.cpp:86`：`请 DeepSeek 帮我回顾这份总结…`
+- `src/tools_page.cpp:88`：`文件整理`
+- `src/tools_page.cpp:91`：`选择目录并预览…` / `scanFiles`
+- `src/tools_page.cpp:93`：`确认预览后移动…` / `executeFilePlan` / `取消后台操作`
+- `src/tools_page.cpp:94`：`fileOperationLogs` / `撤销所选记录…` / `undoFilePlan`
+- `src/tools_page.cpp:95`：
+- `src/tools_page.cpp:103`：`展开桌宠剪贴板`

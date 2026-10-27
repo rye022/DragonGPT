@@ -1,0 +1,42 @@
+********* Start testing of V3UiTests *********
+Config: Using QtTest library 6.8.3, Qt 6.8.3 (x86_64-little_endian-llp64 shared (dynamic) release build; by GCC 13.1.0), windows 11
+INFO   : V3UiTests::initTestCase() entering
+PASS   : V3UiTests::initTestCase()
+INFO   : V3UiTests::documentToolCannotStealActiveCapture() entering
+QINFO  : V3UiTests::documentToolCannotStealActiveCapture() {"at":"2026-10-26T16:07:57.839Z","component":"proactive","detail":"473 seconds; 2026-10-26T16:15:50Z","event":"scheduled"}
+QINFO  : V3UiTests::documentToolCannotStealActiveCapture() {"at":"2026-10-26T16:07:57.964Z","component":"latency","elapsed_ms":0,"event":"audio_device_query_begin","parent_trace_id":"","trace_id":"3e70d7ce85d14dd3b5664b0f0921d131"}
+QINFO  : V3UiTests::documentToolCannotStealActiveCapture() qt.multimedia.ffmpeg: Using Qt multimedia with FFmpeg version 7.1 LGPL version 2.1 or later
+PASS   : V3UiTests::documentToolCannotStealActiveCapture()
+INFO   : V3UiTests::explicitFocusMilestoneOutranksOrdinaryBubble() entering
+QINFO  : V3UiTests::explicitFocusMilestoneOutranksOrdinaryBubble() {"at":"2026-10-26T16:08:05.129Z","component":"proactive","detail":"679 seconds; 2026-10-26T16:19:24Z","event":"scheduled"}
+QINFO  : V3UiTests::explicitFocusMilestoneOutranksOrdinaryBubble() {"at":"2026-10-26T16:08:05.240Z","component":"latency","elapsed_ms":0,"event":"audio_device_query_begin","parent_trace_id":"","trace_id":"106f18689c9249318a7b1835be496612"}
+QINFO  : V3UiTests::explicitFocusMilestoneOutranksOrdinaryBubble() {"at":"2026-10-26T16:08:05.442Z","component":"latency","elapsed_ms":202,"event":"audio_device_query_end","parent_trace_id":"","trace_id":"106f18689c9249318a7b1835be496612"}
+PASS   : V3UiTests::explicitFocusMilestoneOutranksOrdinaryBubble()
+INFO   : V3UiTests::agentTodoUsesSharedEditorAndPreservesDate() entering
+QINFO  : V3UiTests::agentTodoUsesSharedEditorAndPreservesDate() {"at":"2026-10-26T16:08:06.725Z","component":"proactive","detail":"434 seconds; 2026-10-26T16:15:20Z","event":"scheduled"}
+QINFO  : V3UiTests::agentTodoUsesSharedEditorAndPreservesDate() {"at":"2026-10-26T16:08:06.833Z","component":"latency","elapsed_ms":0,"event":"audio_device_query_begin","parent_trace_id":"","trace_id":"972acfb3736f44388a7355f23cb80866"}
+QINFO  : V3UiTests::agentTodoUsesSharedEditorAndPreservesDate() {"at":"2026-10-26T16:08:07.035Z","component":"latency","elapsed_ms":201,"event":"audio_device_query_end","parent_trace_id":"","trace_id":"972acfb3736f44388a7355f23cb80866"}
+PASS   : V3UiTests::agentTodoUsesSharedEditorAndPreservesDate()
+INFO   : V3UiTests::cancellingModalTodoCannotWrite() entering
+QINFO  : V3UiTests::cancellingModalTodoCannotWrite() {"at":"2026-10-26T16:08:07.112Z","component":"proactive","detail":"490 seconds; 2026-10-26T16:16:17Z","event":"scheduled"}
+QINFO  : V3UiTests::cancellingModalTodoCannotWrite() {"at":"2026-10-26T16:08:07.222Z","component":"latency","elapsed_ms":0,"event":"audio_device_query_begin","parent_trace_id":"","trace_id":"184d2eed167d4c77ac1852926d586342"}
+QINFO  : V3UiTests::cancellingModalTodoCannotWrite() {"at":"2026-10-26T16:08:07.432Z","component":"latency","elapsed_ms":210,"event":"audio_device_query_end","parent_trace_id":"","trace_id":"184d2eed167d4c77ac1852926d586342"}
+PASS   : V3UiTests::cancellingModalTodoCannotWrite()
+INFO   : V3UiTests::hideShowPreservesStateAndStopsAnimation() entering
+QINFO  : V3UiTests::hideShowPreservesStateAndStopsAnimation() {"at":"2026-10-26T16:08:07.499Z","component":"proactive","detail":"640 seconds; 2026-10-26T16:18:47Z","event":"scheduled"}
+QINFO  : V3UiTests::hideShowPreservesStateAndStopsAnimation() {"at":"2026-10-26T16:08:07.533Z","component":"proactive","detail":"362 seconds; 2026-10-26T16:14:09Z","event":"scheduled"}
+QINFO  : V3UiTests::hideShowPreservesStateAndStopsAnimation() reply source="offline" elapsed_ms=0
+PASS   : V3UiTests::hideShowPreservesStateAndStopsAnimation()
+INFO   : V3UiTests::naturalLanguagePlanUsesExistingServices() entering
+QINFO  : V3UiTests::naturalLanguagePlanUsesExistingServices() {"at":"2026-10-26T16:08:07.771Z","component":"proactive","detail":"576 seconds; 2026-10-26T16:17:43Z","event":"scheduled"}
+QINFO  : V3UiTests::naturalLanguagePlanUsesExistingServices() {"at":"2026-10-26T16:08:07.883Z","component":"latency","elapsed_ms":0,"event":"audio_device_query_begin","parent_trace_id":"","trace_id":"e8fb5ea1d98d4b17bfcd63ec5e226a15"}
+QINFO  : V3UiTests::naturalLanguagePlanUsesExistingServices() {"at":"2026-10-26T16:08:08.050Z","component":"latency","elapsed_ms":0,"event":"turn_started","parent_trace_id":"","trace_id":"b6f6a9d04ba34c1591749996c5f363c2"}
+QINFO  : V3UiTests::naturalLanguagePlanUsesExistingServices() {"at":"2026-10-26T16:08:08.050Z","component":"proactive","detail":"533 seconds; 2026-10-26T16:17:01Z","event":"scheduled"}
+QINFO  : V3UiTests::naturalLanguagePlanUsesExistingServices() {"at":"2026-10-26T16:08:08.084Z","component":"latency","elapsed_ms":200,"event":"audio_device_query_end","parent_trace_id":"","trace_id":"e8fb5ea1d98d4b17bfcd63ec5e226a15"}
+PASS   : V3UiTests::naturalLanguagePlanUsesExistingServices()
+INFO   : V3UiTests::originalTargetIsCapturedAndOwnWindowsRestored() entering
+PASS   : V3UiTests::originalTargetIsCapturedAndOwnWindowsRestored()
+INFO   : V3UiTests::cleanupTestCase() entering
+PASS   : V3UiTests::cleanupTestCase()
+Totals: 9 passed, 0 failed, 0 skipped, 0 blacklisted, 12044ms
+********* Finished testing of V3UiTests *********

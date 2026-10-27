@@ -1,0 +1,67 @@
+Test project ${WORKSPACE}/work/build
+      Start  1: dragon_v3_ui
+ 1/27 Test  #1: dragon_v3_ui .....................***Timeout  44.90 sec
+
+      Start  2: dragon_intelligence
+ 2/27 Test  #2: dragon_intelligence ..............   Passed    1.68 sec
+      Start  3: dragon_brain
+ 3/27 Test  #3: dragon_brain .....................   Passed    0.50 sec
+      Start  4: dragon_semantic
+ 4/27 Test  #4: dragon_semantic ..................   Passed    4.70 sec
+      Start  5: dragon_tools
+ 5/27 Test  #5: dragon_tools .....................   Passed    0.59 sec
+      Start  6: dragon_clipboard
+ 6/27 Test  #6: dragon_clipboard .................   Passed    1.25 sec
+      Start  7: dragon_clipboard_ui
+ 7/27 Test  #7: dragon_clipboard_ui ..............   Passed    5.83 sec
+      Start  8: dragon_health
+ 8/27 Test  #8: dragon_health ....................   Passed    0.90 sec
+      Start  9: dragon_files
+ 9/27 Test  #9: dragon_files .....................   Passed    0.53 sec
+      Start 10: dragon_bond
+10/27 Test #10: dragon_bond ......................   Passed   25.43 sec
+      Start 11: dragon_special_blinks
+11/27 Test #11: dragon_special_blinks ............   Passed    4.04 sec
+      Start 12: dragon_upgrade
+12/27 Test #12: dragon_upgrade ...................   Passed    7.43 sec
+      Start 13: dragon_dialogue
+13/27 Test #13: dragon_dialogue ..................   Passed   13.13 sec
+      Start 14: dragon_life
+14/27 Test #14: dragon_life ......................   Passed    0.97 sec
+      Start 15: dragon_desktop_startup
+15/27 Test #15: dragon_desktop_startup ...........   Passed    0.73 sec
+      Start 16: dragon_emotion_ui
+16/27 Test #16: dragon_emotion_ui ................***Failed   40.59 sec
+FAIL after 49: start and completion actually start local audio despite proactive quiet hours
+
+      Start 17: dragon_latency
+17/27 Test #17: dragon_latency ...................   Passed   15.36 sec
+      Start 18: dragon_emotion_context
+18/27 Test #18: dragon_emotion_context ...........   Passed    0.59 sec
+      Start 19: dragon_focus
+19/27 Test #19: dragon_focus .....................   Passed    1.61 sec
+      Start 20: dragon_focus_ui
+20/27 Test #20: dragon_focus_ui ..................   Passed    8.20 sec
+      Start 21: dragon_actions
+21/27 Test #21: dragon_actions ...................   Passed    0.07 sec
+      Start 22: dragon_api_audit
+22/27 Test #22: dragon_api_audit .................   Passed   27.63 sec
+      Start 23: dragon_core
+23/27 Test #23: dragon_core ......................   Passed    2.16 sec
+      Start 24: dragon_network
+24/27 Test #24: dragon_network ...................   Passed    3.01 sec
+      Start 25: dragon_product
+25/27 Test #25: dragon_product ...................   Passed    6.43 sec
+      Start 26: dragon_update
+26/27 Test #26: dragon_update ....................   Passed   53.56 sec
+      Start 27: dragon_final_audit
+27/27 Test #27: dragon_final_audit ...............   Passed    2.86 sec
+
+93% tests passed, 2 tests failed out of 27
+
+Total Test time (real) = 274.88 sec
+
+The following tests FAILED:
+	  1 - dragon_v3_ui (Timeout)
+	 16 - dragon_emotion_ui (Failed)
+Errors while running CTest

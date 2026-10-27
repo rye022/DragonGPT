@@ -1,0 +1,21 @@
+********* Start testing of FinalAuditTests *********
+Config: Using QtTest library 6.8.3, Qt 6.8.3 (x86_64-little_endian-llp64 shared (dynamic) release build; by GCC 13.1.0), windows 11
+PASS   : FinalAuditTests::initTestCase()
+QINFO  : FinalAuditTests::idleSpeechEventLoopWakeups() AUDIT_IDLE_SPEECH_2_SECONDS_EVENT_LOOP_WAKES 129
+PASS   : FinalAuditTests::idleSpeechEventLoopWakeups()
+FAIL!  : FinalAuditTests::synchronousCancelCallbackIsIgnored() 'hub.audit().isEmpty()' returned FALSE. ()
+${WORKSPACE}/outputs/DragonGPT/tests/test_final_audit.cpp(30) : failure location
+FAIL!  : FinalAuditTests::timeoutCannotBeReportedAsSuccess() Compared values are not the same
+   Actual   (hub.state())      : "completed"
+   Expected (QString("failed")): "failed"
+${WORKSPACE}/outputs/DragonGPT/tests/test_final_audit.cpp(37) : failure location
+FAIL!  : FinalAuditTests::normalizedImportPreservesExistingMetadata() Compared values are not the same
+   Actual   (store.importMemories(data)): 1
+   Expected (0)                         : 0
+${WORKSPACE}/outputs/DragonGPT/tests/test_final_audit.cpp(46) : failure location
+PASS   : FinalAuditTests::primaryKeyLookupUsesLiveRowsAndPreservesOrder()
+QINFO  : FinalAuditTests::lookupPerformance() AUDIT_LOOKUP_5000_ROWS_100_CALLS_MEDIAN_MS 1171.33
+PASS   : FinalAuditTests::lookupPerformance()
+PASS   : FinalAuditTests::cleanupTestCase()
+Totals: 5 passed, 3 failed, 0 skipped, 0 blacklisted, 10622ms
+********* Finished testing of FinalAuditTests *********

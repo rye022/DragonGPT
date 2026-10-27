@@ -1,0 +1,154 @@
+{
+  "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+  "revision": "85e237c12c027371202489a0ec509ded67b5e4b5",
+  "voice": "offline:Serena",
+  "sample_rate": 24000,
+  "channels": 1,
+  "format": "PCM16LE",
+  "phrases": [
+    {
+      "action": 1,
+      "text": "看到你就开心，来，和我打个招呼吧。",
+      "file": "action-00.pcm",
+      "bytes": 149760,
+      "seconds": 3.12,
+      "sha256": "b99a1c2fe4bc8d429ef287655176e10d4441f6565c03c40d6107adb031388ea0"
+    },
+    {
+      "action": 1,
+      "text": "我正在向你招手呢，今天也请多关照。",
+      "file": "action-01.pcm",
+      "bytes": 157440,
+      "seconds": 3.28,
+      "sha256": "fa944bed26c6eab13b3eaf4c8a6abdb4972a83da07bfcc62ce430b3724f0a574"
+    },
+    {
+      "action": 1,
+      "text": "你一来，我的心情就亮起来啦。",
+      "file": "action-02.pcm",
+      "bytes": 138240,
+      "seconds": 2.88,
+      "sha256": "e26c19a083eb4dc460a92e43038fe164429d18e2c64935a9bd5413407a09c58e"
+    },
+    {
+      "action": 2,
+      "text": "别一直看着我啦，我会不好意思的。",
+      "file": "action-03.pcm",
+      "bytes": 134400,
+      "seconds": 2.8,
+      "sha256": "8479d8bcb11c59ce9050acde178bc8c5e4dfbc8a6ecd1c06a1cc7ac86eb3664a"
+    },
+    {
+      "action": 2,
+      "text": "我才没有害羞，只是脸有一点热。",
+      "file": "action-04.pcm",
+      "bytes": 149760,
+      "seconds": 3.12,
+      "sha256": "7a50ffd7b86315e64edf3a145184ac97737c751e77496dd6eb0909af5da80a88"
+    },
+    {
+      "action": 2,
+      "text": "你突然点我，我都不知道把手放哪里了。",
+      "file": "action-05.pcm",
+      "bytes": 168960,
+      "seconds": 3.52,
+      "sha256": "9b0c4650b5ad26789a14e63cb27d236cb0ded2e9c841dfebe8f482e2d760023f"
+    },
+    {
+      "action": 3,
+      "text": "我才没有吃醋呢，只是想让你看看我。",
+      "file": "action-06.pcm",
+      "bytes": 161280,
+      "seconds": 3.36,
+      "sha256": "20fe504a72d185cdd8ed92c511d6f389c27bfb04848ece083403bd20b0379d12"
+    },
+    {
+      "action": 3,
+      "text": "哼，小白龙鼓起脸了，快来哄一下嘛。",
+      "file": "action-07.pcm",
+      "bytes": 161280,
+      "seconds": 3.36,
+      "sha256": "25ae2133bb8595d71c884e84e6762b5c99bc6d717d84cf0a916075f234ee493e"
+    },
+    {
+      "action": 3,
+      "text": "你终于注意到我啦，那我就不鼓着脸了。",
+      "file": "action-08.pcm",
+      "bytes": 203520,
+      "seconds": 4.24,
+      "sha256": "c780a66256f37d8ad362941b7d05242177286870e4ba6f290fe06c8a04963e25"
+    },
+    {
+      "action": 4,
+      "text": "被你发现了，我正抱着枕头打盹呢。",
+      "file": "action-09.pcm",
+      "bytes": 168960,
+      "seconds": 3.52,
+      "sha256": "a7cfb1608aad89a61b418ba452789734d62b194965678136ce25b42a2c97c6d6"
+    },
+    {
+      "action": 4,
+      "text": "嗯，让我再抱着枕头眯一小会儿。",
+      "file": "action-10.pcm",
+      "bytes": 138240,
+      "seconds": 2.88,
+      "sha256": "10ac2a17c27c56bf8381b623a3d946fa638b32d675049e2749a61797966b60b8"
+    },
+    {
+      "action": 4,
+      "text": "刚刚差点睡着了，你也别太累哦。",
+      "file": "action-11.pcm",
+      "bytes": 180480,
+      "seconds": 3.76,
+      "sha256": "703842332ff4ea8b1ea9a25707d0c4f0fab18c422a4b44843fef1492a52468a4"
+    },
+    {
+      "action": 5,
+      "text": "我正在认真工作呢，等我敲完这几行。",
+      "file": "action-12.pcm",
+      "bytes": 145920,
+      "seconds": 3.04,
+      "sha256": "8bca88d47a157c9153b0dc2beb2f672bee85910acb0ac17d4c44aaff65b3da99"
+    },
+    {
+      "action": 5,
+      "text": "嘘，我在整理东西，马上就好。",
+      "file": "action-13.pcm",
+      "bytes": 161280,
+      "seconds": 3.36,
+      "sha256": "6de08f588ef167601d0a2cec5b4cff6598faf5fa39f9ef232f2299128b7f56c9"
+    },
+    {
+      "action": 5,
+      "text": "有你陪着，工作也变得轻松一点啦。",
+      "file": "action-14.pcm",
+      "bytes": 153600,
+      "seconds": 3.2,
+      "sha256": "c8de893b345633c31941a30bde6ce0c9a6605fcdd562d9804cd567d33de07a63"
+    },
+    {
+      "action": 6,
+      "text": "我正抱着尾巴陪你呢，想说什么我都听着。",
+      "file": "action-15.pcm",
+      "bytes": 199680,
+      "seconds": 4.16,
+      "sha256": "033ff184477bf2633a226521015789ef498a69ae533e0d944b6f1c824ec48fc9"
+    },
+    {
+      "action": 6,
+      "text": "尾巴软软的，抱着它就觉得很安心。",
+      "file": "action-16.pcm",
+      "bytes": 203520,
+      "seconds": 4.24,
+      "sha256": "ed9b9807f617f9ede69f4f20415b3ace38c954cea9a9d5b1f76a935869e16874"
+    },
+    {
+      "action": 6,
+      "text": "靠近一点吧，我和尾巴都在这里陪着你。",
+      "file": "action-17.pcm",
+      "bytes": 188160,
+      "seconds": 3.92,
+      "sha256": "395022c268bd71efe00cb07227aaf4d37265e5ff94ac5eb5bb926df217902e3d"
+    }
+  ]
+}

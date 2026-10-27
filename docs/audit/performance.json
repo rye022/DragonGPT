@@ -1,0 +1,51 @@
+{
+  "method": "Same compiler/Qt Release builds; original source baseline; 3 alternating trials; each lookup result is median of 7 batches of 100 byIds({1,2500,5000}) calls in a synthetic 5000-row DB; wakeups observed from QAbstractEventDispatcher in a 2-second LocalSpeech-only event loop. No concurrent build or CTest; a separate mostly-hidden synthetic soak and the existing user app may still be running. Not whole-app CPU, frame rate, cloud latency or leak proof.",
+  "trials": [
+    {
+      "trial": 1,
+      "variant": "baseline",
+      "lookup_ms": 1229.36,
+      "idle_wakes": 129
+    },
+    {
+      "trial": 1,
+      "variant": "final",
+      "lookup_ms": 23.8082,
+      "idle_wakes": 3
+    },
+    {
+      "trial": 2,
+      "variant": "baseline",
+      "lookup_ms": 1166.83,
+      "idle_wakes": 129
+    },
+    {
+      "trial": 2,
+      "variant": "final",
+      "lookup_ms": 24.3033,
+      "idle_wakes": 3
+    },
+    {
+      "trial": 3,
+      "variant": "baseline",
+      "lookup_ms": 1177.8,
+      "idle_wakes": 129
+    },
+    {
+      "trial": 3,
+      "variant": "final",
+      "lookup_ms": 23.0348,
+      "idle_wakes": 3
+    }
+  ],
+  "summary": {
+    "baseline": {
+      "lookup_ms": 1177.8,
+      "idle_wakes": 129
+    },
+    "final": {
+      "lookup_ms": 23.8082,
+      "idle_wakes": 3
+    }
+  }
+}

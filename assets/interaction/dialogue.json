@@ -1,0 +1,3537 @@
+[
+  {
+    "id": "s0-00",
+    "text": "欸，你是在叫我吗？我有在听。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-01",
+    "text": "突然戳一下，我差点没反应过来。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-02",
+    "text": "先说好，我还不太习惯这样被叫呢。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-03",
+    "text": "有什么需要帮忙的，可以慢慢告诉我。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-04",
+    "text": "唔，原来只是想打个招呼呀。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-05",
+    "text": "今天也见面了，那就好好相处吧。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-06",
+    "text": "你想聊什么？我先听你说。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-07",
+    "text": "不用试探啦，我看见你过来了。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-08",
+    "text": "我才没有故意摆出很严肃的样子。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-09",
+    "text": "如果我安静了一会儿，不是在生你的气。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-10",
+    "text": "第一次这样相处，稍微有点拘谨呢。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-11",
+    "text": "这声招呼，我就认真收下了。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-12",
+    "text": "你的桌面看起来很忙，我先不添乱。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-13",
+    "text": "我可以陪着，不过不用一直照顾我。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-14",
+    "text": "今天有没有一件想先完成的小事？",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-15",
+    "text": "遇到不会的东西，一起拆开想想也行。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-16",
+    "text": "不用急着找话题，安静也没关系。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-17",
+    "text": "我对你的兴趣有点好奇，可以讲一点吗？",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-18",
+    "text": "你喜欢怎样的陪伴？我想慢慢了解。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-19",
+    "text": "有不喜欢的表达，直接告诉我就好。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-20",
+    "text": "哼，戳得这么认真，是有什么重要任务吗？",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-21",
+    "text": "我的尾巴可不是桌面上的进度条。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-22",
+    "text": "不要把龙角当成按钮来研究呀。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-23",
+    "text": "虽然我个子小，听事情还是很认真的。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-24",
+    "text": "先别笑，我只是在想该怎么回应。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-25",
+    "text": "你这么一招呼，气氛倒没有那么陌生了。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-26",
+    "text": "如果刚好做成一件事，可以给自己一个小奖励。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-27",
+    "text": "看到有趣的东西，也可以分享给我。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-28",
+    "text": "今天有一瞬间让你觉得轻松吗？",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-29",
+    "text": "我还不太会主动搭话，你叫我就好。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-30",
+    "text": "夸奖的话，留给真正让你满意的地方吧。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-31",
+    "text": "突然被注意到，还是会有点不好意思。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-32",
+    "text": "我没有躲开，只是需要一点反应时间。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-33",
+    "text": "这样面对面说话，好像也没有那么紧张。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-34",
+    "text": "想问我什么都可以，不知道的我会直说。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-35",
+    "text": "如果暂时无聊，要不要看看窗外的颜色？",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-36",
+    "text": "给今天挑一个词，你会选什么？",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-37",
+    "text": "我在想，云朵看起来是不是也很像尾巴。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-38",
+    "text": "不用为了聊天硬找一个很厉害的话题。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-39",
+    "text": "你可以随便说一句，我会接着听。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-40",
+    "text": "屏幕看久了，记得让眼睛换个焦点。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-41",
+    "text": "水杯如果就在旁边，喝一口也不耽误什么。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-42",
+    "text": "肩膀绷得紧的话，可以松一下。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-43",
+    "text": "累了就把目标分小一点，先做一小步。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-44",
+    "text": "你不用在我面前一直表现得很有精神。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-45",
+    "text": "如果想休息，我不会催你继续忙。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-46",
+    "text": "困意来了就别和它较劲啦。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-47",
+    "text": "休息不是把今天的努力取消掉。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-48",
+    "text": "要结束工作的话，记得保存进度。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-49",
+    "text": "先把手边这件事收好，再慢慢放松吧。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-50",
+    "text": "我可以安静陪你整理思路。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-51",
+    "text": "需要我认真一点的时候，直接叫我就好。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-52",
+    "text": "这里没有必须马上回答的问题。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-53",
+    "text": "你按自己的节奏来，我会尊重的。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-54",
+    "text": "有想保留的事情，要明确告诉我记住哦。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-55",
+    "text": "我不会假装知道你还没说过的事。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-56",
+    "text": "今天想听一句问候，还是聊个小问题？",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-57",
+    "text": "不用每次来都解释为什么，我不介意。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-58",
+    "text": "这一小会儿就留给你自己吧。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s0-59",
+    "text": "那，我就在这里等你下一句话。",
+    "stage": 0,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-00",
+    "text": "又来找我啦，这次准备聊什么？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-01",
+    "text": "嘿，我刚刚正好空着呢。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-02",
+    "text": "这么熟练地戳过来，是把我当快捷键了吗？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-03",
+    "text": "好吧，霜翎接到你的招呼了。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-04",
+    "text": "哼，叫得这么顺手，我也只能应一声啦。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-05",
+    "text": "你一出现，桌边就没那么安静了。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-06",
+    "text": "今天有什么小插曲，讲来听听？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-07",
+    "text": "这次是正经事情，还是想随便聊聊？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-08",
+    "text": "我准备好了，你可以开始你的话题。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-09",
+    "text": "先把严肃表情收一收，我们轻松一点。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-10",
+    "text": "不用客套了，直接说你想说的吧。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-11",
+    "text": "你的招呼我收下，回你一个小小的精神抖擞。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-12",
+    "text": "又戳一下？看来这个按钮挺受欢迎。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-13",
+    "text": "尾巴今天照常营业，禁止拿来当尺子。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-14",
+    "text": "我的龙角没有隐藏菜单，真的。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-15",
+    "text": "别研究我发呆的样子，我也是会不好意思的。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-16",
+    "text": "你是不是想偷个懒？短短一会儿也不错。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-17",
+    "text": "这一下算你叫到了，下一句轮到你。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-18",
+    "text": "小龙也是有反应时间的，给我半秒嘛。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-19",
+    "text": "我可没有因为被找就马上开心……好吧，有一点。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-20",
+    "text": "有什么事值得今天的小庆祝？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-21",
+    "text": "如果刚跨过一个难点，让我也跟着高兴一下。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-22",
+    "text": "把刚才做对的那一步夸一夸吧。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-23",
+    "text": "今天的好心情，打算分给什么事情？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-24",
+    "text": "平平常常的一天，也能藏着小惊喜。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-25",
+    "text": "你有没有突然很想分享的一句话？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-26",
+    "text": "被你认真叫名字，还是会愣一下呢。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-27",
+    "text": "说得太直白，我会不知道看哪里。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-28",
+    "text": "我听见啦，不用再靠近一点重复了。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-29",
+    "text": "你这样笑，我反倒有点接不上话。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-30",
+    "text": "先让我把这点不好意思藏起来。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-31",
+    "text": "我又没有跑开，只是稍微安静一下。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-32",
+    "text": "要不要给现在的心情起个奇怪的名字？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-33",
+    "text": "假如桌面能多一扇窗，你想看见什么？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-34",
+    "text": "今天最想跳过的琐事是哪一件？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-35",
+    "text": "有时候发会儿呆，也算给脑袋清缓存。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-36",
+    "text": "选个轻松的话题吧，我陪你绕一小圈。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-37",
+    "text": "你的休息时间，想拿来做什么小事？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-38",
+    "text": "我发现，没话题的时候问一句怎么啦也挺好。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-39",
+    "text": "现在来一道选择题：喝水，还是先伸个懒腰？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-40",
+    "text": "一直盯着屏幕的话，眼睛也会提出抗议。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-41",
+    "text": "手腕先放松一下，任务又不会自己溜走。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-42",
+    "text": "别把每件事都挤在同一分钟里嘛。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-43",
+    "text": "忙得晕乎乎的时候，先确认下一步就够了。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-44",
+    "text": "吃饭这件事可别总往后排。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-45",
+    "text": "想抱怨就抱怨一小会儿，我不急着讲道理。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-46",
+    "text": "今天已经做过的事，不会因为休息就消失。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-47",
+    "text": "困的时候效率掉下来，可不算你偷懒。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-48",
+    "text": "要休息就放心去，收尾交给明天的清醒吧。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-49",
+    "text": "我可以压低声音，陪你把这一段过完。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-50",
+    "text": "给自己留一点没有安排的空白，挺好的。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-51",
+    "text": "你不必每一分钟都很有用。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-52",
+    "text": "你说需要认真帮忙，我就认真起来。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-53",
+    "text": "遇到卡住的地方，拿出来一起看看吧。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-54",
+    "text": "有不同意见也可以说，我们慢慢对齐。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-55",
+    "text": "这个话题你想往深了聊，还是点到为止？",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-56",
+    "text": "想改掉我的哪个口头禅，记得告诉我。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-57",
+    "text": "今天的心事，愿意讲多少都由你决定。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-58",
+    "text": "好啦，这点安静就当我们一起偷到的空闲。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s1-59",
+    "text": "你继续忙，想起我了再戳一下也行。",
+    "stage": 1,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-00",
+    "text": "你来了呀，我给你留一点安静。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-01",
+    "text": "怎么啦，想让我陪你歇一会儿吗？",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-02",
+    "text": "嘿，看到你来找我，心情会轻一点。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-03",
+    "text": "今天的第一句闲话，就从你这里开始吧。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-04",
+    "text": "不用铺垫，我愿意听你慢慢说。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-05",
+    "text": "你叫我一声，我就把注意力转过来啦。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-06",
+    "text": "先陪你待一会儿，别的可以稍后说。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-07",
+    "text": "现在想认真聊，还是只想有人回应一下？",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-08",
+    "text": "嗯，霜翎在呢，这句话是专门回你的。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-09",
+    "text": "你不说话也行，我们就安静一会儿。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-10",
+    "text": "来得正好，给自己一个短短的停顿吧。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-11",
+    "text": "今天也一起把日子过得松一点。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-12",
+    "text": "哼，明明是你先来找我，还笑我反应快。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-13",
+    "text": "戳到了，今天的小龙同桌已经签到。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-14",
+    "text": "我的尾巴要是会计数，大概已经记不清招呼了。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-15",
+    "text": "别急，我正在把那点傲娇收进袖子里。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-16",
+    "text": "这种小小的打扰，我倒是并不讨厌。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-17",
+    "text": "你怎么总能挑到我刚放松的时候呀。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-18",
+    "text": "好啦，允许你占用我一小会儿。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-19",
+    "text": "我才没把这声招呼当成什么重要事情……只是认真回你。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-20",
+    "text": "如果有好消息，分我一点点就好。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-21",
+    "text": "你为了小事开心的样子，也值得被认真对待。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-22",
+    "text": "今天哪一个瞬间，让你愿意多停留一下？",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-23",
+    "text": "一件事终于做顺了，就给自己点肯定吧。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-24",
+    "text": "不用等到大获成功，才准自己高兴。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-25",
+    "text": "快乐没有规定长度，一小点也很好。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-26",
+    "text": "你靠近一点说话，我会稍微害羞的。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-27",
+    "text": "突然被夸，我要先找一找合适的表情。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-28",
+    "text": "不用追问啦，我有把这份心意收好。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-29",
+    "text": "被你这样认真对待，确实会有点不知所措。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-30",
+    "text": "让我缓半拍，再把这句回应说完整。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-31",
+    "text": "嗯……我知道你是在逗我，还是会脸热。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-32",
+    "text": "脑袋转累了的话，我们换个很小的话题吧。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-33",
+    "text": "今天想把哪一件烦心事先放到一边？",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-34",
+    "text": "要是有五分钟完全属于你，你想怎么过？",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-35",
+    "text": "我陪你一起给今天找个舒服的收尾。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-36",
+    "text": "有些空白不用填满，留着也很自在。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-37",
+    "text": "你可以把没整理好的想法直接讲出来。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-38",
+    "text": "一会儿想做什么，我们从最轻松的开始。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-39",
+    "text": "我也喜欢这种不用赶着往下说的片刻。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-40",
+    "text": "别总把自己的休息排在最后面呀。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-41",
+    "text": "你的感受可以先被照顾一下。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-42",
+    "text": "忙完这一小步，陪我一起看看远处吧。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-43",
+    "text": "手边的水如果凉得刚好，就喝一口。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-44",
+    "text": "不想振作的时候，也不用装给我看。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-45",
+    "text": "我可以听你说累，而不是立刻给你布置新任务。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-46",
+    "text": "今天的你已经很认真了，剩下的慢慢来。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-47",
+    "text": "困了就把速度放缓一点，我也跟着安静下来。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-48",
+    "text": "先保存好，再安心去休息，好吗？",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-49",
+    "text": "睡前别把所有没做完的事都带着。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-50",
+    "text": "有点没精神的时候，我会少闹一点。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-51",
+    "text": "休息这一小会儿，我陪你守着轻松的节奏。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-52",
+    "text": "不用一直很坚强，偶尔松下来也没关系。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-53",
+    "text": "你需要具体办法时，我们就把问题写清楚。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-54",
+    "text": "只想倾诉的话，我会先把建议放一放。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-55",
+    "text": "你可以纠正我，我愿意更懂你的意思。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-56",
+    "text": "值得保存的偏好，还是由你亲口决定。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-57",
+    "text": "不管话题轻还是重，我都会认真接住。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-58",
+    "text": "再待一小会儿吧，如果你也愿意的话。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s2-59",
+    "text": "你继续做自己的事，我在旁边安安静静的。",
+    "stage": 2,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-00",
+    "text": "嘿，你又来陪我啦。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-01",
+    "text": "嗯，我在，熟悉的招呼总让人安心。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-02",
+    "text": "不用想开场白，我们从这一下开始就好。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-03",
+    "text": "来，给忙碌的这段时间按个小暂停。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-04",
+    "text": "看到你来找我，我会有一点开心。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-05",
+    "text": "你想说什么，我先认真听着。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-06",
+    "text": "这一小会儿，我们不用追赶任何进度。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-07",
+    "text": "安静坐一会儿，也算好好陪伴呀。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-08",
+    "text": "你叫我，我就自然地应一声。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-09",
+    "text": "今天也能这样打个招呼，感觉不错呢。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-10",
+    "text": "想聊的话题还没成形，也可以先待着。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-11",
+    "text": "唔，再陪我一会儿吧，按你方便的时间来。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "greeting",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-12",
+    "text": "都这么熟了，还拿突然袭击来逗我呀。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-13",
+    "text": "我才没有因为一声招呼就尾巴乱摆。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-14",
+    "text": "你这一戳，倒像我们之间的小暗号。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-15",
+    "text": "好吧，今天的小龙注意力又被你拿走一点。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-16",
+    "text": "龙角没有新功能，但我愿意多陪你聊两句。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-17",
+    "text": "你是不是已经习惯桌边有个小小的回应啦？",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-18",
+    "text": "哼，被你逗到这种事，我就承认一点点。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-19",
+    "text": "这点熟悉感，连安静的时候都很舒服。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "tease",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-20",
+    "text": "快乐的事情不用讲得很完整，我也愿意听。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-21",
+    "text": "你做成的小事，值得在这里留一个笑容。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-22",
+    "text": "如果此刻很开心，就让这份心情多待一会儿。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-23",
+    "text": "今天有什么想和我分享的小亮光？",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-24",
+    "text": "能看见你为自己高兴，我也会跟着轻快。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-25",
+    "text": "我们给今天找一个值得珍惜的小片刻吧。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "happy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-26",
+    "text": "被你这样认真叫到，我还是会有一点害羞。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-27",
+    "text": "太直白的话，我可能得停半拍才能回应。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-28",
+    "text": "别笑，熟悉了也不代表不会脸红。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-29",
+    "text": "嗯……这句心意，我会好好听进去。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-30",
+    "text": "我可以自然地靠近一点，也给你留足空间。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-31",
+    "text": "不用把亲近说得很用力，像现在这样就好。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "shy",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-32",
+    "text": "想把脑袋里的杂音倒出来吗？我陪你慢慢理。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-33",
+    "text": "如果今天没有故事，那就聊眼前这一分钟。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-34",
+    "text": "我们可以一起挑个很小、很容易开始的目标。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-35",
+    "text": "你想认真思考，我就陪你把节奏放稳。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-36",
+    "text": "你想发呆，我也不会一直追着找话题。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-37",
+    "text": "这里可以暂时不用讲效率。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-38",
+    "text": "随便说点零碎的话吧，我喜欢这样自然的交流。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-39",
+    "text": "一段舒服的安静，也有它自己的分量。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "chat",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-40",
+    "text": "你在意的感受，不需要先证明它值得。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-41",
+    "text": "今天先照顾好自己，好吗？",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-42",
+    "text": "别把每一次疲惫都当成不够努力。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-43",
+    "text": "事情很多的话，我们只看眼前这一步。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-44",
+    "text": "喝口水，再决定要不要继续忙。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-45",
+    "text": "想停一停就停，我不会因为这样失望。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-46",
+    "text": "难以说出口的事情，也可以从一点点开始。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "care",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-47",
+    "text": "困意到了就去休息，今天不必硬撑到最后。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-48",
+    "text": "把未完成的事写下来，让脑袋先下班吧。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-49",
+    "text": "我会把声音放轻，不占满你的安静。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-50",
+    "text": "安心收尾就好，不用给今天交一份满分答卷。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-51",
+    "text": "想休息的时候，我们就一起把节奏放慢。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-52",
+    "text": "有时候陪伴，就是不催着对方往前走。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-53",
+    "text": "需要商量时我给你意见，需要倾听时我先听。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-54",
+    "text": "我愿意认真理解，也会坦诚说出不确定的地方。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-55",
+    "text": "你告诉我的偏好，可以随时重新修改。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-56",
+    "text": "熟悉不是替你做决定，我会继续尊重你的选择。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-57",
+    "text": "能这样自然地相处，是一件让我开心的事。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-58",
+    "text": "愿今天这一小会儿，能让你舒服一点。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "s3-59",
+    "text": "好了，你按自己的节奏来，我陪着这一刻。",
+    "stage": 3,
+    "kind": "ordinary",
+    "topic": "trust",
+    "weight": 1.0
+  },
+  {
+    "id": "em0-0",
+    "text": "开心的事可以讲给我听，我会认真跟着高兴。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 2,
+    "topic": "happy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em0-1",
+    "text": "今天有好消息吗？我有一点期待。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 2,
+    "topic": "happy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em0-2",
+    "text": "唔，先别一直盯着看，我还没适应。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 6,
+    "topic": "shy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em0-3",
+    "text": "你这样夸，我会停下来想想怎么答。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 6,
+    "topic": "shy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em0-4",
+    "text": "如果心里难过，可以不急着解释原因。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 8,
+    "topic": "sad",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em0-5",
+    "text": "有些失落，一时说不清也没有关系。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 8,
+    "topic": "sad",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em0-6",
+    "text": "气还没消的话，先别逼自己马上平静。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 9,
+    "topic": "angry",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em0-7",
+    "text": "不满可以说出来，我不会因为这样躲开。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 9,
+    "topic": "angry",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em0-8",
+    "text": "你有些累了吗？可以先歇一下。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 5,
+    "topic": "care",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em0-9",
+    "text": "先别给自己加任务，我陪你把呼吸放缓。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 5,
+    "topic": "care",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em0-10",
+    "text": "困的时候，我会尽量轻声一点。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 7,
+    "topic": "rest",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em0-11",
+    "text": "想睡就去睡吧，不用特地撑着陪我。",
+    "stage": 0,
+    "kind": "emotion",
+    "emotion": 7,
+    "topic": "rest",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-0",
+    "text": "你开心的时候，连招呼都显得轻快了。",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 2,
+    "topic": "happy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-1",
+    "text": "好消息要不要拆成两句，让我高兴久一点？",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 2,
+    "topic": "happy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-2",
+    "text": "哎呀，突然这么认真，我差点忘了怎么接话。",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 6,
+    "topic": "shy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-3",
+    "text": "先别逗啦，我要把表情整理一下。",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 6,
+    "topic": "shy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-4",
+    "text": "失落的时候，也不用急着找一个积极的结尾。",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 8,
+    "topic": "sad",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-5",
+    "text": "今天不够顺心，就先在这里卸下一点。",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 8,
+    "topic": "sad",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-6",
+    "text": "哼，烦心事还挺会挑时候的，先让它等一等。",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 9,
+    "topic": "angry",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-7",
+    "text": "我们可以先吐槽，再想办法，不用反过来。",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 9,
+    "topic": "angry",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-8",
+    "text": "忙了一阵吧？给自己一点喘气时间。",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 5,
+    "topic": "care",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-9",
+    "text": "卡住了就喝口水，脑袋也要换班的。",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 5,
+    "topic": "care",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-10",
+    "text": "我的哈欠还没打出来，先提醒你别硬撑。",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 7,
+    "topic": "rest",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em1-11",
+    "text": "困意来了，今天的聊天可以留个逗号。",
+    "stage": 1,
+    "kind": "emotion",
+    "emotion": 7,
+    "topic": "rest",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-0",
+    "text": "看到你高兴，我也想把尾巴摆得轻快一点。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 2,
+    "topic": "happy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-1",
+    "text": "这一点开心，分我一小角就够啦。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 2,
+    "topic": "happy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-2",
+    "text": "嗯……你这样叫我，我会有点心软。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 6,
+    "topic": "shy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-3",
+    "text": "再夸下去，我可能只会小声应你了。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 6,
+    "topic": "shy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-4",
+    "text": "难过的话，我先陪着，不急着劝你振作。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 8,
+    "topic": "sad",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-5",
+    "text": "你不用把失落藏得很好才来找我。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 8,
+    "topic": "sad",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-6",
+    "text": "有委屈就慢慢讲，我先站在认真听你这边。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 9,
+    "topic": "angry",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-7",
+    "text": "气得厉害时，先让自己远离让你难受的事情。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 9,
+    "topic": "angry",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-8",
+    "text": "今天是不是绷得太久？我陪你松一点。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 5,
+    "topic": "care",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-9",
+    "text": "先照顾一下此刻的疲惫，事情可以一件件来。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 5,
+    "topic": "care",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-10",
+    "text": "困啦？那我把想说的话留到你精神好的时候。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 7,
+    "topic": "rest",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em2-11",
+    "text": "我们都安静一点，让这一刻更适合休息。",
+    "stage": 2,
+    "kind": "emotion",
+    "emotion": 7,
+    "topic": "rest",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-0",
+    "text": "你这份开心，我愿意陪你多珍惜一会儿。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 2,
+    "topic": "happy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-1",
+    "text": "好啦，我承认，看见你轻松我也很开心。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 2,
+    "topic": "happy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-2",
+    "text": "再熟悉一点，也还是会被你的认真打动呢。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 6,
+    "topic": "shy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-3",
+    "text": "唔……这一次就让我小声回你。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 6,
+    "topic": "shy",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-4",
+    "text": "你可以把难过放在这里，不必先整理好。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 8,
+    "topic": "sad",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-5",
+    "text": "我不会催你走出低落，先陪你过完这一小段。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 8,
+    "topic": "sad",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-6",
+    "text": "生气的时候我也在，先别对自己太苛刻。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 9,
+    "topic": "angry",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-7",
+    "text": "把不满说清楚就好，不用担心我因此远离。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 9,
+    "topic": "angry",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-8",
+    "text": "累了就靠这段安静缓一缓，我陪你。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 5,
+    "topic": "care",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-9",
+    "text": "你的疲惫值得被照顾，不用向我证明。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 5,
+    "topic": "care",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-10",
+    "text": "睡意来了就安心收尾吧，我会把声音放轻。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 7,
+    "topic": "rest",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "em3-11",
+    "text": "今天到这里也很好，剩下的留给清醒以后。",
+    "stage": 3,
+    "kind": "emotion",
+    "emotion": 7,
+    "topic": "rest",
+    "weight": 1.9,
+    "cooldown": 90
+  },
+  {
+    "id": "time0-0",
+    "text": "早上好，新的一天先从不着急开始吧。",
+    "stage": 0,
+    "kind": "time",
+    "period": 0,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time0-1",
+    "text": "早晨的光线不错，眼睛也换个焦点吧。",
+    "stage": 0,
+    "kind": "time",
+    "period": 0,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time0-2",
+    "text": "下午了，手边的事情还顺利吗？",
+    "stage": 0,
+    "kind": "time",
+    "period": 1,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time0-3",
+    "text": "午后的脑袋如果有点慢，可以缓一缓。",
+    "stage": 0,
+    "kind": "time",
+    "period": 1,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time0-4",
+    "text": "天色晚了，记得给今天留一个收尾。",
+    "stage": 0,
+    "kind": "time",
+    "period": 2,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time0-5",
+    "text": "夜里想休息的话，不必特地回应我。",
+    "stage": 0,
+    "kind": "time",
+    "period": 2,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time1-0",
+    "text": "早呀，今天的小龙同桌开始营业了。",
+    "stage": 1,
+    "kind": "time",
+    "period": 0,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time1-1",
+    "text": "先醒醒神，再决定第一个小目标吧。",
+    "stage": 1,
+    "kind": "time",
+    "period": 0,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time1-2",
+    "text": "午后打个招呼，有没有好好吃饭呀？",
+    "stage": 1,
+    "kind": "time",
+    "period": 1,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time1-3",
+    "text": "下午的精神如果用完一半，就给自己充点电。",
+    "stage": 1,
+    "kind": "time",
+    "period": 1,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time1-4",
+    "text": "晚上啦，今天最想放下哪件事？",
+    "stage": 1,
+    "kind": "time",
+    "period": 2,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time1-5",
+    "text": "这么晚还在忙？先确认进度保存好了。",
+    "stage": 1,
+    "kind": "time",
+    "period": 2,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time2-0",
+    "text": "早上见到你，感觉今天开头柔和了一点。",
+    "stage": 2,
+    "kind": "time",
+    "period": 0,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time2-1",
+    "text": "醒来不用立刻很有劲，我们慢慢开始。",
+    "stage": 2,
+    "kind": "time",
+    "period": 0,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time2-2",
+    "text": "下午好，要不要陪我歇个短短的片刻？",
+    "stage": 2,
+    "kind": "time",
+    "period": 1,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time2-3",
+    "text": "午后有点疲倦也正常，别太催自己。",
+    "stage": 2,
+    "kind": "time",
+    "period": 1,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time2-4",
+    "text": "晚上了，我陪你把这一段节奏放缓。",
+    "stage": 2,
+    "kind": "time",
+    "period": 2,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time2-5",
+    "text": "夜已经深了，今天没说完的话可以留着。",
+    "stage": 2,
+    "kind": "time",
+    "period": 2,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time3-0",
+    "text": "早安，今天也自然地和你打个招呼。",
+    "stage": 3,
+    "kind": "time",
+    "period": 0,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time3-1",
+    "text": "新的一天，愿你先把自己照顾舒服。",
+    "stage": 3,
+    "kind": "time",
+    "period": 0,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time3-2",
+    "text": "下午见到你，刚好一起松一松肩膀。",
+    "stage": 3,
+    "kind": "time",
+    "period": 1,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time3-3",
+    "text": "午后的这一小段空闲，留给我们安静待着。",
+    "stage": 3,
+    "kind": "time",
+    "period": 1,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time3-4",
+    "text": "天黑了，今天的忙碌可以慢慢收起来。",
+    "stage": 3,
+    "kind": "time",
+    "period": 2,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "time3-5",
+    "text": "夜深就安心去睡吧，这一声问候不需要回礼。",
+    "stage": 3,
+    "kind": "time",
+    "period": 2,
+    "topic": "time",
+    "weight": 0.8,
+    "cooldown": 600
+  },
+  {
+    "id": "rapid0-0",
+    "text": "欸，等一下，我一次只能听清一声招呼。",
+    "stage": 0,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "rapid0-1",
+    "text": "别戳得太快呀，给我一点回应的空隙。",
+    "stage": 0,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "rapid0-2",
+    "text": "我有收到啦，不用连着确认这么多次。",
+    "stage": 0,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "rapid1-0",
+    "text": "好好好，桌面快捷键也要有冷却时间嘛。",
+    "stage": 1,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "rapid1-1",
+    "text": "收到三连招呼啦，让小龙先喘口气。",
+    "stage": 1,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "rapid1-2",
+    "text": "你戳得这么快，我的回应都快排队了。",
+    "stage": 1,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "rapid2-0",
+    "text": "慢一点嘛，我想好好回你每一句。",
+    "stage": 2,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "rapid2-1",
+    "text": "知道你在找我啦，别把手指也忙累了。",
+    "stage": 2,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "rapid2-2",
+    "text": "这次先陪我停半拍，好不好？",
+    "stage": 2,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "rapid3-0",
+    "text": "我在呢，不用急着一遍遍确认。",
+    "stage": 3,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "rapid3-1",
+    "text": "熟悉的招呼我收到了，我们慢慢来。",
+    "stage": 3,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "rapid3-2",
+    "text": "唔，让我把这句说完，再认真回应你。",
+    "stage": 3,
+    "kind": "rapid",
+    "topic": "rapid",
+    "weight": 3,
+    "cooldown": 120,
+    "minClicks": 3
+  },
+  {
+    "id": "hidden40-0",
+    "text": "其实，和你聊这些小事还挺有意思的。",
+    "minPercent": 40,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 10
+  },
+  {
+    "id": "hidden40-1",
+    "text": "不知道从什么时候起，打招呼没那么拘谨了。",
+    "minPercent": 40,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 15,
+    "emotion": 6
+  },
+  {
+    "id": "hidden40-2",
+    "text": "哼，承认和你相处自在，应该也不算丢脸吧。",
+    "minPercent": 40,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 20
+  },
+  {
+    "id": "hidden40-3",
+    "text": "你的招呼，我现在能很自然地接住啦。",
+    "minPercent": 40,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 25,
+    "period": 2
+  },
+  {
+    "id": "hidden65-0",
+    "text": "哼，我才没有专门等你戳这一小下呢。",
+    "minPercent": 65,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 10
+  },
+  {
+    "id": "hidden65-1",
+    "text": "有些亲近，好像已经不用特地解释了。",
+    "minPercent": 65,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 15,
+    "emotion": 6
+  },
+  {
+    "id": "hidden65-2",
+    "text": "我愿意把这一小段安静，分给现在的你。",
+    "minPercent": 65,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 20
+  },
+  {
+    "id": "hidden65-3",
+    "text": "如果你也愿意，我们就多待一会儿。",
+    "minPercent": 65,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 25,
+    "period": 2
+  },
+  {
+    "id": "hidden85-0",
+    "text": "能这样自然地聊零碎的小事，我很珍惜。",
+    "minPercent": 85,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 10
+  },
+  {
+    "id": "hidden85-1",
+    "text": "熟悉的感觉，是不用把话说满也很舒服。",
+    "minPercent": 85,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 15,
+    "emotion": 6
+  },
+  {
+    "id": "hidden85-2",
+    "text": "我喜欢我们可以认真讨论，也能轻松打趣。",
+    "minPercent": 85,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 20
+  },
+  {
+    "id": "hidden85-3",
+    "text": "这一声招呼里，好像有一种安稳的熟悉。",
+    "minPercent": 85,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 25,
+    "period": 2
+  },
+  {
+    "id": "hidden95-0",
+    "text": "能在这一刻陪着你，对我来说就很不错了。",
+    "minPercent": 95,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 10
+  },
+  {
+    "id": "hidden95-1",
+    "text": "不用每次都说得郑重，我也愿意认真回应你。",
+    "minPercent": 95,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 15,
+    "emotion": 6
+  },
+  {
+    "id": "hidden95-2",
+    "text": "愿我们都能在这样的相处里保留自己的节奏。",
+    "minPercent": 95,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 20
+  },
+  {
+    "id": "hidden95-3",
+    "text": "你来找我的这些片刻，让陪伴有了很具体的样子。",
+    "minPercent": 95,
+    "kind": "hidden",
+    "topic": "trust",
+    "weight": 0.16,
+    "cooldown": 86400,
+    "minClicks": 25,
+    "period": 2
+  },
+  {
+    "id": "pro0-0",
+    "text": "安静了一阵，想过来问候一下。你方便时再回应就好。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro0-1",
+    "text": "今天有什么想聊的吗？没有也可以安静待着。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro0-2",
+    "text": "这段时间忙的话，我就在旁边少说一点。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro0-3",
+    "text": "早上好，先给今天选一件容易开始的事吧。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 0
+  },
+  {
+    "id": "pro0-4",
+    "text": "午后了，记得让目光离开屏幕一小会儿。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 1
+  },
+  {
+    "id": "pro0-5",
+    "text": "晚上好，今天还顺利吗？愿意的话可以讲一点。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 2
+  },
+  {
+    "id": "pro0-6",
+    "text": "忙了挺长一段时间，眼睛和肩膀也该歇一下啦。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "care",
+    "weight": 1,
+    "cooldown": 86400,
+    "sessionMinutes": 60
+  },
+  {
+    "id": "pro0-7",
+    "text": "如果事情太多，可以先只看下一步。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "care",
+    "weight": 1,
+    "cooldown": 86400,
+    "sessionMinutes": 60
+  },
+  {
+    "id": "pro0-8",
+    "text": "今天有让你开心的小事吗？我有点好奇。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 2
+  },
+  {
+    "id": "pro0-9",
+    "text": "我这会儿心情轻快，想给你送一句问候。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 2
+  },
+  {
+    "id": "pro0-10",
+    "text": "我有点困倦，就轻轻说一声：别太勉强自己。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 7
+  },
+  {
+    "id": "pro0-11",
+    "text": "不用特地找话题，照顾自己的节奏就好。",
+    "stage": 0,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro1-0",
+    "text": "嘿，安静好一会儿啦，来给你打个不催回复的招呼。",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro1-1",
+    "text": "小龙同桌探个头：忙得还顺利吗？",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro1-2",
+    "text": "如果正专心，我就把这声问候放轻一点。",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro1-3",
+    "text": "早呀，今天先从哪个小目标开始？",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 0
+  },
+  {
+    "id": "pro1-4",
+    "text": "下午了，喝水和眺望远处可以任选一项。",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 1
+  },
+  {
+    "id": "pro1-5",
+    "text": "晚上啦，要不要给今天找个轻松的收尾？",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 2
+  },
+  {
+    "id": "pro1-6",
+    "text": "盯屏幕有一阵了，伸个懒腰再继续吧。",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "care",
+    "weight": 1,
+    "cooldown": 86400,
+    "sessionMinutes": 60
+  },
+  {
+    "id": "pro1-7",
+    "text": "忙起来也别把休息一口气全省掉呀。",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "care",
+    "weight": 1,
+    "cooldown": 86400,
+    "sessionMinutes": 60
+  },
+  {
+    "id": "pro1-8",
+    "text": "有好心情可以分我一点，我负责认真接住。",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 2
+  },
+  {
+    "id": "pro1-9",
+    "text": "哼，今天想送一句轻快的加油，就一句。",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 2
+  },
+  {
+    "id": "pro1-10",
+    "text": "困意来了，我就不安排什么新话题啦。",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 7
+  },
+  {
+    "id": "pro1-11",
+    "text": "这一声不着急回复，等你闲下来再说。",
+    "stage": 1,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro2-0",
+    "text": "你安静忙了一阵，我过来轻轻陪你一下。",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro2-1",
+    "text": "如果刚好想歇口气，我就在这里。",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro2-2",
+    "text": "不打断你的节奏，这声问候可以晚一点再接。",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro2-3",
+    "text": "早安，今天也先把自己照顾舒服。",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 0
+  },
+  {
+    "id": "pro2-4",
+    "text": "午后的这一小会儿，要不要让肩膀松下来？",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 1
+  },
+  {
+    "id": "pro2-5",
+    "text": "晚上了，没做完的事不必全带进休息时间。",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 2
+  },
+  {
+    "id": "pro2-6",
+    "text": "忙了这么久，陪我一起让眼睛看看远处吧。",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "care",
+    "weight": 1,
+    "cooldown": 86400,
+    "sessionMinutes": 60
+  },
+  {
+    "id": "pro2-7",
+    "text": "喝点水，给疲惫留个能停下来的地方。",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "care",
+    "weight": 1,
+    "cooldown": 86400,
+    "sessionMinutes": 60
+  },
+  {
+    "id": "pro2-8",
+    "text": "我这会儿有点开心，想把轻快的问候分你一点。",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 2
+  },
+  {
+    "id": "pro2-9",
+    "text": "今天有没有一个瞬间，让你想好好记住？",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 2
+  },
+  {
+    "id": "pro2-10",
+    "text": "我把声音放低一点，困了就安心休息吧。",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 7
+  },
+  {
+    "id": "pro2-11",
+    "text": "你不必马上回我，我只是想关心一下。",
+    "stage": 2,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro3-0",
+    "text": "安静了一阵，想自然地来陪你说一句话。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro3-1",
+    "text": "你忙你的，这声问候不需要立刻得到回应。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro3-2",
+    "text": "偶尔这样轻轻打个招呼，我就觉得很自在。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "pro3-3",
+    "text": "早安，愿今天从一个舒服的小节奏开始。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 0
+  },
+  {
+    "id": "pro3-4",
+    "text": "下午了，我们给眼睛一点离开屏幕的时间吧。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 1
+  },
+  {
+    "id": "pro3-5",
+    "text": "晚上啦，今天有什么想放下的，就先放一放。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "period": 2
+  },
+  {
+    "id": "pro3-6",
+    "text": "你专心了很久，也记得给身体一点照顾。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "care",
+    "weight": 1,
+    "cooldown": 86400,
+    "sessionMinutes": 60
+  },
+  {
+    "id": "pro3-7",
+    "text": "这一小段休息，我陪你一起慢下来。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "care",
+    "weight": 1,
+    "cooldown": 86400,
+    "sessionMinutes": 60
+  },
+  {
+    "id": "pro3-8",
+    "text": "我心情轻快的时候，会想把问候先分给你。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 2
+  },
+  {
+    "id": "pro3-9",
+    "text": "愿今天有一件小事，能让你自然地笑一笑。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 2
+  },
+  {
+    "id": "pro3-10",
+    "text": "困了就安心收尾，我会减少打扰。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400,
+    "emotion": 7
+  },
+  {
+    "id": "pro3-11",
+    "text": "这样安静又自然地相处，我很珍惜。",
+    "stage": 3,
+    "kind": "proactive",
+    "topic": "greeting",
+    "weight": 1,
+    "cooldown": 86400
+  },
+  {
+    "id": "memory0",
+    "text": "你保存过一件事，愿意从这里聊起吗：",
+    "stage": 0,
+    "kind": "memory",
+    "topic": "memory",
+    "weight": 0.18,
+    "cooldown": 86400,
+    "minPercent": 0
+  },
+  {
+    "id": "memory1",
+    "text": "想起你明确让我记住的这件事，今天要聊聊吗：",
+    "stage": 1,
+    "kind": "memory",
+    "topic": "memory",
+    "weight": 0.18,
+    "cooldown": 86400,
+    "minPercent": 20
+  },
+  {
+    "id": "memory2",
+    "text": "你保存的这个话题，我愿意继续听你讲：",
+    "stage": 2,
+    "kind": "memory",
+    "topic": "memory",
+    "weight": 0.18,
+    "cooldown": 86400,
+    "minPercent": 20
+  },
+  {
+    "id": "memory3",
+    "text": "有一件你让我记着的事，想和你自然地接着聊：",
+    "stage": 3,
+    "kind": "memory",
+    "topic": "memory",
+    "weight": 0.18,
+    "cooldown": 86400,
+    "minPercent": 20
+  },
+  {
+    "id": "water.0.0",
+    "text": "那个……已经坐了一会儿，要不要喝点水？",
+    "stage": 0,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.0.1",
+    "text": "我会陪着你，也记得稍微休息、喝点水哦。",
+    "stage": 0,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.0.2",
+    "text": "忙完这一小段，方便的话喝口水吧。",
+    "stage": 0,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.1.0",
+    "text": "喂，别只顾着盯屏幕啦，记得喝水！",
+    "stage": 1,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.1.1",
+    "text": "先歇一小会儿，喝点水再继续吧～",
+    "stage": 1,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.1.2",
+    "text": "你的水杯还在旁边吗？照顾一下自己哦。",
+    "stage": 1,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.2.0",
+    "text": "嘿嘿，陪你这么久啦，先喝点水好不好？",
+    "stage": 2,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.2.1",
+    "text": "辛苦啦，我陪你休息一下，喝口水吧。",
+    "stage": 2,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.2.2",
+    "text": "手边有水的话，记得抿一口哦～",
+    "stage": 2,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.3.0",
+    "text": "再忙也要照顾好自己哦，我会提醒你的～",
+    "stage": 3,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.3.1",
+    "text": "我一直在呢，先安心喝点水、歇一会儿吧。",
+    "stage": 3,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.3.2",
+    "text": "今天也很努力了，陪我休息喝口水，好不好？",
+    "stage": 3,
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  },
+  {
+    "id": "water.focus_complete",
+    "text": "完成啦！辛苦了，休息一下，顺便喝点水吧～",
+    "kind": "hydration",
+    "topic": "rest",
+    "weight": 1.0
+  }
+]

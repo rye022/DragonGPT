@@ -1,0 +1,32 @@
+{
+  "1": [
+    {"text":"看到你就开心，来，和我打个招呼吧。","file":"action-00.pcm"},
+    {"text":"我正在向你招手呢，今天也请多关照。","file":"action-01.pcm"},
+    {"text":"你一来，我的心情就亮起来啦。","file":"action-02.pcm"}
+  ],
+  "2": [
+    {"text":"别一直看着我啦，我会不好意思的。","file":"action-03.pcm"},
+    {"text":"我才没有害羞，只是脸有一点热。","file":"action-04.pcm"},
+    {"text":"你突然点我，我都不知道把手放哪里了。","file":"action-05.pcm"}
+  ],
+  "3": [
+    {"text":"我才没有吃醋呢，只是想让你看看我。","file":"action-06.pcm"},
+    {"text":"哼，小白龙鼓起脸了，快来哄一下嘛。","file":"action-07.pcm"},
+    {"text":"你终于注意到我啦，那我就不鼓着脸了。","file":"action-08.pcm"}
+  ],
+  "4": [
+    {"text":"被你发现了，我正抱着枕头打盹呢。","file":"action-09.pcm"},
+    {"text":"嗯，让我再抱着枕头眯一小会儿。","file":"action-10.pcm"},
+    {"text":"刚刚差点睡着了，你也别太累哦。","file":"action-11.pcm"}
+  ],
+  "5": [
+    {"text":"我正在认真工作呢，等我敲完这几行。","file":"action-12.pcm"},
+    {"text":"嘘，我在整理东西，马上就好。","file":"action-13.pcm"},
+    {"text":"有你陪着，工作也变得轻松一点啦。","file":"action-14.pcm"}
+  ],
+  "6": [
+    {"text":"我正抱着尾巴陪你呢，想说什么我都听着。","file":"action-15.pcm"},
+    {"text":"尾巴软软的，抱着它就觉得很安心。","file":"action-16.pcm"},
+    {"text":"靠近一点吧，我和尾巴都在这里陪着你。","file":"action-17.pcm"}
+  ]
+}
