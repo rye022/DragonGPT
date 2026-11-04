@@ -1,19 +1,21 @@
 """Build local source/runtime archives with an explicit privacy filter."""
 from pathlib import Path
+import argparse
 import hashlib
 import json
 import os
 import zipfile
 
 PUBLIC_DOCS = {
-    "DRAGONGPT_4_ARCHITECTURE.md", "DRAGONGPT_4_MANUAL.md", "DRAGONGPT_4_TEST_REPORT.md", "RELEASE_v4.0.0.md",
+    "DRAGONGPT_5_ARCHITECTURE.md", "DRAGONGPT_5_GUIDE.md", "DRAGONGPT_5_MANUAL.md", "DRAGONGPT_5_TEST_REPORT.md", "RELEASE_v5.0.0.md", "RELEASE_v5.0.0_VALIDATION.md",
+    "DRAGONGPT_4_ARCHITECTURE.md", "DRAGONGPT_4_MANUAL.md", "DRAGONGPT_4_TEST_REPORT.md", "RELEASE_v4.0.0.md", "RELEASE_v3.0.0.md",
     "USER_GUIDE_ZH.md", "V3_BASELINE.md", "V3_ARCHITECTURE.md", "V3_VALIDATION.md", "RELEASE_v4.0.0.md",
     "CLIPBOARD_AND_PERFORMANCE.md", "character-lock.md", "COMPANIONSHIP.md",
     "FOCUS_AND_WATER.md", "EMOTIONS.md", "LOCAL_BRAIN_AND_MEMORY.md", "connection.md", "voice.md",
     "DragonGPT_3.0_完整使用手册.md", "DragonGPT_3.0_最终审查报告.md", "DragonGPT_3.0_功能清单.md",
     "DragonGPT_3.0_模块依赖关系.md", "DragonGPT_3.0_测试结果.md",
 }
-BLOCKED_DIRECTORIES = {"data", "runtime", "offline-runtime", "voice-cache", "__pycache__", ".git", "build", "dist", "outputs", "logs", "backups", "model", "models", "venv", "work", ".venv"}
+BLOCKED_DIRECTORIES = {"data", "preview-data", "runtime", "offline-runtime", "voice-cache", "__pycache__", ".git", "build", "dist", "outputs", "logs", "backups", "model", "models", "venv", "work", ".venv"}
 
 def include(relative):
     if any(p.lower() in BLOCKED_DIRECTORIES for p in relative.parts):
@@ -23,7 +25,7 @@ def include(relative):
         return False
     if relative.suffix.lower() in {".pyc", ".log", ".lock", ".ini", ".bak", ".db", ".pem", ".pfx", ".key", ".p12", ".onnx", ".safetensors", ".pt", ".pth"}:
         return False
-    if relative.parts[0] == "docs" and relative.name not in PUBLIC_DOCS and "screenshots" not in relative.parts and "audit" not in relative.parts:
+    if relative.parts[0] == "docs" and relative.name not in PUBLIC_DOCS and not {"screenshots", "media", "audit"}.intersection(relative.parts):
         return False
     return True
 
@@ -49,10 +51,16 @@ def archive(root, destination):
 
 if __name__ == "__main__":
     project = Path(__file__).resolve().parent
-    outputs = project / "outputs"
-    outputs.mkdir(exist_ok=True)
-    version = "4.0.0"
-    records = [archive(project / "dist" / "DragonGPT", outputs / f"DragonGPT-v{version}-Windows-x64.zip"),
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--runtime-root", type=Path, default=project / "dist" / "DragonGPT")
+    parser.add_argument("--output-dir", type=Path, default=project / "outputs")
+    args = parser.parse_args()
+    outputs = args.output_dir.resolve()
+    outputs.mkdir(parents=True, exist_ok=True)
+    version = "5.0.0"
+    if not (args.runtime_root / "DragonGPT.exe").is_file():
+        raise SystemExit("Runtime root must contain DragonGPT.exe")
+    records = [archive(args.runtime_root, outputs / f"DragonGPT-v{version}-Windows-x64.zip"),
                archive(project, outputs / f"DragonGPT-v{version}-source.zip")]
     (outputs / "打包校验.json").write_text(json.dumps({"version": version, "archives": records,
         "exclusions": ["user databases", "DPAPI keys", "INI settings", "Python environments", "machine readiness paths", "caches", "personal historical audit documents"]}, ensure_ascii=False, indent=2), encoding="utf-8")

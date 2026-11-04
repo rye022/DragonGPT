@@ -5,6 +5,7 @@
 #include <QRegularExpression>
 #include <QSettings>
 #include <algorithm>
+#include <cmath>
 #include <stdexcept>
 
 namespace dragon {
@@ -18,10 +19,12 @@ QJsonObject LifeState::json() const {
         {"last_click_growth",lastClickGrowth.toString(Qt::ISODateWithMs)},
         {"last_chat_growth",lastChatGrowth.toString(Qt::ISODateWithMs)},
         {"last_focus_growth",lastFocusGrowth.toString(Qt::ISODateWithMs)},
-        {"awarded_events",QJsonArray::fromStringList(awardedEvents)}};
+        {"last_task_growth",lastTaskGrowth.toString(Qt::ISODateWithMs)},
+        {"awarded_events",QJsonArray::fromStringList(awardedEvents)},{"growth_v5",growth.json()}};
 }
 LifeState LifeState::fromJson(const QJsonObject &j) {
     LifeState s;
+    s.growth=GrowthProfile::fromJson(j["growth_v5"].toObject());
     s.experience=std::clamp(j.value("experience").toInt(),0,1000000);
     s.activeDays=std::clamp(j.value("active_days").toInt(),0,100000);
     s.legacyStage=std::clamp(j.value("legacy_stage").toInt(),0,2);
@@ -41,25 +44,31 @@ LifeState LifeState::fromJson(const QJsonObject &j) {
     s.lastClickGrowth=QDateTime::fromString(j["last_click_growth"].toString(),Qt::ISODateWithMs);
     s.lastChatGrowth=QDateTime::fromString(j["last_chat_growth"].toString(),Qt::ISODateWithMs);
     s.lastFocusGrowth=QDateTime::fromString(j["last_focus_growth"].toString(),Qt::ISODateWithMs);
+    s.lastTaskGrowth=QDateTime::fromString(j["last_task_growth"].toString(),Qt::ISODateWithMs);
     for(const auto &v:j["awarded_events"].toArray())if(s.awardedEvents.size()<64)s.awardedEvents.append(v.toString());
     return s;
 }
 bool LifeState::award(const QString &kind,const QString &text,QDateTime now,const QString &eventId){
-    if(kind!="click" && kind!="chat" && kind!="focus")return false;
+    if(!growth.enabled || !now.isValid())return false;
+    if(kind!="click" && kind!="chat" && kind!="focus" && kind!="task")return false;
     if(kind=="chat" && text.trimmed().size()<2)return false;
-    if(kind=="focus" && (eventId.isEmpty() || awardedEvents.contains(eventId)))return false;
+    if((kind=="focus" || kind=="task") && (eventId.isEmpty() || awardedEvents.contains(eventId)))return false;
     const auto date=now.toLocalTime().date();
-    if(!growthDate.isValid() || date>growthDate){growthDate=date;dailyExperience=0;dailyMessages.clear();++activeDays;}
-    auto &last=kind=="click"?lastClickGrowth:kind=="focus"?lastFocusGrowth:lastChatGrowth;
-    const int cooldown=kind=="click"?90:kind=="focus"?1500:30;
+    if(!growthDate.isValid() || date>growthDate){growthDate=date;dailyExperience=0;dailyMessages.clear();++activeDays;growth.dailyClicks=growth.dailyChats=growth.dailyTasks=growth.dailyFocus=0;}
+    auto &last=kind=="click"?lastClickGrowth:kind=="focus"?lastFocusGrowth:kind=="task"?lastTaskGrowth:lastChatGrowth;
+    const int cooldown=kind=="click"?90:kind=="focus" || kind=="task"?1500:30;
     lastInteraction=now.toUTC();if(awaitingReply)ignoredOpenings=qMax(0,ignoredOpenings-1);awaitingReply=false;
-    if(date!=growthDate || (last.isValid() && last.secsTo(now)<cooldown) || dailyExperience>=20 || experience>=600)return false;
+    if(date!=growthDate || (last.isValid() && last.secsTo(now)<cooldown) || dailyExperience>=20)return false;
+    // Reaching full affinity must not freeze personality or learned hours.
+    // Keep a separate bounded stream of real non-click interactions, worth 0 XP.
+    if(experience>=600 && (kind=="click" || growth.dailyChats+growth.dailyTasks+growth.dailyFocus>=10))return false;
+    if(kind=="click" && growth.dailyClicks>=2)return false;
     const auto hash=QString::fromLatin1(QCryptographicHash::hash(text.simplified().toUtf8(),QCryptographicHash::Sha256).toHex());
     if(kind=="chat" && dailyMessages.contains(hash))return false;
     if(kind=="chat")dailyMessages.append(hash);
-    if(kind=="focus"){awardedEvents.append(eventId);while(awardedEvents.size()>64)awardedEvents.removeFirst();}
-    const int earned=std::min({kind=="click"?1:kind=="focus"?4:2,20-dailyExperience,600-experience});
-    dailyExperience+=earned;experience+=earned;last=now.toUTC();return earned>0;
+    if(kind=="focus" || kind=="task"){awardedEvents.append(eventId);while(awardedEvents.size()>64)awardedEvents.removeFirst();}
+    const int earned=std::min({kind=="click"?1:kind=="focus"?4:2,20-dailyExperience,std::max(0,600-experience)});
+    dailyExperience+=earned;experience+=earned;last=now.toUTC();growth.observe(kind,text,earned,now);return earned>0;
 }
 void LifeState::interact(const QString &text,QDateTime now) {
     if(text.trimmed().isEmpty())return;
@@ -88,7 +97,17 @@ int LifeState::growthPercent() const{
     const double dp=double(activeDays-baselineDays)/(days[level+1]-baselineDays);
     return base[level]+int(std::floor(std::clamp(std::min(ep,dp),0.0,1.0)*(base[level+1]-base[level])));
 }
-int LifeState::stageIndex() const{const int n=growthPercent();return n>=80?3:n>=50?2:n>=20?1:0;}
+int LifeState::stageIndex() const{const int n=growthPercent();int stage=0;for(const auto &gate:growth.thresholds)if(n>=gate.toInt())++stage;return stage;}
+int LifeState::dialoguePercent() const{
+    const int p=growthPercent(),stage=stageIndex(),canonical[]={0,20,50,80,100};
+    const int low=stage?growth.thresholds[stage-1].toInt():0,high=stage==3?100:growth.thresholds[stage].toInt();
+    return canonical[stage]+(p-low)*(canonical[stage+1]-canonical[stage])/(high-low);
+}
+int LifeState::affinityForDialogue(int required) const{
+    const int canonical[]={0,20,50,80,100};const int custom[]={0,growth.thresholds[0].toInt(),growth.thresholds[1].toInt(),growth.thresholds[2].toInt(),100};
+    required=std::clamp(required,0,100);int i=0;while(i<3 && required>=canonical[i+1])++i;
+    return custom[i]+int(std::ceil(double(required-canonical[i])*(custom[i+1]-custom[i])/(canonical[i+1]-canonical[i])));
+}
 QString LifeState::stage() const {return QStringList{"初识期","熟悉期","亲近期","深度羁绊期"}[stageIndex()];}
 QString LifeState::growthHint() const {
     return QString("亲密度 %1% · %2 · 真实互动累计成长，离开不会倒退").arg(growthPercent()).arg(stage());
@@ -104,6 +123,9 @@ LifeSettings LifeSettings::load(const QString &path) {
     s.idleMinutes=std::clamp(q.value("idleMinutes",15).toInt(),1,240);
     s.cooldownMinutes=std::clamp(q.value("cooldownMinutes",90).toInt(),5,1440);
     s.dailyLimit=std::clamp(q.value("dailyLimit",3).toInt(),1,10);
+    s.hourlyLimit=std::clamp(q.value("hourlyLimit",2).toInt(),1,10);
+    s.autonomyEnabled=q.value("autonomyEnabled",true).toBool();s.taskSuggestions=q.value("taskSuggestions",false).toBool();
+    s.experienceFollowups=q.value("experienceFollowups",false).toBool();s.explorationEnabled=q.value("explorationEnabled",false).toBool();
     s.quietStart=std::clamp(q.value("quietStart",22).toInt(),0,23);s.quietEnd=std::clamp(q.value("quietEnd",8).toInt(),0,23);
     s.pausedUntil=QDateTime::fromString(q.value("pausedUntil").toString(),Qt::ISODateWithMs);return s;
 }
@@ -111,12 +133,15 @@ void LifeSettings::save(const QString &path) const {
     if(frequency!="quiet" && frequency!="normal" && frequency!="active" && frequency!="off")throw std::runtime_error("Invalid proactive frequency");
     if(idleMinutes<1 || idleMinutes>240 || cooldownMinutes<5 || cooldownMinutes>1440 || dailyLimit<1 || dailyLimit>10 || quietStart<0 || quietStart>23 || quietEnd<0 || quietEnd>23)
         throw std::runtime_error("Invalid companionship settings");
+    if(hourlyLimit<1 || hourlyLimit>10)throw std::runtime_error("Invalid hourly limit");
     QSettings q(path,QSettings::IniFormat);q.setValue("enabled",enabled);q.setValue("memorySuggestions",memorySuggestions);
     q.setValue("memoryFollowups",memoryFollowups);
     q.setValue("focusMode",focusMode);
     q.setValue("frequency",frequency);q.setValue("focusProtection",focusProtection);q.setValue("proactiveSpeech",proactiveSpeech);q.setValue("hideUnheard",hideUnheard);
     q.setValue("idleMinutes",idleMinutes);q.setValue("cooldownMinutes",cooldownMinutes);q.setValue("dailyLimit",dailyLimit);
     q.setValue("quietStart",quietStart);q.setValue("quietEnd",quietEnd);q.sync();
+    q.setValue("hourlyLimit",hourlyLimit);q.setValue("autonomyEnabled",autonomyEnabled);q.setValue("taskSuggestions",taskSuggestions);
+    q.setValue("experienceFollowups",experienceFollowups);q.setValue("explorationEnabled",explorationEnabled);
     q.setValue("pausedUntil",pausedUntil.toUTC().toString(Qt::ISODateWithMs));q.sync();
     if(q.status()!=QSettings::NoError)throw std::runtime_error("Cannot save companionship settings");
 }
@@ -128,14 +153,24 @@ bool LifeSettings::quiet(QDateTime now) const {
 QPair<int,int> LifeSettings::intervalSeconds() const{
     if(frequency=="quiet")return {900,1500};if(frequency=="active")return {180,360};return {300,720};
 }
-bool CompanionLife::eligible(const LifeState &s,const LifeSettings &p,QDateTime now,QDateTime activity,bool blocked,QDateTime snoozed) {
-    if(!p.enabled || p.frequency=="off" || p.focusMode || blocked || p.quiet(now) || (snoozed.isValid() && now<snoozed))return false;
+QString CompanionLife::blockedReason(const LifeState &s,const LifeSettings &p,QDateTime now,QDateTime activity,bool blocked,QDateTime snoozed) {
+    if(!now.isValid())return "时钟不可用";
+    if(!p.enabled || p.frequency=="off")return "主动互动已关闭";
+    if(p.focusMode)return "手动勿扰";
+    if(blocked)return "忙碌、语音、全屏、会议或专注保护";
+    if(p.quiet(now))return "免打扰时段";
+    if(snoozed.isValid() && now<snoozed)return "暂时安静陪伴";
     const auto date=now.toLocalTime().date();
-    if(s.proactiveDate.isValid() && date<=s.proactiveDate && s.proactiveCount>=p.dailyLimit)return false;
-    if(s.lastProactive.isValid() && s.lastProactive.secsTo(now)<qint64(p.cooldownMinutes)*60*(1+std::min(3,s.ignoredOpenings)))return false;
+    if(s.proactiveDate.isValid() && date<=s.proactiveDate && s.proactiveCount>=p.dailyLimit)return "今日主动次数已达上限";
+    int count=0;for(const auto &v:s.growth.proactiveTimes){const auto t=QDateTime::fromString(v.toString(),Qt::ISODateWithMs);if(t.isValid() && t.secsTo(now)<3600)++count;}
+    if(count>=p.hourlyLimit)return "每小时主动次数已达上限";
+    if(s.lastProactive.isValid() && s.lastProactive.secsTo(now)<qint64(p.cooldownMinutes)*60*(1+std::min(3,s.ignoredOpenings)))return "冷却中；未回应时会延长间隔";
     // Short anti-overlap guard; actual randomized cadence belongs to the one-shot scheduler.
-    if(activity.isValid() && activity.secsTo(now)<30)return false;
-    return true;
+    if(activity.isValid() && activity.secsTo(now)<30)return "刚刚互动，稍后再来";
+    return {};
+}
+bool CompanionLife::eligible(const LifeState &s,const LifeSettings &p,QDateTime now,QDateTime activity,bool blocked,QDateTime snoozed){
+    return blockedReason(s,p,now,activity,blocked,snoozed).isEmpty();
 }
 QString CompanionLife::candidate(const QString &text) {
     const auto value=text.trimmed();

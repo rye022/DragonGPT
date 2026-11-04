@@ -90,7 +90,7 @@ void existingV6Migration(){
     {MemoryStore store(path);expect(store.nickname()=="preserved" && store.recentMessages().size()==2,"v6 migration preserves old records");
         store.recordPresented("water.0.0");bool discovered=false;for(const auto &v:store.collection())if(v.toObject()["id"]=="water.0.0")discovered=v.toObject()["discovered"].toBool();
         expect(discovered,"existing v6 can collect new hydration lines");
-        expect(QDir(dir.path()).entryList({"*.pre-v7-*.sqlite"},QDir::Files).size()==1,"feature migration consistent backup");
+        expect(QDir(dir.path()).entryList({"*.pre-v8-*.sqlite"},QDir::Files).size()==1,"feature migration consistent backup");
     }
 }
 void diskRestore(){

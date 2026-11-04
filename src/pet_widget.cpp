@@ -121,7 +121,7 @@ PetAction PetWidget::automaticAction(qint64 now) const {
         return companion_.emotions().state().emotion==Emotion::Relaxed?PetAction::Comfort:PetAction::Idle;
     if(companion_.busy() || companion_.voice().state()==VoiceSession::State::Thinking)return PetAction::Work;
     const auto mood=companion_.emotions().state().emotion;
-    if(randomActions_)return cycle_.current();
+    if(randomActions_ && companion_.growthIdleEnabled())return cycle_.current();
     if(mood!=Emotion::Calm)return EmotionEngine::preferredAction(mood);
     if(automaticRest_ && now-lastInteraction_>90000)return PetAction::Comfort;
     return PetAction::Idle;
@@ -131,7 +131,7 @@ void PetWidget::animate(){
     const double dt=qBound(0.0,double(now-lastFrame_)/1000.0,0.1);lastFrame_=now;
     const double smooth=1-std::exp(-dt*12);
     renderedMouth_+=(mouthOpen_-renderedMouth_)*smooth;
-    cycle_.tick(now,companionMode_>=0 || !motion_ || !randomActions_ || capturePending_ || interactionActive_ || manualUntil_>now || companion_.busy() || companion_.voice().state()!=VoiceSession::State::Idle || now<speechUntil_,EmotionEngine::actionsFor(companion_.emotions().state().emotion));
+    cycle_.tick(now,companionMode_>=0 || !motion_ || !randomActions_ || !companion_.growthIdleEnabled() || capturePending_ || interactionActive_ || manualUntil_>now || companion_.busy() || companion_.voice().state()!=VoiceSession::State::Idle || now<speechUntil_,companion_.idleActions(companion_.emotions().state().emotion));
     if(!motion_){actions_.reset();blinkAmount_=0;blushAmount_=0;lean_=0;updateHeadPosition();return;}
     actions_.set(automaticAction(now),now);actions_.tick(now);
     if(now>=nextBlink_){blinkStarted_=now;nextBlink_=now+QRandomGenerator::global()->bounded(3200,6400);}

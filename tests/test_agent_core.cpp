@@ -59,6 +59,21 @@ private slots:
         core.pause(true);core.approve(true);QTest::qWait(80);QVERIFY(!QFileInfo::exists(directory.filePath("output.txt")));core.pause(false);QTRY_COMPARE_WITH_TIMEOUT(finished.count(),1,15000);QFile file(directory.filePath("output.txt"));QVERIFY(file.open(QIODevice::ReadOnly));QCOMPARE(file.readAll(),QByteArray("must await user"));
         server.count=0;server.arguments={{"path","cancelled.txt"},{"text","never"}};QVERIFY(core.start("Write cancelled.txt"));QTRY_COMPARE_WITH_TIMEOUT(approvals.count(),2,10000);QVERIFY(core.start("Queued independent goal"));QCOMPARE(core.queuedTasks(),1);QVERIFY(!core.start("Queued independent goal"));core.cancel();core.approve(true);QTest::qWait(80);QVERIFY(!QFileInfo::exists(directory.filePath("cancelled.txt")));QVERIFY(!core.busy());QCOMPARE(core.queuedTasks(),0);
     }
+    void readOnlyExplorationRejectsWritesAndRevokes(){
+        QTemporaryDir directory(QDir::currentPath()+"/exploration-XXXXXX");
+        Companion c(directory.filePath("memory.sqlite"));auto settings=c.chatSettings();settings.onlineEnabled=true;c.saveChatSettings(settings);c.saveApiKey("fixture-only-not-a-real-key");
+        auto life=c.lifeSettings();life.explorationEnabled=true;c.saveLifeSettings(life);
+        ToolHub hub;Fixture server;server.tool="file_write";server.arguments={{"path","forbidden.txt"},{"text","untrusted attempted write"}};
+        AgentCore core(c,hub,nullptr,server.endpoint());core.configure(2,directory.path(),qEnvironmentVariable("DRAGON_TEST_PYTHON"));
+        QSignalSpy approvals(&core,&AgentCore::approvalRequired),finished(&core,&AgentCore::finished);
+        QVERIFY(core.start("Read-only exploration",true));QTRY_COMPARE_WITH_TIMEOUT(finished.count(),1,10000);
+        QCOMPARE(approvals.count(),0);QVERIFY(!QFileInfo::exists(directory.filePath("forbidden.txt")));QCOMPARE(c.memory().life().growth.dailyTasks,0);
+        const auto toolResult=server.requests.last()["messages"].toArray().last().toObject()["content"].toString();QVERIFY(toolResult.contains("Read-only exploration denies"));
+        for(const auto &v:server.requests.first()["tools"].toArray())QVERIFY(AgentCore::explorationToolAllowed(v.toObject()["function"].toObject()["name"].toString()));
+        server.count=0;server.tool="web_read";server.arguments={{"url","https://example.com"}};
+        QVERIFY(core.start("Review one webpage",true));QTRY_COMPARE_WITH_TIMEOUT(approvals.count(),1,10000);
+        life.explorationEnabled=false;c.saveLifeSettings(life);QVERIFY(!core.busy());core.approve(true);QTest::qWait(30);QCOMPARE(server.count,1);QCOMPARE(finished.count(),2);
+    }
     void echoGuardAndConfiguration(){
         QTemporaryDir directory;LocalSpeech legacy;SpeechRecognitionService speech(legacy,directory.path());speech.setOutputActive(true);QVERIFY(!speech.start().isEmpty());QVERIFY(!speech.listening());speech.setOutputActive(false);QVERIFY(speech.start().contains("回声"));
         AsrSettings s;s.engine="local";s.hotwords={"DragonGPT","C++"};s.silenceMs=1400;s.save(directory.filePath("asr.ini"));const auto loaded=AsrSettings::load(directory.filePath("asr.ini"));QCOMPARE(loaded.hotwords,s.hotwords);QCOMPARE(loaded.silenceMs,1400);QVERIFY(!loaded.autoSend);

@@ -23,7 +23,8 @@ public:
     QString state() const{return state_;}
     QString python() const{return python_;}
     void configure(int mode,const QString &root,const QString &python);
-    bool start(const QString &goal);
+    bool start(const QString &goal,bool readOnlyExploration=false);
+    static bool explorationToolAllowed(const QString &name);
     void approve(bool yes);
     void pause(bool paused);
     void cancel();
@@ -46,6 +47,8 @@ private:
     QJsonObject pending_;QString pendingName_,root_,python_,state_="idle",goal_;
     bool active_=false,paused_=false,approved_=false,awaiting_=false,workerWaiting_=false,workerStopping_=false;
     int mode_=0,steps_=0,rounds_=0,requestId_=0,networkRetries_=0;
+    bool exploration_=false;
+    bool taskToolSucceeded_=false,taskToolFailed_=false;
     quint64 epoch_=0;QMetaObject::Connection existingResult_,existingState_;
     void requestModel();void next();void execute();void receiveTool(bool ok,const QJsonObject &result);
     void fail(const QString &reason);void complete(const QString &text,bool ok);

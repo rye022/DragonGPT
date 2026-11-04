@@ -42,11 +42,11 @@ MemoryStore::MemoryStore(const QString &filePath)
     exec("PRAGMA foreign_keys=ON");
     exec("PRAGMA busy_timeout=3000");
     QSqlQuery version(db_);version.prepare("PRAGMA user_version");checked(version);version.next();const int previous=version.value(0).toInt();version.finish();
-    if(previous>7)throw std::runtime_error("Database is newer than this application; refusing downgrade");
+    if(previous>8)throw std::runtime_error("Database is newer than this application; refusing downgrade");
     QSqlQuery shape(db_);shape.prepare("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name IN ('wellness_state','focus_sessions','memory_vectors')");checked(shape);shape.next();const bool missingFeatureTables=shape.value(0).toInt()!=3;shape.finish();
-    if((previous<7 || missingFeatureTables) && QFileInfo(filePath).size()>0){
+    if((previous<8 || missingFeatureTables) && QFileInfo(filePath).size()>0){
         QSqlQuery tables(db_);tables.prepare("SELECT COUNT(*) FROM sqlite_master WHERE type='table'");checked(tables);tables.next();const int count=tables.value(0).toInt();tables.finish();
-        if(count>0)backupTo(filePath+".pre-v7-"+utcNow().toString("yyyyMMdd-HHmmsszzz")+".sqlite");
+        if(count>0)backupTo(filePath+".pre-v8-"+utcNow().toString("yyyyMMdd-HHmmsszzz")+".sqlite");
     }
     if(!db_.transaction())throw std::runtime_error("Cannot start schema migration");
     try{
@@ -95,7 +95,8 @@ MemoryStore::MemoryStore(const QString &filePath)
     exec("CREATE TABLE IF NOT EXISTS wellness_state(id INTEGER PRIMARY KEY CHECK(id=1),json TEXT NOT NULL)");
     exec("CREATE TABLE IF NOT EXISTS focus_sessions(id TEXT PRIMARY KEY,json TEXT NOT NULL,reward_day TEXT,reward INTEGER NOT NULL DEFAULT 0)");
     if(!hasWellness)syncCollection(utcNow());
-    pruneExpired();exec("PRAGMA user_version=7");
+    if(previous<8){auto migrated=life();saveLife(migrated);}
+    pruneExpired();exec("PRAGMA user_version=8");
     if(integrity()!="ok")throw std::runtime_error("Migration integrity check failed");
     if(!db_.commit())throw std::runtime_error("Schema migration commit failed");
     }catch(...){db_.rollback();throw;}
@@ -125,7 +126,7 @@ void MemoryStore::restoreBackup(const QString &backup,const QString &destination
             auto db=QSqlDatabase::addDatabase("QSQLITE",name);db.setConnectOptions("QSQLITE_OPEN_READONLY");db.setDatabaseName(backup);
             if(!db.open())throw std::runtime_error("Cannot read backup");
             QSqlQuery q(db);q.prepare("PRAGMA integrity_check");checked(q);if(!q.next() || q.value(0).toString()!="ok")throw std::runtime_error("Backup integrity check failed");q.finish();
-            q.prepare("PRAGMA user_version");checked(q);q.next();if(q.value(0).toInt()>7)throw std::runtime_error("Backup requires a newer application");q.finish();
+            q.prepare("PRAGMA user_version");checked(q);q.next();if(q.value(0).toInt()>8)throw std::runtime_error("Backup requires a newer application");q.finish();
             q.prepare("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name IN ('memories','messages','profile','relation')");checked(q);q.next();if(q.value(0).toInt()!=4)throw std::runtime_error("Not a DragonGPT backup");q.finish();
             q.prepare("VACUUM INTO ?");q.addBindValue(temporary);checked(q);q.finish();db.close();
         }
@@ -318,7 +319,8 @@ void MemoryStore::appendProactive(const QString &text,QDateTime now) {
         q.addBindValue(text.left(2000));q.addBindValue(now.toUTC().toString(Qt::ISODateWithMs));checked(q);
         auto state=life();const auto date=now.toLocalTime().date();
         if(!state.proactiveDate.isValid() || date>state.proactiveDate){state.proactiveDate=date;state.proactiveCount=0;}
-        if(state.awaitingReply)state.ignoredOpenings=qMin(10,state.ignoredOpenings+1);++state.proactiveCount;++state.topic;state.lastProactive=now.toUTC();state.awaitingReply=true;saveLife(state);
+        if(state.awaitingReply)state.ignoredOpenings=qMin(10,state.ignoredOpenings+1);++state.proactiveCount;++state.topic;state.lastProactive=now.toUTC();state.awaitingReply=true;
+        state.growth.recordProactive("关心","已授权的本地提醒或话题跟进",now);saveLife(state);
         exec("DELETE FROM messages WHERE id NOT IN (SELECT id FROM messages ORDER BY id DESC LIMIT 200)");
         if(!db_.commit())throw std::runtime_error("Proactive commit failed");
     }catch(...){db_.rollback();throw;}
@@ -398,7 +400,7 @@ QJsonObject MemoryStore::dialogueHistory() const {
 int MemoryStore::syncCollection(QDateTime now,bool inferred){
     const auto state=life();int added=0;
     for(const auto &v:DialogueEngine::catalog()){
-        const auto l=v.toObject();if(state.growthPercent()<DialogueEngine::requiredAffinity(l))continue;
+        const auto l=v.toObject();if(state.growthPercent()<state.affinityForDialogue(DialogueEngine::requiredAffinity(l)))continue;
         QSqlQuery q(db_);q.prepare("INSERT OR IGNORE INTO dialogue_collection(id,unlocked_at,unlock_inferred) VALUES(?,?,?)");
         q.addBindValue(l["id"].toString());q.addBindValue(now.toUTC().toString(Qt::ISODateWithMs));q.addBindValue(inferred);checked(q);added+=std::max(0,q.numRowsAffected());
     }
@@ -413,11 +415,11 @@ QJsonArray MemoryStore::collection() const{
     q.prepare("SELECT id,unlocked_at,discovered_at,first_heard_at,last_played_at,play_count,legacy,unlock_inferred FROM dialogue_collection");checked(q);
     while(q.next())records.insert(q.value(0).toString(),QJsonObject{{"unlocked_at",q.value(1).toString()},{"discovered_at",q.value(2).toString()},
         {"first_heard_at",q.value(3).toString()},{"last_played_at",q.value(4).toString()},{"play_count",q.value(5).toInt()},{"legacy",q.value(6).toBool()},{"unlock_inferred",q.value(7).toBool()}});
-    QJsonArray result;const int percent=life().growthPercent();
+    QJsonArray result;const auto state=life();const int percent=state.growthPercent();
     for(const auto &v:DialogueEngine::catalog()){
         auto l=v.toObject();const auto saved=records.value(l["id"].toString());for(auto it=saved.begin();it!=saved.end();++it)l[it.key()]=it.value();
-        const int required=DialogueEngine::requiredAffinity(l);l["required_affinity"]=required;l["category"]=DialogueEngine::category(l);
-        l["relation_stage"]=required>=80?3:required>=50?2:required>=20?1:0;
+        const int canonical=DialogueEngine::requiredAffinity(l),required=state.affinityForDialogue(canonical);l["required_affinity"]=required;l["category"]=DialogueEngine::category(l);
+        l["relation_stage"]=canonical>=80?3:canonical>=50?2:canonical>=20?1:0;
         l["unlocked"]=percent>=required || !l["unlocked_at"].toString().isEmpty();l["discovered"]=!l["discovered_at"].toString().isEmpty();
         result.append(l);
     }return result;
@@ -436,6 +438,32 @@ bool MemoryStore::awardInteraction(const QString &kind,const QString &text,QDate
         if(!db_.commit())throw std::runtime_error("Growth commit failed");return changed;
     }catch(...){db_.rollback();throw;}
 }
+void MemoryStore::configureGrowth(const GrowthProfile &p,bool reset,QDateTime now){
+    if(!GrowthProfile::validThresholds(p.thresholds))throw std::runtime_error("阶段阈值须在 1–99 内严格递增");
+    for(const auto &k:GrowthProfile::keys())if(!p.baseline[k].isDouble() || p.baseline[k].toDouble()<0 || p.baseline[k].toDouble()>100)throw std::runtime_error("性格初始值须在 0–100 内");
+    if(!db_.transaction())throw std::runtime_error("Cannot begin growth settings");
+    try{
+        auto s=life();auto &g=s.growth;g.enabled=p.enabled;g.personalityEnabled=p.personalityEnabled;g.habitsEnabled=p.habitsEnabled;
+        g.sharedEnabled=p.sharedEnabled;g.idleEnabled=p.idleEnabled;g.thresholds=p.thresholds;g.baseline=p.baseline;g.locked=p.locked;
+        if(reset){g.drift=GrowthProfile().drift;g.event("性格重置","用户重置成长倾向，保留明确设置",now);}
+        saveLife(s);syncCollection(now);if(!db_.commit())throw std::runtime_error("Growth settings commit failed");
+    }catch(...){db_.rollback();throw;}
+}
+bool MemoryStore::addSharedExperience(const QString &title,QDateTime now){
+    auto s=life();if(!s.growth.addShared(title,"user-confirmed",now))return false;saveLife(s);return true;
+}
+bool MemoryStore::editSharedExperience(const QString &id,const QString &title,QDateTime now){
+    auto s=life();for(int i=0;i<s.growth.shared.size();++i)if(s.growth.shared[i].toObject()["id"]==id){
+        auto old=s.growth.shared[i].toObject();s.growth.shared.removeAt(i);
+        if(!s.growth.addShared(title,"user-corrected",now))return false;
+        auto updated=s.growth.shared.last().toObject();updated["id"]=id;updated["at"]=old["at"];updated["updated_at"]=now.toUTC().toString(Qt::ISODateWithMs);
+        s.growth.shared[s.growth.shared.size()-1]=updated;saveLife(s);return true;
+    }return false;
+}
+void MemoryStore::forgetSharedExperience(const QString &id){
+    auto s=life();for(int i=0;i<s.growth.shared.size();++i)if(s.growth.shared[i].toObject()["id"]==id){s.growth.shared.removeAt(i);saveLife(s);return;}
+}
+void MemoryStore::clearGrowthHistory(){auto s=life();s.growth.events={};s.growth.habits=GrowthProfile().habits;saveLife(s);}
 DialogueSelection MemoryStore::selectDialogue(DialogueContext context,quint32 seed){
     if(!db_.transaction())throw std::runtime_error("Cannot begin interaction selection");
     try{
@@ -455,7 +483,8 @@ DialogueSelection MemoryStore::selectDialogue(DialogueContext context,quint32 se
                 msg.addBindValue(selected.text);msg.addBindValue(context.now.toUTC().toString(Qt::ISODateWithMs));checked(msg);
                 auto lifeState=life();const auto date=context.now.toLocalTime().date();
                 if(!lifeState.proactiveDate.isValid() || date>lifeState.proactiveDate){lifeState.proactiveDate=date;lifeState.proactiveCount=0;}
-                if(lifeState.awaitingReply)lifeState.ignoredOpenings=qMin(10,lifeState.ignoredOpenings+1);++lifeState.proactiveCount;++lifeState.topic;lifeState.lastProactive=context.now.toUTC();lifeState.awaitingReply=true;saveLife(lifeState);
+                if(lifeState.awaitingReply)lifeState.ignoredOpenings=qMin(10,lifeState.ignoredOpenings+1);++lifeState.proactiveCount;++lifeState.topic;lifeState.lastProactive=context.now.toUTC();lifeState.awaitingReply=true;
+                lifeState.growth.recordProactive(selected.topic,context.behaviorReason.isEmpty()?"本地情绪与关系台词选择":context.behaviorReason,context.now);saveLife(lifeState);
                 exec("DELETE FROM messages WHERE id NOT IN (SELECT id FROM messages ORDER BY id DESC LIMIT 200)");
             }
         }
@@ -500,7 +529,7 @@ void MemoryStore::saveWellness(const QJsonObject &state,const QJsonObject &sessi
                 auto record=session;record["reward_settled"]=true;record["reward"]=reward;
                 q.prepare("INSERT INTO focus_sessions(id,json,reward_day,reward) VALUES(?,?,?,?)");
                 q.addBindValue(id);q.addBindValue(QString::fromUtf8(QJsonDocument(record).toJson(QJsonDocument::Compact)));q.addBindValue(day);q.addBindValue(reward);checked(q);
-                if(reward){saveLife(lifeState);syncCollection(QDateTime::fromString(session.value("ended").toString(),Qt::ISODateWithMs));}
+                if(eligible){saveLife(lifeState);syncCollection(QDateTime::fromString(session.value("ended").toString(),Qt::ISODateWithMs));}
             }
         }
         q.prepare("INSERT INTO wellness_state(id,json) VALUES(1,?) ON CONFLICT(id) DO UPDATE SET json=excluded.json");

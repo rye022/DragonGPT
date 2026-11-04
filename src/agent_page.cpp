@@ -1,5 +1,6 @@
 #include "agent_page.h"
 #include <QComboBox>
+#include <QCheckBox>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QJsonDocument>
@@ -28,6 +29,7 @@ AgentPage::AgentPage(Companion &c,ToolHub &hub,QWidget *parent):QWidget(parent),
     connect(python_,&QLineEdit::editingFinished,this,apply);apply();
     note("文件/网页工具使用 Python 标准库；浏览器需 playwright 和 Edge；PDF、Word、Excel 需 pypdf、python-docx、openpyxl。缺失依赖会显示实际错误。不会自动安装软件。高级模式允许构建脚本运行代码，每次均需批准。");
     goal_=new QLineEdit;goal_->setObjectName("agentTaskInput");goal_->setMaxLength(4000);goal_->setPlaceholderText("例如：读取项目源码，分析编译配置并提出修改");layout->addWidget(goal_);
+    explorationMode_=new QCheckBox("只读探索（须在养成中心开启；禁止修改、终端、浏览器交互和外发）");explorationMode_->setObjectName("agentReadOnlyExploration");layout->addWidget(explorationMode_);
     auto *row=new QHBoxLayout;auto *start=new QPushButton("执行任务");start->setObjectName("startAgent");auto *pause=new QPushButton("暂停 / 继续");auto *cancel=new QPushButton("停止任务");auto *revoke=new QPushButton("撤销授权");row->addWidget(start);row->addWidget(pause);row->addWidget(cancel);row->addWidget(revoke);layout->addLayout(row);
     connect(start,&QPushButton::clicked,this,[this]{dispatch(goal_->text());});connect(goal_,&QLineEdit::returnPressed,start,&QPushButton::click);
     connect(pause,&QPushButton::clicked,this,[this]{core_.pause(core_.state()!="paused");});connect(cancel,&QPushButton::clicked,&core_,&AgentCore::cancel);connect(revoke,&QPushButton::clicked,this,[this]{root_->clear();mode_->setCurrentIndex(0);core_.configure(0,{},python_->text());});
@@ -41,5 +43,6 @@ AgentPage::AgentPage(Companion &c,ToolHub &hub,QWidget *parent):QWidget(parent),
     connect(&core_,&AgentCore::finished,this,[this](const QString &s,bool ok){events_->append((ok?"任务回复：\n":"任务失败：\n")+s.toHtmlEscaped().replace('\n',"<br>"));emit reveal();});
     layout->addStretch();
 }
-bool AgentPage::dispatch(const QString &text){if(core_.mode()==0)return false;goal_->setText(text);const bool started=core_.start(text);if(started)emit reveal();return started;}
+void AgentPage::prepareExploration(const QString &goal){goal_->setText(goal);explorationMode_->setChecked(true);preview_->setPlainText("只读探索目标已准备，尚未发起网络请求。\n只允许已授权目录内读取与逐次批准的网页检索；禁止文件修改、终端、浏览器操作和外发。请检查目标、模式和工作区，再点击执行任务。");}
+bool AgentPage::dispatch(const QString &text){if(core_.mode()==0)return false;goal_->setText(text);const bool started=core_.start(text,explorationMode_->isChecked());if(started)emit reveal();return started;}
 }

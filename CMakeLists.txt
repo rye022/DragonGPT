@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(DragonGPT VERSION 4.0.0 LANGUAGES CXX)
+project(DragonGPT VERSION 5.0.0 LANGUAGES CXX)
 if(WIN32)
     enable_language(RC)
 endif()
@@ -12,6 +12,7 @@ file(READ "${CMAKE_CURRENT_SOURCE_DIR}/assets/interaction/dialogue.json" DIALOGU
 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/assets/interaction/dialogue.json")
 configure_file(src/dialogue_catalog.h.in generated/dialogue_catalog.h @ONLY)
 add_library(dragon_core STATIC
+    src/growth_profile.h src/growth_profile.cpp
     src/tool_hub.h src/tool_hub.cpp
     src/agent_core.h src/agent_core.cpp src/speech_recognition.h src/speech_recognition.cpp
     src/context_engine.h src/context_engine.cpp
@@ -48,13 +49,15 @@ target_compile_definitions(dragon_core PRIVATE DRAGON_SOURCE_DIR="${CMAKE_CURREN
 add_executable(dragon_cloud_voice_probe EXCLUDE_FROM_ALL tests/probe_cloud_voice.cpp)
 target_link_libraries(dragon_cloud_voice_probe PRIVATE dragon_core)
 add_library(dragon_smart STATIC src/smart_page.h src/smart_page.cpp src/agent_page.h src/agent_page.cpp)
+add_library(dragon_growth_ui STATIC src/growth_center.h src/growth_center.cpp)
+target_link_libraries(dragon_growth_ui PUBLIC dragon_core Qt6::Widgets)
 target_link_libraries(dragon_smart PUBLIC dragon_core Qt6::Widgets)
 add_executable(DragonCapture src/capture_helper.cpp)
 target_link_libraries(DragonCapture PRIVATE Qt6::Core Qt6::Gui user32 gdi32)
 add_executable(DragonGPT WIN32 src/main.cpp src/pet_widget.h src/pet_widget.cpp
     src/growth_gauge.h src/growth_gauge.cpp src/sprite_motion.h src/sprite_motion.cpp
     src/bond_gallery.h src/bond_gallery.cpp src/companion_window.h src/companion_window.cpp src/focus_page.h src/focus_page.cpp src/diagnostics.h src/diagnostics.cpp assets.qrc)
-target_link_libraries(DragonGPT PRIVATE dragon_smart dragon_core Qt6::Widgets Qt6::Gui)
+target_link_libraries(DragonGPT PRIVATE dragon_smart dragon_growth_ui dragon_core Qt6::Widgets Qt6::Gui)
 if(WIN32)
     configure_file(src/version.rc.in generated/version.rc @ONLY)
     target_sources(DragonGPT PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated/version.rc")
@@ -72,6 +75,10 @@ configure_file(scripts/ocr.ps1 scripts/ocr.ps1 COPYONLY)
 include(CTest)
 if(BUILD_TESTING)
     find_package(Qt6 REQUIRED COMPONENTS Test)
+    add_executable(dragon_growth_tests tests/test_growth.cpp)
+    target_link_libraries(dragon_growth_tests PRIVATE dragon_growth_ui Qt6::Test)
+    add_test(NAME dragon_growth COMMAND dragon_growth_tests)
+    set_tests_properties(dragon_growth PROPERTIES TIMEOUT 45)
     add_executable(dragon_agent_tests tests/test_agent_core.cpp)
     target_link_libraries(dragon_agent_tests PRIVATE dragon_core Qt6::Test)
     add_test(NAME dragon_agent COMMAND dragon_agent_tests)
@@ -215,10 +222,12 @@ if(BUILD_TESTING)
         target_sources(${gui_test} PRIVATE src/tools_page.cpp src/clipboard_panel.h src/clipboard_panel.cpp)
     endforeach()
     foreach(gui_target dragon_v3_ui_tests dragon_bond_tests dragon_upgrade_tests dragon_emotion_ui_tests dragon_latency_tests dragon_focus_ui_tests dragon_update_tests)
-        target_link_libraries(${gui_target} PRIVATE dragon_smart)
+        target_link_libraries(${gui_target} PRIVATE dragon_smart dragon_growth_ui)
     endforeach()
     file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/test-temp")
     get_property(dragon_test_names DIRECTORY PROPERTY TESTS)
     set_tests_properties(${dragon_test_names} PROPERTIES ENVIRONMENT_MODIFICATION
         "TEMP=set:${CMAKE_BINARY_DIR}/test-temp;TMP=set:${CMAKE_BINARY_DIR}/test-temp;DRAGONGPT_DISABLE_HOTKEY=set:1;DEEPSEEK_API_KEY=unset:;DASHSCOPE_API_KEY=unset:")
+    find_package(Python3 COMPONENTS Interpreter REQUIRED)
+    set_property(TEST dragon_agent APPEND PROPERTY ENVIRONMENT_MODIFICATION "DRAGON_TEST_PYTHON=set:${Python3_EXECUTABLE}")
 endif()

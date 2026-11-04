@@ -1,10 +1,12 @@
 #pragma once
 #include "types.h"
+#include "growth_profile.h"
 #include <QJsonObject>
 #include <QStringList>
 
 namespace dragon {
 struct LifeState {
+    GrowthProfile growth;
     int experience=0, activeDays=0, dailyExperience=0;
     int legacyStage=0;
     QDate growthDate, proactiveDate;
@@ -14,7 +16,7 @@ struct LifeState {
     int proactiveCount=0, topic=0;
     bool awaitingReply=false;
     int ignoredOpenings=0;
-    QDateTime lastClickGrowth,lastChatGrowth,lastFocusGrowth;
+    QDateTime lastClickGrowth,lastChatGrowth,lastFocusGrowth,lastTaskGrowth;
     QStringList awardedEvents;
     QJsonObject json() const;
     static LifeState fromJson(const QJsonObject &json);
@@ -24,6 +26,8 @@ struct LifeState {
     QString growthHint() const;
     int growthPercent() const;
     int stageIndex() const;
+    int dialoguePercent() const;
+    int affinityForDialogue(int required) const;
 };
 struct LifeSettings {
     bool enabled=true, memorySuggestions=true, focusMode=false;
@@ -31,6 +35,9 @@ struct LifeSettings {
     QString frequency="normal";
     bool focusProtection=true, proactiveSpeech=true, hideUnheard=false;
     int idleMinutes=15, cooldownMinutes=90, dailyLimit=3;
+    int hourlyLimit=2;
+    bool autonomyEnabled=true, taskSuggestions=false, experienceFollowups=false;
+    bool explorationEnabled=false;
     int quietStart=22, quietEnd=8;
     QDateTime pausedUntil;
     static LifeSettings load(const QString &path);
@@ -40,6 +47,8 @@ struct LifeSettings {
 };
 class CompanionLife {
 public:
+    static QString blockedReason(const LifeState &state,const LifeSettings &settings,QDateTime now,
+                                 QDateTime lastActivity,bool blocked,QDateTime snoozedUntil={});
     static bool eligible(const LifeState &state,const LifeSettings &settings,QDateTime now,
                          QDateTime lastActivity,bool blocked,QDateTime snoozedUntil={});
     static QString candidate(const QString &text);

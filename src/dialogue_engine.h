@@ -8,6 +8,8 @@ struct DialogueContext {
     int percent=0;Emotion emotion=Emotion::Calm;PetAction action=PetAction::Idle;
     QDateTime now=QDateTime::currentDateTimeUtc();bool proactive=false,rapid=false;
     int sessionMinutes=0;QVector<Memory> memories;
+    QJsonObject traits;
+    QString behaviorReason;
     int stage() const{return percent>=80?3:percent>=50?2:percent>=20?1:0;}
 };
 struct DialogueSelection {QString id,text,topic;bool hidden=false;int minPercent=0;qint64 memoryId=0;explicit operator bool() const{return !text.isEmpty();}};

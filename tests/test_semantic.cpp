@@ -14,7 +14,7 @@ private slots:
         {MemoryStore initial(path);initial.setNickname("旧称呼");initial.remember("我在学习 C++ 多线程");initial.appendExchange("难过","陪你");initial.selectDialogue({});}
         {auto db=QSqlDatabase::addDatabase("QSQLITE","v5-fixture");db.setDatabaseName(path);QVERIFY(db.open());QSqlQuery q(db);QVERIFY(q.exec("PRAGMA user_version=5"));db.close();}QSqlDatabase::removeDatabase("v5-fixture");
         {MemoryStore upgraded(path);QCOMPARE(upgraded.nickname(),QString("旧称呼"));QCOMPARE(upgraded.exchanges(),1);QCOMPARE(upgraded.memories().size(),1);QCOMPARE(upgraded.life().mood,Emotion::Sad);QCOMPARE(upgraded.integrity(),QString("ok"));
-         QVERIFY(QDir(dir.path()).entryList({"*.pre-v7-*.sqlite"},QDir::Files).size()==1);
+         QVERIFY(QDir(dir.path()).entryList({"*.pre-v8-*.sqlite"},QDir::Files).size()==1);
          upgraded.backupTo(dir.path()+"/backup.sqlite");upgraded.clearMemories();QCOMPARE(upgraded.memories().size(),0);QCOMPARE(upgraded.exchanges(),1);QVERIFY(upgraded.life().experience>0);}
         {MemoryStore backup(dir.path()+"/backup.sqlite");QCOMPARE(backup.memories().size(),1);QCOMPARE(backup.nickname(),QString("旧称呼"));}
     }

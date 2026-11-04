@@ -26,6 +26,7 @@ public:
     void observeActivity(int seconds,QDate date);
     void setFocusStatisticsProvider(std::function<QJsonObject(QDate)> provider){focusStatistics_=std::move(provider);}
 signals:
+    void taskCompleted(qint64 id);
     void changed();
     void notification(const QString &text,dragon::PetAction action,bool passive=false);
     void confirmationNeeded(const dragon::TaskDraft &draft);

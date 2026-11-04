@@ -1,6 +1,6 @@
 # Third-party notices
 
-- Application source: this project does not yet declare a public distribution license; choose one before public release.
+- Application source: publicly viewable source; no open-source license has been granted for the project's own code or character assets. Third-party components retain their respective licenses.
 - Qt 6.8.3: dynamically linked Core, Gui, Widgets, Sql, Network, Multimedia, WebSockets, Concurrent and Windows platform/SQLite/Schannel/Windows multimedia plugins. See bundled licenses and [Qt licensing](https://doc.qt.io/qt-6/licensing.html). Applicable Qt sources are available from [Qt 6.8.3 archives](https://download.qt.io/archive/qt/6.8/6.8.3/single/). Preserve the ability to replace/relink applicable LGPL dynamic libraries.
 - Matching MinGW 13.1 runtime DLLs are deployed alongside the application. See bundled MinGW notices and GCC Runtime Library Exception.
 - Windows SAPI, system voices, audio devices and Windows Media Foundation are supplied by Windows, not redistributed here.

@@ -83,6 +83,11 @@ DialogueSelection DialogueEngine::select(const DialogueContext &c,QJsonObject &s
             const int cooldown=exclude==0 && line["kind"]!="hidden"?std::min(300,line["cooldown"].toInt()):line["cooldown"].toInt();
             if(last.isValid() && last.secsTo(c.now)<cooldown)continue;
             double weight=line["weight"].toDouble(1)*EmotionEngine::topicWeight(c.emotion,line["topic"].toString());
+            if(!c.traits.isEmpty()){
+                const auto topic=line["topic"].toString();
+                const QString trait=topic=="care" || topic=="rest"?"care":topic=="tease" || topic=="tsundere"?"tsundere":topic=="work"?"initiative":topic=="happy"?"playfulness":topic=="curious"?"curiosity":"humor";
+                weight*=.5+c.traits[trait].toDouble(50)/100.0;
+            }
             if(line["stage"].toInt(c.stage())!=c.stage())weight*=.12;
             for(int i=std::max(0,int(recent.size())-8);i<recent.size();++i){
                 const auto previous=recent[i].toObject();

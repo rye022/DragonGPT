@@ -34,7 +34,7 @@ public:
     void cancelReply();
     bool busy() const {return chat_.busy() || memoryPending_ || agentBusy_;}
     void setAgentBusy(bool value){agentBusy_=value;emit busyChanged(busy());}
-    void finishAgentExchange(const QString &input,const QString &output){finishResponse(input,Reply{output},"agent",true);}
+    void finishAgentExchange(const QString &input,const QString &output,bool completedTask=false);
     const ChatSettings &chatSettings() const {return chatSettings_;}
     void saveChatSettings(const ChatSettings &settings);
     void saveApiKey(const QByteArray &key);
@@ -61,6 +61,9 @@ public:
     int desktopActiveMinutes() const{return desktopActiveSeconds_/60;}
     bool tryProactive(bool blocked,QDateTime now=QDateTime::currentDateTimeUtc());
     QString previewProactive() const;
+    QString autonomyReason() const{return autonomyReason_;}
+    void saveGrowthPreferences(const GrowthProfile &preferences,bool resetDrift=false);
+    void sharedExperiencesChanged(){emit memoryChanged();}
     void resolveSuggestion(qint64 id,bool accept,bool replaceConflict=false);
     void refreshLife();
     void setFocusContext(bool focusing,bool resting);
@@ -69,6 +72,8 @@ public:
     void tickEmotions(){emotions_.tick(now_());}
     void focusSettled(){notifyBondGrowth();emit memoryChanged();}
     Emotion effectiveMood(QDateTime now={}) const;
+    QList<PetAction> idleActions(Emotion mood) const;
+    bool growthIdleEnabled() const{return !cachedLife_.growth.enabled || cachedLife_.growth.idleEnabled;}
     DialogueSelection clickLine(PetAction action,QDateTime now=QDateTime::currentDateTimeUtc());
     void attachProactiveScheduler(QObject *owner,std::function<bool()> blocked);
     bool proactiveOwner(const QObject *owner) const;
@@ -126,8 +131,10 @@ private:
     std::function<QDateTime()> now_;
     QDateTime proactiveDue_;
     bool proactiveInFlight_=false;
+    QString autonomyReason_="等待下一次本地决策";
     DialogueSelection proactiveLine_;
     int notifiedStage_=0;
+    LifeState cachedLife_;
     void scheduleProactive(bool deferred=false);
     void proactiveTimeout();
     void notifyBondGrowth();

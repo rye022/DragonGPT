@@ -54,7 +54,7 @@ QString BondGallery::visibleText(const QJsonObject &l) const{
 void BondGallery::refresh(){
     rows_=companion_.memory().collection();const auto life=companion_.memory().life();int unlocked=0,collected=0;
     for(const auto &v:rows_){unlocked+=v.toObject()["unlocked"].toBool();collected+=v.toObject()["discovered"].toBool();}
-    const int percent=life.growthPercent(),next=percent>=80?100:percent>=50?80:percent>=20?50:20;
+    const int percent=life.growthPercent(),next=life.stageIndex()>=3?100:life.growth.thresholds[life.stageIndex()].toInt();
     overview_->setText(QString("亲密度 %1% · %2\n已解锁 %3 / %4 · 已收集 %5 · 特殊事件 %6\n%7")
         .arg(percent).arg(life.stage()).arg(unlocked).arg(rows_.size()).arg(collected).arg(companion_.memory().unlockedEvents())
         .arg(percent>=100?QString("深度羁绊已满，陪伴仍会继续"):percent>=80?QString("距离满羁绊还有 %1%").arg(100-percent):QString("距离下一阶段还有 %1%（门槛 %2%）").arg(next-percent).arg(next)));

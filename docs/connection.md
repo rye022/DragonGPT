@@ -1,5 +1,7 @@
 # DeepSeek 连接
 
+5.0 仍沿用本页所述聊天接口链路；Agent 的工具调用使用独立 Chat Completions 链路，详见 [完整手册](DRAGONGPT_5_MANUAL.md#agent-模式与授权)。以下接口和默认模型描述反映程序实现，不保证当前账号具有服务权限。配置后以真实返回的状态为准。
+
 v1.2 使用官方 Responses 接口 https://api.deepseek.com/responses，默认 deepseek-flash。模型名按最新官方文档与账户权限填写。
 选择直接连接无需 VPN；显式代理失败不改为直连。启动及待机不发送聊天；在线开关开启后发送消息才请求。
 DEEPSEEK_API_KEY 优先，否则读取 data/deepseek-key.dpapi。OpenAI 环境变量和旧 api-key.dpapi 不会用于 DeepSeek。

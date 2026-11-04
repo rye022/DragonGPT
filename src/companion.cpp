@@ -40,6 +40,10 @@ Companion::Companion(const QString &databasePath, QObject *parent,QUrl endpoint,
     connect(&health_,&HealthMonitor::activeSeconds,&tools_,&LocalTools::observeActivity);
     connect(&health_,&HealthMonitor::sustainedLoad,this,[this](const QString &text){try{tools_.addStatistic("load_events");}catch(const std::exception &){qWarning("Cannot save load statistics");}emit tools_.notification(text,PetAction::Comfort,true);});
     connect(&tools_,&LocalTools::error,this,&Companion::operationFailed);
+    connect(&tools_,&LocalTools::taskCompleted,this,[this](qint64 id){
+        try{memory_.awardInteraction("task",{},now_(),"todo-"+QString::number(id));notifyBondGrowth();emit memoryChanged();}
+        catch(const std::exception &){emit operationFailed("任务已完成，成长记录暂时无法保存");}
+    });
     connect(&semantic_,&SemanticMemory::searched,this,[this](quint64 id,const QJsonArray &matches,const QString &status){
         if(!memoryPending_ || id!=memoryRequest_)return;
         memoryPending_=false;const auto text=pendingText_;pendingText_.clear();semanticResults_.clear();
@@ -54,6 +58,7 @@ Companion::Companion(const QString &databasePath, QObject *parent,QUrl endpoint,
     });
     chatSettings_=ChatSettings::load(settingsFile_);
     lifeSettings_=LifeSettings::load(dataDirectory()+"/companionship.ini");refreshLife();updateEmotionContext(now_(),true);
+    cachedLife_=memory_.life();connect(this,&Companion::memoryChanged,this,[this]{cachedLife_=memory_.life();});
     notifiedStage_=memory_.life().stageIndex();scheduleProactive();
     if(chatSettings_.onlineEnabled) routeStatus_="自动模式 · 发送时检测代理连接";
     connect(&chat_,&ChatService::timing,this,[this](const QString &event){traceLatency(event);});
@@ -170,6 +175,10 @@ Reply Companion::respond(const QString &input) {
         if(name.isEmpty()) reply.text="你希望我怎么称呼你？";
         else { memory_.setNickname(name); reply.text=QString("好，%1。我会这样称呼你。").arg(name); }
         reply.emotion=Emotion::Smile;
+    } else if(text.contains("共同经历") || text.contains("回忆") || text.contains("还记得我们")) {
+        const auto shared=QJsonDocument::fromJson(memory_.life().growth.sharedContext(text).toUtf8()).array();
+        if(shared.isEmpty())reply.text="目前没有可回顾的已确认共同经历。你可以在「养成中心」查看开关，或亲自确认保存一条经历。";
+        else {reply.text="你确认过的共同经历有：";for(const auto &v:shared)reply.text+="\n· "+v.toObject()["title"].toString();}
     } else if(text.contains("记得") || text.contains("记住了什么")) {
         const auto memories=relatedMemories(text);
         if(memories.isEmpty()) reply.text=memory_.memories().isEmpty()
@@ -196,6 +205,15 @@ Reply Companion::respond(const QString &input) {
             reply.text=related.isEmpty()
                 ? "嗯，我在。现在是离线互动版，只能回应一些预设话题。你可以试试「我有点累」「我完成了」，或告诉我需要记住的事。"
                 : QString("这让我想起你保存的这件事：「%1」。我记着。").arg(related.first().content);
+            const auto &g=cachedLife_.growth;
+            if(related.isEmpty() && g.enabled && g.personalityEnabled){
+                const auto traits=g.traits();
+                if(traits["care"].toDouble()>=90)reply.text="嗯，我在认真听哦。想说多少都可以；离线时我只能回应有限的话题，也可以帮你回顾已确认的共同经历。";
+                else if(traits["curiosity"].toDouble()>=80)reply.text="这个话题让我有些好奇。你想先从哪一小点聊起？离线时，我会如实说明哪些地方还不知道。";
+                else if(traits["playfulness"].toDouble()>=65)reply.text="好呀，一起找点小乐趣吧～现在是离线互动，你可以选个熟悉的话题慢慢聊。";
+                else if(traits["tsundere"].toDouble()>=50)reply.text="哼，我有在听啦。想聊什么就告诉我；离线时不会的内容，我也会坦白说。";
+                else if(traits["humor"].toDouble()>=65)reply.text="嗯，聊天的小板凳搬好了。现在是离线互动，复杂问题我们可以先记下来，慢慢拆解。";
+            }
             break;
         }
         }
@@ -266,6 +284,15 @@ void Companion::completedInteraction(const QString &text){
 void Companion::saveLifeSettings(const LifeSettings &settings){
     settings.save(dataDirectory()+"/companionship.ini");lifeSettings_=settings;noteActivity();emit memoryChanged();
 }
+void Companion::saveGrowthPreferences(const GrowthProfile &p,bool reset){
+    memory_.configureGrowth(p,reset,now_());updateEmotionContext(now_(),true);emit memoryChanged();
+}
+void Companion::finishAgentExchange(const QString &input,const QString &output,bool completedTask){
+    finishResponse(input,Reply{output},"agent",true);
+    if(!completedTask)return;
+    const auto id=QString::fromLatin1(QCryptographicHash::hash(input.simplified().toUtf8(),QCryptographicHash::Sha256).toHex());
+    memory_.awardInteraction("task",{},now_(),"agent-"+id);notifyBondGrowth();emit memoryChanged();
+}
 void Companion::noteActivity(QDateTime now){if(!now.isValid())now=now_();lastActivity_=now;if(!proactiveInFlight_)scheduleProactive();}
 void Companion::traceProactive(const QString &event,const QString &detail){
     const QJsonObject entry{{"component","proactive"},{"event",event},{"detail",detail},{"at",now_().toString(Qt::ISODateWithMs)}};
@@ -318,27 +345,56 @@ bool Companion::proactiveOwner(const QObject *owner) const{
 Emotion Companion::effectiveMood(QDateTime now) const{
     if(!now.isValid())now=now_();return emotions_.moodAt(now);
 }
+QList<PetAction> Companion::idleActions(Emotion mood) const{
+    const auto &g=cachedLife_.growth;
+    if(!g.enabled || !g.idleEnabled || mood!=Emotion::Calm)return EmotionEngine::actionsFor(mood);
+    QList<PetAction> allowed{PetAction::Idle,PetAction::Comfort};const int stage=cachedLife_.stageIndex();
+    if(stage>=1)allowed<<PetAction::Wave;if(stage>=2)allowed<<PetAction::Shy;if(stage>=3)allowed<<PetAction::Work;
+    if(g.personalityEnabled){
+        const auto t=g.traits();
+        const auto preferred=t["curiosity"].toDouble()>=80?PetAction::Work:t["playfulness"].toDouble()>=65?PetAction::Wave:t["tsundere"].toDouble()>=50?PetAction::Shy:PetAction::Idle;
+        if(allowed.contains(preferred)){allowed.removeAll(preferred);allowed.prepend(preferred);}
+    }return allowed;
+}
 DialogueSelection Companion::clickLine(PetAction action,QDateTime now){
-    DialogueContext context;context.percent=memory_.life().growthPercent();context.emotion=effectiveMood(now);
+    const auto s=memory_.life();DialogueContext context;context.percent=s.dialoguePercent();context.emotion=effectiveMood(now);
+    if(s.growth.enabled && s.growth.personalityEnabled)context.traits=s.growth.traits();
     context.action=action;context.now=now;const auto line=memory_.selectDialogue(context);
     if(line){memory_.awardInteraction("click",{},now);noteActivity(now);notifyBondGrowth();emit memoryChanged();}
     return line;
 }
 QString Companion::previewProactive() const{
-    DialogueContext context;context.percent=memory_.life().growthPercent();context.emotion=effectiveMood();context.proactive=true;context.action=EmotionEngine::preferredAction(context.emotion);
+    const auto s=memory_.life();DialogueContext context;context.percent=s.dialoguePercent();context.emotion=effectiveMood();context.proactive=true;context.action=EmotionEngine::preferredAction(context.emotion);
+    if(s.growth.enabled && s.growth.personalityEnabled)context.traits=s.growth.traits();
     context.sessionMinutes=desktopActiveMinutes();
     auto copy=memory_.dialogueHistory();return DialogueEngine::select(context,copy).text;
 }
 bool Companion::tryProactive(bool blocked,QDateTime now){
     const auto state=memory_.life();
-    if(proactiveInFlight_ || !CompanionLife::eligible(state,lifeSettings_,now,lastActivity_,blocked || busy() || voice_.state()!=VoiceSession::State::Idle,lifeSettings_.pausedUntil)){
+    autonomyReason_=proactiveInFlight_?"已有主动互动正在展示":CompanionLife::blockedReason(state,lifeSettings_,now,lastActivity_,blocked || busy() || voice_.state()!=VoiceSession::State::Idle,lifeSettings_.pausedUntil);
+    if(!autonomyReason_.isEmpty()){
         traceProactive("deferred",proactiveInFlight_?"interaction in flight":"voice/chat/bubble/action/focus/quiet guard");return false;
     }
     traceProactive("conditions_passed");
-    DialogueContext context;context.percent=state.growthPercent();context.emotion=effectiveMood(now);context.now=now;context.proactive=true;context.action=EmotionEngine::preferredAction(context.emotion);
+    if(lifeSettings_.autonomyEnabled && !state.growth.preferredHour(now)){autonomyReason_="已学习的互动时段之外，保持安静";traceProactive("deferred","learned interaction hours");return false;}
+    DialogueContext context;context.percent=state.dialoguePercent();context.emotion=effectiveMood(now);context.now=now;context.proactive=true;context.action=EmotionEngine::preferredAction(context.emotion);
+    if(state.growth.enabled && state.growth.personalityEnabled)context.traits=state.growth.traits();
+    autonomyReason_="冷却与勿扰检查通过；按当前心情、关系和性格选择本地台词";
+    context.behaviorReason=autonomyReason_;
     context.sessionMinutes=desktopActiveMinutes();
     DialogueSelection line;
-    if(lifeSettings_.memoryFollowups && (context.emotion==Emotion::Calm || context.emotion==Emotion::Smile || context.emotion==Emotion::Relaxed))line=memory_.memoryFollowup(now);
+    if(lifeSettings_.autonomyEnabled && state.growth.enabled){
+        if(lifeSettings_.taskSuggestions && state.topic%3==0){
+            int count=0;for(const auto &task:tools_.tasks())if(!task.done && (!task.due.isValid() || task.due<=now))++count;
+            if(count)line={"life.tasks",QString("还有 %1 项待办可以慢慢处理哦。要不要一起选一件？").arg(count),"任务建议"};
+        }
+        if(!line && lifeSettings_.experienceFollowups && state.growth.sharedEnabled && !state.growth.shared.isEmpty() && state.topic%3==1)
+            line={"life.shared","我们积累了一些共同经历呢。想回顾时，可以在聊天里告诉我哦。","共同经历"};
+        if(!line && lifeSettings_.explorationEnabled && state.topic%3==2)
+            line={"life.explore","有想一起探索的问题吗？可以在养成中心填写目标，再到 Agent 审阅计划哦。","探索建议"};
+        if(line)memory_.appendProactive(line.text,now);
+    }
+    if(!line && lifeSettings_.memoryFollowups && (context.emotion==Emotion::Calm || context.emotion==Emotion::Smile || context.emotion==Emotion::Relaxed))line=memory_.memoryFollowup(now);
     if(!line)line=memory_.selectDialogue(context);if(!line){traceProactive("deferred","no eligible line");return false;}
     proactiveLine_=line;proactiveInFlight_=true;proactiveTimer_.stop();traceProactive("line_selected",line.id);
     QTimer::singleShot(30000,this,[this,id=line.id]{if(proactiveInFlight_ && proactiveLine_.id==id)finishProactive("presentation watchdog");});
@@ -363,7 +419,9 @@ QString Companion::promptContext(const QString &query) const {
         {"profile_memories",profile},{"communication_preferences",preferences},
         {"related_memories",events},{"companion_emotion",emotionName(effectiveMood())},
         {"emotion_expires_at",life.moodUntil.toString(Qt::ISODate)},
-        {"relationship_growth",QJsonObject{{"stage",memory_.life().stage()},{"intimacy_percent",memory_.life().growthPercent()},{"language_style",DialogueEngine::relationStyle(memory_.life().growthPercent())},{"active_days",memory_.life().activeDays},{"experience",memory_.life().experience}}},
+        {"relationship_growth",QJsonObject{{"stage",life.stage()},{"intimacy_percent",life.growthPercent()},{"language_style",DialogueEngine::relationStyle(life.dialoguePercent())},{"active_days",life.activeDays},{"experience",life.experience},{"trust_percent",life.growth.trust/6}}},
+        {"personality_tendencies",life.growth.enabled && life.growth.personalityEnabled?life.growth.traits():QJsonObject{}},
+        {"confirmed_shared_experiences",QJsonDocument::fromJson(life.growth.sharedContext(query).toUtf8()).array()},
         {"desktop_context",desktopContext_?desktopContext_():QJsonObject{}},
         {"tone","安静、真诚、简洁，不过度说教"}};
     return QString::fromUtf8(QJsonDocument(context).toJson(QJsonDocument::Compact));

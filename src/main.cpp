@@ -2,6 +2,7 @@
 #include "diagnostics.h"
 #include "smart_page.h"
 #include "agent_page.h"
+#include "growth_center.h"
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QApplication>
@@ -37,7 +38,7 @@
 int main(int argc,char **argv) {
     qputenv("QT_MEDIA_BACKEND","windows");
     QApplication app(argc,argv);
-    app.setApplicationName("DragonGPT"); app.setOrganizationName("DragonGPT"); app.setApplicationVersion("4.0.0");
+    app.setApplicationName("DragonGPT"); app.setOrganizationName("DragonGPT"); app.setApplicationVersion("5.0.0");
     app.setFont(QFont("Microsoft YaHei UI",10));
     QCommandLineParser parser; parser.addHelpOption(); parser.addVersionOption();
     const auto legacyData=QCoreApplication::applicationDirPath()+"/data";
@@ -77,7 +78,7 @@ int main(int argc,char **argv) {
         if(parser.isSet("restore-backup"))dragon::MemoryStore::restoreBackup(parser.value("restore-backup"),dataDir+"/memory.sqlite");
         dragon::Companion companion(dataDir+"/memory.sqlite");
         if(parser.isSet("verify-data")){
-            const QJsonObject result{{"version",app.applicationVersion()},{"schema",7},{"integrity",companion.memory().integrity()},{"memories",int(companion.memory().memories().size())},{"exchanges",companion.memory().exchanges()},{"collection_rows",int(companion.memory().collection().size())},{"focus_records",int(companion.memory().focusSessions().size())}};
+            const QJsonObject result{{"version",app.applicationVersion()},{"schema",8},{"integrity",companion.memory().integrity()},{"memories",int(companion.memory().memories().size())},{"exchanges",companion.memory().exchanges()},{"collection_rows",int(companion.memory().collection().size())},{"focus_records",int(companion.memory().focusSessions().size())}};
             QSaveFile report(dataDir+"/upgrade-verification.json");const auto bytes=QJsonDocument(result).toJson();if(!report.open(QIODevice::WriteOnly) || report.write(bytes)!=bytes.size() || !report.commit())return 4;return result["integrity"]=="ok"?0:5;
         }
         if(parser.isSet("prepare-click-voices")){
@@ -295,6 +296,10 @@ int main(int argc,char **argv) {
                         tabs->setCurrentIndex(9);app.processEvents();saved=window.grab().save(previewDir+"/smart-preview.png") && saved;
                         if(auto *smart=window.findChild<dragon::SmartPage*>()){smart->proposeGoal("请检查电脑为什么变卡，再总结今天的使用情况");if(auto *scroll=smart->findChild<QScrollArea*>()){scroll->verticalScrollBar()->setValue(scroll->verticalScrollBar()->maximum());app.processEvents();saved=window.grab().save(previewDir+"/agent-preview.png") && saved;}}
                         if(auto *agent=window.findChild<dragon::AgentPage*>()){tabs->setCurrentWidget(agent);app.processEvents();saved=window.grab().save(previewDir+"/agent-v4.png") && saved;}
+                        if(auto *growth=window.findChild<dragon::GrowthCenter*>()){
+                            tabs->setCurrentWidget(growth);app.processEvents();saved=window.grab().save(previewDir+"/growth-center-preview.png") && saved;
+                            if(auto *scroll=growth->findChild<QScrollArea*>()){scroll->verticalScrollBar()->setValue(scroll->verticalScrollBar()->maximum());app.processEvents();saved=window.grab().save(previewDir+"/growth-records-preview.png") && saved;}
+                        }
                     }
                     QFile report(dataDir+"/smoke-result.txt");
                     if(!report.open(QIODevice::WriteOnly|QIODevice::Truncate)) {app.exit(4);return;}

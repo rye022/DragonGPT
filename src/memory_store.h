@@ -48,6 +48,11 @@ public:
     void recordPresented(const QString &id,QDateTime now=QDateTime::currentDateTimeUtc());
     void recordHeard(const QString &id,QDateTime now=QDateTime::currentDateTimeUtc());
     bool awardInteraction(const QString &kind,const QString &text,QDateTime now=QDateTime::currentDateTimeUtc(),const QString &eventId={});
+    void configureGrowth(const GrowthProfile &preferences,bool resetDrift=false,QDateTime now=QDateTime::currentDateTimeUtc());
+    bool addSharedExperience(const QString &title,QDateTime now=QDateTime::currentDateTimeUtc());
+    bool editSharedExperience(const QString &id,const QString &title,QDateTime now=QDateTime::currentDateTimeUtc());
+    void forgetSharedExperience(const QString &id);
+    void clearGrowthHistory();
     int unlockedEvents() const;
     void clearAll();
     void clearMemories();

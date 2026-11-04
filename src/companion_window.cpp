@@ -4,6 +4,7 @@
 #include "bond_gallery.h"
 #include "smart_page.h"
 #include "agent_page.h"
+#include "growth_center.h"
 #include "asr_settings_ui.h"
 #include <QApplication>
 #include <QCheckBox>
@@ -102,7 +103,7 @@ CompanionWindow::CompanionWindow(Companion &companion,PetWidget &pet,QUrl speech
     auto *root=new QVBoxLayout(this); root->setContentsMargins(24,24,24,18); root->setSpacing(13);
     auto *header=new QHBoxLayout;
     auto *text=new QVBoxLayout;
-    auto *eyebrow=label("DRAGONGPT  /  4.0.0","eyebrow"); eyebrow->setWordWrap(false); text->addWidget(eyebrow);
+    auto *eyebrow=label("DRAGONGPT  /  5.0.0","eyebrow"); eyebrow->setWordWrap(false); text->addWidget(eyebrow);
     text->addWidget(label("霜翎","title"));
     text->addWidget(label("安静地，陪你把今天过好。","subtitle"));
     header->addLayout(text); header->addStretch();
@@ -138,6 +139,11 @@ CompanionWindow::CompanionWindow(Companion &companion,PetWidget &pet,QUrl speech
     tabs_->addTab(toolsPage(),"工具");tabs_->setUsesScrollButtons(true);
     smartPage_=new SmartPage(companion_,*this);tabs_->addTab(smartPage_,"智能");
     agentPage_=new AgentPage(companion_,smartPage_->hub(),this);tabs_->addTab(agentPage_,"Agent");
+    auto *growth=new GrowthCenter(companion_,tabs_);tabs_->addTab(growth,"养成中心");
+    auto *openGrowth=button("养成中心");openGrowth->setObjectName("openGrowthCenter");status->insertWidget(2,openGrowth);
+    connect(openGrowth,&QPushButton::clicked,this,[this,growth]{tabs_->setCurrentWidget(growth);});
+    connect(growth,&GrowthCenter::navigate,this,[this](const QString &name){for(int i=0;i<tabs_->count();++i)if(tabs_->tabText(i)==name){tabs_->setCurrentIndex(i);break;}});
+    connect(growth,&GrowthCenter::explore,this,[this](const QString &goal){agentPage_->prepareExploration(goal);tabs_->setCurrentWidget(agentPage_);});
     connect(agentPage_,&AgentPage::reveal,this,[this]{tabs_->setCurrentWidget(agentPage_);showNormal();raise();activateWindow();});
     companion_.setAgentDispatcher([this](const QString &goal){
         if(agentPage_->core().mode()!=0){if(agentPage_->core().busy())return true;return agentPage_->dispatch(goal);}

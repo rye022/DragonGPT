@@ -78,7 +78,7 @@ void migration(const QString &path){
     }QSqlDatabase::removeDatabase("bond-early-v6");
     MemoryStore reopened(path);check(row(reopened,"s2-01")["play_count"].toInt()==1 && !row(reopened,"s2-01")["first_heard_at"].toString().isEmpty(),"Collection timestamps did not survive restart");
     check(!row(reopened,"s2-03")["discovered"].toBool() && row(reopened,"s2-03")["play_count"].toInt()==0,"Empty legacy key retained a fabricated presentation count");
-    check(QDir(QFileInfo(path).absolutePath()).entryList({QFileInfo(path).fileName()+".pre-v7-*.sqlite"},QDir::Files).size()==1,"Migration backup missing or repeated");
+    check(QDir(QFileInfo(path).absolutePath()).entryList({QFileInfo(path).fileName()+".pre-v8-*.sqlite"},QDir::Files).size()==1,"Migration backup missing or repeated");
 }
 struct SpeechFixture {
     QTcpServer server;int count=0;bool fail=true;QByteArray request;

@@ -37,7 +37,8 @@ QVector<Todo> LocalTools::tasks() const{
     QVector<Todo> rows;while(q.next())rows.append({q.value(0).toLongLong(),q.value(1).toString(),QDateTime::fromString(q.value(2).toString(),Qt::ISODateWithMs),q.value(3).toInt(),q.value(4).toBool(),q.value(5).toBool()});return rows;
 }
 void LocalTools::completeTask(qint64 id,bool done){
-    QSqlQuery q(db_);q.prepare("UPDATE todos SET done=?,completed_at=?,notified=CASE WHEN ?=0 THEN 0 ELSE notified END WHERE id=?");q.addBindValue(done);q.addBindValue(done?QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs):QString(""));q.addBindValue(done);q.addBindValue(id);checked(q);emit changed();
+    QSqlQuery prior(db_);prior.prepare("SELECT done FROM todos WHERE id=?");prior.addBindValue(id);checked(prior);if(!prior.next())return;const bool wasDone=prior.value(0).toBool();prior.finish();
+    QSqlQuery q(db_);q.prepare("UPDATE todos SET done=?,completed_at=?,notified=CASE WHEN ?=0 THEN 0 ELSE notified END WHERE id=?");q.addBindValue(done);q.addBindValue(done?QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs):QString(""));q.addBindValue(done);q.addBindValue(id);checked(q);emit changed();if(done && !wasDone)emit taskCompleted(id);
 }
 void LocalTools::removeTask(qint64 id){QSqlQuery q(db_);q.prepare("DELETE FROM todos WHERE id=?");q.addBindValue(id);checked(q);emit changed();}
 QString LocalTools::tasksOverview() const{
